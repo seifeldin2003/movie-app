@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../constants/app_dimens.dart';
 import '../theme/app_text_styles.dart';
 
 /// The `empty` branch of every Bloc-driven screen — a successful load that
@@ -16,7 +15,7 @@ class EmptyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(AppDimens.spaceL.w),
+        padding: EdgeInsets.all(24.w),
         child: Text(
           message,
           textAlign: TextAlign.center,

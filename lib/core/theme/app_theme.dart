@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_dimens.dart';
 import 'app_colors.dart';
 
+/// The single source of truth for how the app looks.
+///
 /// The app ships dark-only — every Figma frame is drawn on
-/// [AppColors.background]. Put shared chrome here rather than repeating it
-/// in each screen.
+/// [AppColors.background]. Anything visual that repeats across screens belongs
+/// here, not copy-pasted into each widget.
+///
+/// Sizing is handled by `flutter_screenutil` at the call site (`.w` `.h` `.r`
+/// `.sp`) — the few numbers below are the *design system* values (they define
+/// the look), not per-screen spacing.
 class AppTheme {
   const AppTheme._();
+
+  /// The Figma frames are drawn at 430 x 932 — `ScreenUtilInit` scales
+  /// everything relative to this.
+  static const Size designSize = Size(430, 932);
+
+  /// Corner radius shared by buttons and text fields.
+  static const double radius = 15;
+
+  /// Height of a primary button and a text field. Figma 44:619 / 44:611.
+  static const double controlHeight = 56;
 
   static ThemeData get dark => ThemeData(
     brightness: Brightness.dark,
@@ -39,7 +54,7 @@ class AppTheme {
   );
 
   static OutlineInputBorder _border(Color color) => OutlineInputBorder(
-    borderRadius: BorderRadius.circular(AppDimens.radius),
+    borderRadius: BorderRadius.circular(radius),
     borderSide: BorderSide(color: color),
   );
 }

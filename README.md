@@ -32,11 +32,18 @@ The app builds and runs today — every Sprint 1 screen is a placeholder saying
    `Cubit`, not `setState` for screen state, and **not Provider** — you'll see
    `provider` in `pubspec.lock` because `flutter_bloc` depends on it
    internally. That is not permission to use it.
-2. **Responsive.** Every size goes through `flutter_screenutil` — `.w` `.h`
-   `.r` `.sp`. No raw pixel numbers in a widget.
-3. **Zero hardcoded strings, colours, or dimensions.** They live in
-   `core/constants/` and `core/theme/`. A literal `Color(0xFF...)` or
-   `'Login'` inside a widget will be sent back in review.
+2. **Responsive.** `flutter_screenutil` handles sizing — every number is
+   suffixed `.w` (width), `.h` (height), `.r` (radius) or `.sp` (font). A bare
+   `16` in a widget is a bug: it will look right on your phone and wrong on
+   everyone else's. There is deliberately **no `AppDimens` file** — screenutil
+   is the responsive layer, and a second constants file for spacing just
+   duplicates it.
+3. **Zero hardcoded strings or colours.** Strings live in
+   `core/constants/app_strings.dart`, everything visual lives in
+   `core/theme/`. A literal `Color(0xFF...)` or `'Login'` inside a widget will
+   be sent back in review. Design-system values that define the *look* —
+   `radius`, `controlHeight`, `designSize` — are on `AppTheme`; per-screen
+   spacing is just `24.w` at the call site.
 4. **Dio, not `http`,** for every API call (Sprint 2).
 5. **Never push to `main`.** Ever. See §5.
 6. **Never delete a branch,** even after it's merged.
@@ -53,8 +60,10 @@ lib/
   main.dart                      app entry — DI + (soon) Firebase init
   app.dart                       MaterialApp + ScreenUtilInit + theme + routes
   core/                          shared by everything — do not put feature code here
-    constants/  app_strings.dart  app_assets.dart  app_dimens.dart
+    constants/  app_strings.dart  app_assets.dart
     theme/      app_colors.dart  app_text_styles.dart  app_theme.dart
+                ↑ all visual values live here: palette, type scale, ThemeData,
+                  plus designSize / radius / controlHeight
     di/         injector.dart          get_it registrations
     routes/     app_router.dart  app_route_names.dart
     widgets/    primary_button.dart  app_text_field.dart
@@ -305,3 +314,172 @@ Home, Movie Details, Search, Browse, Profile, Update Profile — plus the YTS
 API layer through Dio, the Firestore watchlist, and local watch history.
 `dio` is already in `pubspec.yaml` so we don't have to churn dependencies
 mid-sprint.
+
+---
+
+## 9. How to develop with this pattern
+
+The architecture is **feature-first + Bloc + repository**. Four layers, and
+data only ever flows in one direction:
+
+```
+   Screen (widgets)              knows: Bloc, core/widgets
+      │  adds an Event                  never: Firebase, Dio, http
+      ▼
+   Bloc                          knows: the abstract repository
+      │  emits a State                  never: Flutter widgets, Firebase
+      ▼
+   Repository (abstract)         the contract — pure Dart, no packages
+      │
+      ▼
+   RepositoryImpl → DataSource   knows: Firebase / Dio / SharedPreferences
+                                       the only layer allowed to
+```
+
+**The test:** open any file in `presentation/` and search for `firebase` or
+`dio`. If you find one, the layering is broken. The screen asks the Bloc; the
+Bloc asks the contract; only `data/` knows what's behind it.
+
+**Why bother, on a 3-week student project?** Because five people work in
+parallel. Once `AuthRepository` is agreed, the person building the Login
+*screen* and the person building the Firebase *call* can work at the same time
+without waiting for each other — they meet at the contract. It's also why your
+Bloc is testable without a network.
+
+### Adding a feature, step by step
+
+Say you're adding "Search" in Sprint 2:
+
+1. **Entity first** — `features/search/domain/entities/`. Plain Dart, no
+   packages. What does a search result *look* like?
+2. **Contract** — `domain/repositories/search_repository.dart`, an `abstract
+   class` with the methods the UI needs. Nothing about Dio here.
+3. **Implementation** — `data/datasources/` does the actual HTTP call,
+   `data/repositories/` implements the contract using it. Errors get
+   translated into readable sentences *here*, so no layer above ever sees a
+   status code.
+4. **Bloc** — `presentation/bloc/search/` with the three files:
+   `_event.dart` (what the user did), `_state.dart` (what the screen shows),
+   `_bloc.dart` (maps one to the other). Cover **loading, success, failure and
+   empty** — "no results" is not an error and must look different.
+5. **Register** in `core/di/injector.dart`: repository as
+   `registerLazySingleton`, Bloc as `registerFactory`.
+6. **Screen** — `presentation/screens/`, wrapped in a `BlocProvider`, built
+   with `BlocBuilder` / `BlocConsumer`. Reuse `core/widgets/`.
+7. **Route** — add one `case` to `app_router.dart`.
+
+### Rules that keep it readable
+
+- **Never write a function that returns a widget.** `Widget _buildCard()` is
+  wrong — make it a class in `widgets/`. Flutter can't skip rebuilding a
+  method, so this is a performance rule as much as a style one.
+- **One or two classes per file.** A third means a new file.
+- **A widget takes data and callbacks — never a Bloc or a repository.** That's
+  what makes it reusable and previewable.
+- **`context.read<T>()` inside callbacks, `context.watch<T>()` / `BlocBuilder`
+  to rebuild.** Using `watch` in an `onPressed` is a common cause of "why does
+  this rebuild forever".
+- **Dispose every controller** you create (`TextEditingController`,
+  `PageController`, `AnimationController`).
+- **Comments explain _why_, not _what_.** Delete any comment that restates the
+  code.
+
+---
+
+## 10. Tooling — running this whole project on free plans
+
+You do not need to pay for anything. Roughly 20 minutes of setup.
+
+### 10.1 Figma — free Professional via the Education plan
+
+The design file needs **Dev Mode** to read real colours, spacing and fonts out
+of Figma instead of eyeballing a screenshot. Dev Mode is a paid feature — but
+Figma's Education plan gives verified students the full Professional feature
+set for free, valid ~2 years for higher education.
+
+1. Go to Figma's education page and apply with your student proof (university
+   email, enrollment letter, or student ID).
+2. Once verified, **you must upgrade a team to Education** — verification alone
+   does nothing. Open your team → Upgrade → pick the free Education plan. This
+   is the step people miss when they say "I'm verified but Dev Mode is still
+   locked".
+3. Make sure your seat in that team is **Dev or Full**, not View. Seat type is
+   what gates MCP access (a View seat gets ~6 calls a *month*).
+
+### 10.2 Connect Figma to your editor via MCP
+
+MCP (Model Context Protocol) lets the AI read the actual Figma file — exact
+hex values, spacing, node structure — rather than guessing from an image. This
+is how the theme in this repo was built.
+
+**Remote server (recommended, works anywhere):**
+
+```
+https://mcp.figma.com/mcp
+```
+
+**Local server (Figma desktop app, reads your current selection):**
+Figma desktop → menu → Preferences → **Enable Dev Mode MCP Server**. It serves
+on `127.0.0.1:3845`.
+
+Rate limits on a Dev/Full seat are roughly **200 calls/day, 10–15/minute** —
+generous, but not unlimited, which is why §10.4 matters.
+
+### 10.3 Google Antigravity — free AI coding
+
+Antigravity is Google's agentic IDE (a VS Code fork). The Individual plan is
+**$0** and includes frontier models with weekly quotas — enough for a student
+project if you don't waste calls.
+
+Add the Figma MCP server one of two ways:
+
+- **MCP Store** — open the agent side panel → dropdown at the top → *MCP
+  Servers* → browse and install; or
+- **Raw config** — same menu → *Manage MCP Servers* → *View raw config*, which
+  opens `~/.gemini/config/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "figma": {
+      "serverUrl": "https://mcp.figma.com/mcp"
+    }
+  }
+}
+```
+
+Restart the editor, then confirm the Figma tools show up in the agent panel
+before you start a task.
+
+> Free-tier quotas and prices for these tools change often — check the current
+> terms rather than trusting this file. Keep secrets out of `mcp_config.json`:
+> reference them as `${VAR_NAME}` environment variables.
+
+### 10.4 Making free-tier tokens last
+
+Free quotas run out mid-task if you're careless. What actually helps:
+
+1. **Don't paste whole files.** Give the path and the function name; the agent
+   can open what it needs.
+2. **Ask for a small Figma node, not a whole screen.** Pull the button
+   (`44:619`), not the entire Login frame — one frame can cost several calls
+   and flood the context with data you won't use.
+3. **Never re-fetch the same node twice.** If a colour is already in
+   `AppColors`, use it. The palette is done — nobody needs to hit Figma again
+   for `#F6BD00`.
+4. **One task per conversation.** Start a fresh chat for a new task instead of
+   dragging a long history along; every message re-sends everything above it,
+   so a long thread gets expensive fast.
+5. **Read the file header first.** Every placeholder here already lists its
+   steps and Figma node — that's context you get for free, without spending a
+   call to rediscover it.
+6. **Prefer `flutter analyze` over asking the AI to find your bug.** It's
+   instant, free, and usually right.
+7. **Use the cheaper/faster model for boilerplate** and save the strong one
+   for the parts you're genuinely stuck on.
+
+**Sources:** [Figma pricing FAQ](https://www.figma.com/pricing-faq/) ·
+[Figma MCP guide](https://help.figma.com/hc/en-us/articles/32132100833559-Guide-to-the-Figma-MCP-server) ·
+[MCP rate limits & access](https://developers.figma.com/docs/figma-mcp-server/rate-limits-access/) ·
+[Antigravity MCP docs](https://antigravity.google/docs/ide/mcp/) ·
+[Antigravity plans](https://antigravity.google/blog/changes-to-antigravity-plans)

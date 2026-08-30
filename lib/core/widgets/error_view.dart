@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../constants/app_dimens.dart';
 import '../theme/app_text_styles.dart';
 
 /// The `error` branch of every Bloc-driven screen.
@@ -16,7 +15,7 @@ class ErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(AppDimens.spaceL.w),
+        padding: EdgeInsets.all(24.w),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -26,7 +25,7 @@ class ErrorView extends StatelessWidget {
               style: AppTextStyles.bodyMedium,
             ),
             if (onRetry != null) ...[
-              SizedBox(height: AppDimens.spaceM.h),
+              SizedBox(height: 16.h),
               TextButton(onPressed: onRetry, child: const Text('Retry')),
             ],
           ],
