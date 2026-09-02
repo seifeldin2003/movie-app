@@ -1,8 +1,7 @@
 /// Asset paths. Never type an asset string inline.
 ///
-/// Export the images from Figma into `assets/images/` (and icons into
-/// `assets/icons/`), then register the folders in `pubspec.yaml` under
-/// `flutter: assets:` before referencing them here.
+/// The images were exported from the Figma file with the Dev Mode MCP server
+/// and live in `assets/images` / `assets/icons`, registered in `pubspec.yaml`.
 class AppAssets {
   const AppAssets._();
 
@@ -13,15 +12,19 @@ class AppAssets {
   static const String logo = '$_images/logo.png';
   static const String routeGold = '$_images/route_gold.png';
 
-  // Onboarding — Figma nodes 30:447, 38:75, 38:149, 38:172, 38:188, 39:294
-  static const String onboarding1 = '$_images/onboarding_1.png';
-  static const String onboarding2 = '$_images/onboarding_2.png';
-  static const String onboarding3 = '$_images/onboarding_3.png';
-  static const String onboarding4 = '$_images/onboarding_4.png';
-  static const String onboarding5 = '$_images/onboarding_5.png';
-  static const String onboarding6 = '$_images/onboarding_6.png';
+  // Onboarding backgrounds, in slide order.
+  // Figma nodes 34:65, 38:114, 38:186, 38:159, 38:202, 39:264.
+  static const String onboardingIntro = '$_images/onboarding_1.png';
+  static const String onboardingDiscover = '$_images/onboarding_2.png';
+  static const String onboardingGenres = '$_images/onboarding_3.png';
+  static const String onboardingWatchlist = '$_images/onboarding_4.png';
+  static const String onboardingReview = '$_images/onboarding_5.png';
+  static const String onboardingStart = '$_images/onboarding_6.png';
 
-  // Auth — Figma nodes 44:444, 44:670, 47:936
+  // Auth — Figma nodes 44:625, 47:973
   static const String googleIcon = '$_icons/google.png';
   static const String forgotPasswordArt = '$_images/forgot_password.png';
+
+  // Profile — Figma node 55:865
+  static const String avatar = '$_images/avatar.png';
 }

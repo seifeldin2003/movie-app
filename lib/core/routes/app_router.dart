@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import '../../features/auth/presentation/screens/forgot_password_screen.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
+import '../../features/layout/presentation/screens/layout_screen.dart';
 import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
+import '../../features/profile/presentation/screens/update_profile_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import 'app_route_names.dart';
 
 /// Single `switch` that maps a route name to its screen.
 ///
-/// ⚠️ SHARED FILE — this is the one file every Sprint 1 task touches.
-/// Add ONLY your own `case` and keep the list alphabetical-by-constant so two
-/// people adding a route at the same time edit different lines.
+/// ⚠️ SHARED FILE — this is the one file most tasks touch. Add ONLY your own
+/// `case` and keep the order matching [AppRouteNames] so two people adding a
+/// route at the same time edit different lines.
 class AppRouter {
   const AppRouter._();
 
@@ -31,6 +33,12 @@ class AppRouter {
 
       case AppRouteNames.forgotPassword:
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+
+      case AppRouteNames.home:
+        return MaterialPageRoute(builder: (_) => const LayoutScreen());
+
+      case AppRouteNames.updateProfile:
+        return MaterialPageRoute(builder: (_) => const UpdateProfileScreen());
 
       default:
         return MaterialPageRoute(

@@ -17,6 +17,22 @@ class AppColors {
 
   static const Color white = Color(0xFFFFFFFF);
   static const Color grey = Color(0xFF707070);
-  static const Color error = Color(0xFFE82C2C);
+
+  /// Destructive actions — "Delete Account". Figma node 55:887.
+  static const Color error = Color(0xFFE82626);
   static const Color success = Color(0xFF12CD8A);
+
+  /// Onboarding body copy sits at 60% white over the poster artwork.
+  static const Color whiteMuted = Color(0x99FFFFFF);
+
+  /// Scrim laid over the onboarding poster art so the copy stays readable.
+  /// Figma node 34:66.
+  static const List<Color> posterScrim = [
+    Color(0x001E1E1E),
+    Color(0x80121312),
+    Color(0xE8121312),
+    Color(0xFF121312),
+  ];
+
+  static const List<double> posterScrimStops = [0.0, 0.39, 0.675, 1.0];
 }

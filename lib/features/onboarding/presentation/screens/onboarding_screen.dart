@@ -1,27 +1,68 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/routes/app_route_names.dart';
+import '../../data/onboarding_slides.dart';
+import '../widgets/onboarding_intro_slide.dart';
+import '../widgets/onboarding_slide_view.dart';
 
-/// TASK: Onboarding — Figma nodes `30:447`, `38:75`, `38:149`, `38:172`,
-/// `38:188`, `39:294`. UI only, no Bloc.
+/// The six-page onboarding flow. Figma nodes 30:447 → 39:294.
 ///
-/// Steps:
-///  1. Drive the six frames with a `PageView` — one `OnboardingSlide` per page,
-///     fed by a `List` of plain data objects (image + title + body). Do NOT
-///     write six near-identical widgets.
-///  2. `OnboardingPageIndicator` shows which page is active.
-///  3. Next / Back controls; the last page's CTA goes to
-///     `AppRouteNames.login` via `pushReplacementNamed`.
-///  4. Dispose the `PageController`.
-///  5. All copy through `AppStrings`, all sizes through `.w` / `.h` / `.sp`.
-class OnboardingScreen extends StatelessWidget {
+/// Paging is local UI state, so it stays in this widget — a Bloc would add
+/// ceremony without adding anything.
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  static const Duration _pageDuration = Duration(milliseconds: 300);
+
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _goToNextPage() {
+    final isLastPage = _currentPage == OnboardingSlides.all.length - 1;
+    if (isLastPage) {
+      Navigator.pushReplacementNamed(context, AppRouteNames.login);
+      return;
+    }
+    _pageController.nextPage(duration: _pageDuration, curve: Curves.easeInOut);
+  }
+
+  void _goToPreviousPage() {
+    _pageController.previousPage(
+      duration: _pageDuration,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppColors.background,
-      body: Center(child: Text('Onboarding — TODO')),
+    return Scaffold(
+      body: PageView.builder(
+        controller: _pageController,
+        itemCount: OnboardingSlides.all.length,
+        onPageChanged: (page) => setState(() => _currentPage = page),
+        itemBuilder: (context, index) {
+          final slide = OnboardingSlides.all[index];
+          if (!slide.showBack) {
+            return OnboardingIntroSlide(slide: slide, onAction: _goToNextPage);
+          }
+          return OnboardingSlideView(
+            slide: slide,
+            onNext: _goToNextPage,
+            onBack: _goToPreviousPage,
+          );
+        },
+      ),
     );
   }
 }

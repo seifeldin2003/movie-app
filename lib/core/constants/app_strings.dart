@@ -5,11 +5,42 @@
 class AppStrings {
   const AppStrings._();
 
-  // Splash / Onboarding
+  // Splash
   static const String supervisedBy = 'Supervised by Mohamed Nabil';
+
+  // Onboarding — copy transcribed from the Figma frames verbatim.
+  static const String exploreNow = 'Explore Now';
   static const String next = 'Next';
   static const String back = 'Back';
-  static const String explore = 'Explore Now';
+  static const String finish = 'Finish';
+
+  static const String onboardingIntroTitle =
+      'Find Your Next Favorite Movie Here';
+  static const String onboardingIntroBody =
+      'Get access to a huge library of movies to suit all tastes. '
+      'You will surely like it.';
+
+  static const String onboardingDiscoverTitle = 'Discover Movies';
+  static const String onboardingDiscoverBody =
+      'Explore a vast collection of movies in all qualities and genres. '
+      'Find your next favorite film with ease.';
+
+  static const String onboardingGenresTitle = 'Explore All Genres';
+  static const String onboardingGenresBody =
+      'Discover movies from every genre, in all available qualities. '
+      'Find something new and exciting to watch every day.';
+
+  static const String onboardingWatchlistTitle = 'Create Watchlists';
+  static const String onboardingWatchlistBody =
+      'Save movies to your watchlist to keep track of what you want to watch '
+      'next. Enjoy films in various qualities and genres.';
+
+  static const String onboardingReviewTitle = 'Rate, Review, and Learn';
+  static const String onboardingReviewBody =
+      "Share your thoughts on the movies you've watched. Dive deep into film "
+      'details and help others discover great movies with your reviews.';
+
+  static const String onboardingStartTitle = 'Start Watching Now';
 
   // Login
   static const String login = 'Login';
@@ -32,6 +63,21 @@ class AppStrings {
   static const String verifyEmail = 'Verify Email';
   static const String resetPasswordSent =
       'A reset link has been sent to your email.';
+
+  // Update profile
+  static const String pickAvatar = 'Pick Avatar';
+  static const String resetPassword = 'Reset Password';
+  static const String deleteAccount = 'Delete Account';
+  static const String updateData = 'Update Data';
+
+  // Bottom navigation
+  static const String home = 'Home';
+  static const String search = 'Search';
+  static const String browse = 'Browse';
+  static const String profile = 'Profile';
+
+  /// Shown by the tab bodies until their feature is built.
+  static const String comingSoon = 'Coming soon';
 
   // Validation + generic errors
   static const String fieldRequired = 'This field is required';

@@ -1,27 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/constants/app_assets.dart';
+import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/validators.dart';
+import '../../../../core/widgets/app_text_field.dart';
+import '../../../../core/widgets/primary_button.dart';
 
-/// TASK: Reset Password — Figma node `47:936`. UI + logic.
+/// Forgot Password screen. Figma node 47:936.
 ///
-/// Steps:
-///  1. Wrap the body in
-///     `BlocProvider(create: (_) => getIt<ForgotPasswordBloc>())`.
-///  2. AppBar with a back arrow + "Forget Password" title (node `44:732`).
-///  3. The illustration, then one email field, then the "Verify Email" button.
-///  4. Reuse `AppTextField` and `PrimaryButton`.
-///  5. `BlocConsumer`: on [ForgotPasswordSuccess] show
-///     `AppStrings.resetPasswordSent` and pop back to Login; on failure show a
-///     SnackBar. Do NOT navigate away before the user sees the confirmation.
-///  6. Dispose the controller.
-class ForgotPasswordScreen extends StatelessWidget {
+/// Phase 1 is UI only — the form validates, but sending the reset email is
+/// wired to `ForgotPasswordBloc` in Phase 2.
+class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+}
+
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  void _onVerifyPressed() {
+    if (!_formKey.currentState!.validate()) return;
+    // TODO(phase-2): dispatch ForgotPasswordSubmitted to ForgotPasswordBloc.
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppColors.background,
-      body: Center(child: Text('Forgot Password — TODO')),
+    return Scaffold(
+      appBar: AppBar(title: Text(AppStrings.forgetPassword)),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Image.asset(AppAssets.forgotPasswordArt, width: 430.w),
+                SizedBox(height: 24.h),
+                AppTextField(
+                  hintText: AppStrings.email,
+                  controller: _emailController,
+                  validator: Validators.email,
+                  keyboardType: TextInputType.emailAddress,
+                  prefixIcon: const Icon(
+                    Icons.email_outlined,
+                    color: AppColors.white,
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                PrimaryButton(
+                  text: AppStrings.verifyEmail,
+                  onPressed: _onVerifyPressed,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
