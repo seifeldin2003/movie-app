@@ -103,6 +103,16 @@ class AppStrings {
       'Google sign-in failed. Please try again.';
   static const String googleSignInNotConfigured =
       'Google sign-in is not set up for this project yet.';
+  static const String requiresRecentLogin =
+      'For your security, please sign in again before doing this.';
+
+  // Profile
+  static const String profileUpdated = 'Your profile has been updated.';
+  static const String deleteAccountTitle = 'Delete account?';
+  static const String deleteAccountBody =
+      'This permanently removes your account and cannot be undone.';
+  static const String cancel = 'Cancel';
+  static const String delete = 'Delete';
 
   // Validation + generic errors
   static const String fieldRequired = 'This field is required';

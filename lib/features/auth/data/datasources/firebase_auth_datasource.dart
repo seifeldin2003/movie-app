@@ -62,6 +62,8 @@ class FirebaseAuthDataSource {
         return AppStrings.tooManyAttempts;
       case 'account-exists-with-different-credential':
         return AppStrings.accountExistsWithDifferentCredential;
+      case 'requires-recent-login':
+        return AppStrings.requiresRecentLogin;
       default:
         return e.message ?? AppStrings.somethingWentWrong;
     }
@@ -160,18 +162,42 @@ class FirebaseAuthDataSource {
     }
   }
 
-  // ---------------------------------------------------------------------
-  // TASK: Reset Password — owner fills this in.
-  // sendPasswordResetEmail; surface e.message as the user-facing string.
-  // ---------------------------------------------------------------------
-  Future<void> sendPasswordResetEmail({required String email}) {
-    throw UnimplementedError('Reset task: implement sendPasswordResetEmail');
+  /// Firebase deliberately succeeds even when the address has no account, so
+  /// the caller must not treat a success as proof the email exists — saying so
+  /// would let anyone probe which addresses are registered.
+  Future<void> sendPasswordResetEmail({required String email}) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email.trim());
+    } on FirebaseAuthException catch (e) {
+      throw _readableMessage(e);
+    }
   }
 
-  // ---------------------------------------------------------------------
-  // Sprint 2 — Update Profile.
-  // ---------------------------------------------------------------------
-  Future<AppUser> updateProfile({String? name, String? photoUrl}) {
-    throw UnimplementedError('Sprint 2: implement updateProfile');
+  Future<AppUser> updateProfile({String? name, String? photoUrl}) async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) throw AppStrings.requiresRecentLogin;
+
+      if (name != null) await user.updateDisplayName(name.trim());
+      if (photoUrl != null) await user.updatePhotoURL(photoUrl);
+
+      // Same reload as sign-up: the in-memory User keeps the old values.
+      await user.reload();
+      return mapUser(_auth.currentUser ?? user);
+    } on FirebaseAuthException catch (e) {
+      throw _readableMessage(e);
+    }
+  }
+
+  /// Firebase refuses this when the session is more than a few minutes old,
+  /// which surfaces as `requires-recent-login`.
+  Future<void> deleteAccount() async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) throw AppStrings.requiresRecentLogin;
+      await user.delete();
+    } on FirebaseAuthException catch (e) {
+      throw _readableMessage(e);
+    }
   }
 }

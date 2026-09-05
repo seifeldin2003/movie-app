@@ -6,8 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/di/injector.dart';
 import '../../../../core/routes/app_route_names.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../auth/domain/repositories/auth_repository.dart';
 
 /// First screen the app shows. Figma node 29:431.
 ///
@@ -34,10 +36,18 @@ class _SplashScreenState extends State<SplashScreen> {
     super.dispose();
   }
 
-  void _scheduleOnboarding() {
+  void _scheduleNextScreen() {
     _timer = Timer(_holdDuration, () {
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, AppRouteNames.onboarding);
+
+      // Firebase restores the session on cold start, so someone who is still
+      // signed in should land in the app rather than be asked to sign in again.
+      final isSignedIn = getIt<AuthRepository>().currentUser != null;
+
+      Navigator.pushReplacementNamed(
+        context,
+        isSignedIn ? AppRouteNames.home : AppRouteNames.onboarding,
+      );
     });
   }
 
@@ -60,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
             FadeInUpBig(
               duration: const Duration(seconds: 2),
               // Runs once the animation completes, not on every rebuild.
-              onFinish: (_) => _scheduleOnboarding(),
+              onFinish: (_) => _scheduleNextScreen(),
               child: Center(
                 child: Text(
                   AppStrings.supervisedBy,

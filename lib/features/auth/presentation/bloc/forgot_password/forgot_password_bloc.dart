@@ -4,15 +4,10 @@ import '../../../domain/repositories/auth_repository.dart';
 import 'forgot_password_event.dart';
 import 'forgot_password_state.dart';
 
-/// TASK: Reset Password.
+/// Drives the Forgot Password screen.
 ///
-/// Steps:
-///  1. `emit(const ForgotPasswordLoading())` before the await.
-///  2. Call `_authRepository.sendPasswordResetEmail(...)`, then emit
-///     [ForgotPasswordSuccess].
-///  3. `catch (e)` → `emit(ForgotPasswordFailure(e.toString()))`.
-///  4. Register in `core/di/injector.dart`:
-///     `getIt.registerFactory(() => ForgotPasswordBloc(getIt<AuthRepository>()));`
+/// The repository throws a String that is already user-readable, so there is
+/// no error-code handling here — the Bloc just surfaces it.
 class ForgotPasswordBloc
     extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
   ForgotPasswordBloc(this._authRepository)
@@ -20,13 +15,18 @@ class ForgotPasswordBloc
     on<ForgotPasswordSubmitted>(_onSubmitted);
   }
 
-  // ignore: unused_field — delete this comment once the handler below uses it.
   final AuthRepository _authRepository;
 
   Future<void> _onSubmitted(
     ForgotPasswordSubmitted event,
     Emitter<ForgotPasswordState> emit,
   ) async {
-    // TODO(reset-password): implement per the steps above.
+    emit(const ForgotPasswordLoading());
+    try {
+      await _authRepository.sendPasswordResetEmail(email: event.email);
+      emit(const ForgotPasswordSuccess());
+    } catch (e) {
+      emit(ForgotPasswordFailure(e.toString()));
+    }
   }
 }

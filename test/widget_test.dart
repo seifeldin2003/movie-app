@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:movie_app/app.dart';
 import 'package:movie_app/core/constants/app_strings.dart';
+import 'package:movie_app/core/di/injector.dart';
+import 'package:movie_app/features/auth/domain/entities/app_user.dart';
+import 'package:movie_app/features/auth/domain/repositories/auth_repository.dart';
+
+import 'helpers/fake_auth_repository.dart';
 
 void main() {
   // The Figma frames are 430x932; the default test window is 800 wide, which
@@ -12,13 +17,22 @@ void main() {
     addTearDown(tester.view.reset);
   }
 
+  /// Splash asks the repository whether a session was restored, so DI has to
+  /// be stood up — with a fake, never the real Firebase-backed one.
+  void useAuth({AppUser? signedIn}) {
+    getIt.registerLazySingleton<AuthRepository>(
+      () => FakeAuthRepository(signedIn: signedIn),
+    );
+    addTearDown(getIt.reset);
+  }
+
   /// Splash animates the credit line in (2s), then holds (2s) before replacing
-  /// itself with Onboarding. Stepping through both beats — rather than one big
-  /// pump — is what lets the animation complete and schedule the hold timer.
+  /// itself. Stepping through both beats — rather than one big pump — is what
+  /// lets the animation complete and schedule the hold timer. Landing just
+  /// past each boundary matters: exactly on it can leave the completion
+  /// listener to the following frame.
   Future<void> advancePastSplash(WidgetTester tester) async {
     await tester.pump();
-    // Land just past each boundary — pumping exactly onto it can leave the
-    // completion listener to the following frame.
     await tester.pump(const Duration(milliseconds: 2100));
     await tester.pump(const Duration(milliseconds: 2100));
     await tester.pumpAndSettle();
@@ -26,6 +40,7 @@ void main() {
 
   testWidgets('splash shows the supervisor credit', (tester) async {
     usePhoneSurface(tester);
+    useAuth();
 
     await tester.pumpWidget(const MovieApp());
 
@@ -35,8 +50,9 @@ void main() {
     await advancePastSplash(tester);
   });
 
-  testWidgets('splash advances to onboarding', (tester) async {
+  testWidgets('a signed-out user goes to onboarding', (tester) async {
     usePhoneSurface(tester);
+    useAuth();
 
     await tester.pumpWidget(const MovieApp());
     await advancePastSplash(tester);
@@ -45,8 +61,21 @@ void main() {
     expect(find.text(AppStrings.exploreNow), findsOneWidget);
   });
 
+  testWidgets('a restored session skips straight to the app', (tester) async {
+    usePhoneSurface(tester);
+    useAuth(signedIn: const AppUser(uid: 'abc123', name: 'Seif'));
+
+    await tester.pumpWidget(const MovieApp());
+    await advancePastSplash(tester);
+
+    // The shell, not the sign-in flow.
+    expect(find.text(AppStrings.comingSoon), findsOneWidget);
+    expect(find.text(AppStrings.onboardingIntroTitle), findsNothing);
+  });
+
   testWidgets('onboarding pages forward to the next slide', (tester) async {
     usePhoneSurface(tester);
+    useAuth();
 
     await tester.pumpWidget(const MovieApp());
     await advancePastSplash(tester);

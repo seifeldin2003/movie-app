@@ -44,13 +44,14 @@ class AuthRepositoryImpl implements AuthRepository {
     password: password,
   );
 
-  // TASK: Reset Password
   @override
   Future<void> sendPasswordResetEmail({required String email}) =>
       _dataSource.sendPasswordResetEmail(email: email);
 
-  // Sprint 2
   @override
   Future<AppUser> updateProfile({String? name, String? photoUrl}) =>
       _dataSource.updateProfile(name: name, photoUrl: photoUrl);
+
+  @override
+  Future<void> deleteAccount() => _dataSource.deleteAccount();
 }
