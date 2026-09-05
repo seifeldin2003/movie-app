@@ -92,6 +92,17 @@ class AppStrings {
       'Email sign-in is not enabled for this project.';
   static const String networkError =
       'No internet connection. Check your network and try again.';
+  static const String wrongEmailOrPassword =
+      'Incorrect email or password. Please try again.';
+  static const String accountDisabled = 'This account has been disabled.';
+  static const String tooManyAttempts =
+      'Too many attempts. Please wait a moment and try again.';
+  static const String accountExistsWithDifferentCredential =
+      'An account already exists with a different sign-in method.';
+  static const String googleSignInFailed =
+      'Google sign-in failed. Please try again.';
+  static const String googleSignInNotConfigured =
+      'Google sign-in is not set up for this project yet.';
 
   // Validation + generic errors
   static const String fieldRequired = 'This field is required';

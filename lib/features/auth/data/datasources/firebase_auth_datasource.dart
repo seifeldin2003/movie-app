@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../../core/constants/app_config.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../domain/entities/app_user.dart';
 
@@ -46,26 +49,88 @@ class FirebaseAuthDataSource {
         return AppStrings.emailPasswordNotEnabled;
       case 'network-request-failed':
         return AppStrings.networkError;
+      // Recent Firebase versions collapse user-not-found and wrong-password
+      // into invalid-credential, so all three map to the same line — and that
+      // is also better practice: never reveal whether an email is registered.
+      case 'user-not-found':
+      case 'wrong-password':
+      case 'invalid-credential':
+        return AppStrings.wrongEmailOrPassword;
+      case 'user-disabled':
+        return AppStrings.accountDisabled;
+      case 'too-many-requests':
+        return AppStrings.tooManyAttempts;
+      case 'account-exists-with-different-credential':
+        return AppStrings.accountExistsWithDifferentCredential;
       default:
         return e.message ?? AppStrings.somethingWentWrong;
     }
   }
 
-  // ---------------------------------------------------------------------
-  // TASK: Login — owner fills these two in.
-  // Use signInWithEmailAndPassword; translate 'user-not-found' and
-  // 'wrong-password'. For Google, return null on
-  // GoogleSignInExceptionCode.canceled instead of throwing.
-  // ---------------------------------------------------------------------
   Future<AppUser> signInWithEmail({
     required String email,
     required String password,
-  }) {
-    throw UnimplementedError('Login task: implement signInWithEmail');
+  }) async {
+    try {
+      final credential = await _auth.signInWithEmailAndPassword(
+        email: email.trim(),
+        password: password,
+      );
+      return mapUser(credential.user!);
+    } on FirebaseAuthException catch (e) {
+      throw _readableMessage(e);
+    }
   }
 
-  Future<AppUser?> signInWithGoogle() {
-    throw UnimplementedError('Login task: implement signInWithGoogle');
+  /// google_sign_in v7 needs one `initialize` before the first
+  /// [GoogleSignIn.authenticate]. Doing it lazily rather than in `main()`
+  /// keeps a misconfigured project from blocking app start — only the Google
+  /// button fails, and it fails with a sentence instead of a crash.
+  bool _googleInitialized = false;
+
+  Future<void> _ensureGoogleInitialized() async {
+    if (_googleInitialized) return;
+
+    // iOS takes its client id from GoogleService-Info.plist, so it needs no
+    // serverClientId. Android has no equivalent entry — without the Web client
+    // id it cannot mint the ID token Firebase expects, so fail with a sentence
+    // rather than an opaque platform error.
+    final isAndroid = defaultTargetPlatform == TargetPlatform.android;
+    if (isAndroid && !AppConfig.isGoogleSignInConfigured) {
+      throw AppStrings.googleSignInNotConfigured;
+    }
+
+    await GoogleSignIn.instance.initialize(
+      serverClientId: AppConfig.isGoogleSignInConfigured
+          ? AppConfig.googleServerClientId
+          : null,
+    );
+    _googleInitialized = true;
+  }
+
+  /// Returns `null` when the user closes the account picker.
+  ///
+  /// A cancel is not a failure — the caller must not show a red snack bar for
+  /// it, which is why this is nullable rather than throwing.
+  Future<AppUser?> signInWithGoogle() async {
+    try {
+      await _ensureGoogleInitialized();
+
+      final account = await GoogleSignIn.instance.authenticate();
+      final idToken = account.authentication.idToken;
+      if (idToken == null) {
+        throw AppStrings.googleSignInFailed;
+      }
+
+      final credential = GoogleAuthProvider.credential(idToken: idToken);
+      final result = await _auth.signInWithCredential(credential);
+      return mapUser(result.user!);
+    } on GoogleSignInException catch (e) {
+      if (e.code == GoogleSignInExceptionCode.canceled) return null;
+      throw AppStrings.googleSignInFailed;
+    } on FirebaseAuthException catch (e) {
+      throw _readableMessage(e);
+    }
   }
 
   /// Creates the account and sets the display name.
