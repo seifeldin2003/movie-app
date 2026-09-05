@@ -12,6 +12,18 @@ void main() {
     addTearDown(tester.view.reset);
   }
 
+  /// Splash animates the credit line in (2s), then holds (2s) before replacing
+  /// itself with Onboarding. Stepping through both beats — rather than one big
+  /// pump — is what lets the animation complete and schedule the hold timer.
+  Future<void> advancePastSplash(WidgetTester tester) async {
+    await tester.pump();
+    // Land just past each boundary — pumping exactly onto it can leave the
+    // completion listener to the following frame.
+    await tester.pump(const Duration(milliseconds: 2100));
+    await tester.pump(const Duration(milliseconds: 2100));
+    await tester.pumpAndSettle();
+  }
+
   testWidgets('splash shows the supervisor credit', (tester) async {
     usePhoneSurface(tester);
 
@@ -19,16 +31,15 @@ void main() {
 
     expect(find.text(AppStrings.supervisedBy), findsOneWidget);
 
-    // Let the 3s splash timer fire so no timer is left pending.
-    await tester.pump(const Duration(seconds: 4));
+    // Drain the animation and hold timer so none is left pending.
+    await advancePastSplash(tester);
   });
 
   testWidgets('splash advances to onboarding', (tester) async {
     usePhoneSurface(tester);
 
     await tester.pumpWidget(const MovieApp());
-    await tester.pump(const Duration(seconds: 4));
-    await tester.pumpAndSettle();
+    await advancePastSplash(tester);
 
     expect(find.text(AppStrings.onboardingIntroTitle), findsOneWidget);
     expect(find.text(AppStrings.exploreNow), findsOneWidget);
@@ -38,8 +49,7 @@ void main() {
     usePhoneSurface(tester);
 
     await tester.pumpWidget(const MovieApp());
-    await tester.pump(const Duration(seconds: 4));
-    await tester.pumpAndSettle();
+    await advancePastSplash(tester);
 
     await tester.tap(find.text(AppStrings.exploreNow));
     await tester.pumpAndSettle();

@@ -79,6 +79,20 @@ class AppStrings {
   /// Shown by the tab bodies until their feature is built.
   static const String comingSoon = 'Coming soon';
 
+  // Auth feedback
+  static String welcome(String name) => 'Welcome, $name';
+
+  // Firebase auth errors — translated in the data source so no error code
+  // ever reaches a Bloc or a screen.
+  static const String weakPassword = 'The password provided is too weak.';
+  static const String emailAlreadyInUse =
+      'An account already exists for that email.';
+  static const String invalidEmailAddress = 'That email address is not valid.';
+  static const String emailPasswordNotEnabled =
+      'Email sign-in is not enabled for this project.';
+  static const String networkError =
+      'No internet connection. Check your network and try again.';
+
   // Validation + generic errors
   static const String fieldRequired = 'This field is required';
   static const String invalidEmail = 'Enter a valid email address';

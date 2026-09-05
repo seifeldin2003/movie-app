@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../../../core/constants/app_strings.dart';
 import '../../domain/entities/app_user.dart';
 
 /// The only file in the app that talks to `firebase_auth` directly.
@@ -29,6 +30,27 @@ class FirebaseAuthDataSource {
 
   Future<void> logout() => _auth.signOut();
 
+  /// Turns a Firebase error code into a sentence a user can read.
+  ///
+  /// Shared by every method below so the wording stays consistent. Falls back
+  /// to Firebase's own message, then to a generic line — never to a raw code.
+  String _readableMessage(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'weak-password':
+        return AppStrings.weakPassword;
+      case 'email-already-in-use':
+        return AppStrings.emailAlreadyInUse;
+      case 'invalid-email':
+        return AppStrings.invalidEmailAddress;
+      case 'operation-not-allowed':
+        return AppStrings.emailPasswordNotEnabled;
+      case 'network-request-failed':
+        return AppStrings.networkError;
+      default:
+        return e.message ?? AppStrings.somethingWentWrong;
+    }
+  }
+
   // ---------------------------------------------------------------------
   // TASK: Login — owner fills these two in.
   // Use signInWithEmailAndPassword; translate 'user-not-found' and
@@ -46,17 +68,31 @@ class FirebaseAuthDataSource {
     throw UnimplementedError('Login task: implement signInWithGoogle');
   }
 
-  // ---------------------------------------------------------------------
-  // TASK: Register — owner fills this in.
-  // createUserWithEmailAndPassword, then updateProfile(displayName: name)
-  // or the name is lost. Translate 'weak-password' and 'email-already-in-use'.
-  // ---------------------------------------------------------------------
+  /// Creates the account and sets the display name.
+  ///
+  /// Firebase does not take a name in the sign-up call, so it has to be set
+  /// straight afterwards or it is lost. `reload()` then re-reads
+  /// `currentUser`, because the [User] returned by sign-up still has a null
+  /// `displayName` in memory even after the update succeeds.
   Future<AppUser> createAccount({
     required String name,
     required String email,
     required String password,
-  }) {
-    throw UnimplementedError('Register task: implement createAccount');
+  }) async {
+    try {
+      final credential = await _auth.createUserWithEmailAndPassword(
+        email: email.trim(),
+        password: password,
+      );
+
+      final user = credential.user!;
+      await user.updateDisplayName(name.trim());
+      await user.reload();
+
+      return mapUser(_auth.currentUser ?? user);
+    } on FirebaseAuthException catch (e) {
+      throw _readableMessage(e);
+    }
   }
 
   // ---------------------------------------------------------------------

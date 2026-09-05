@@ -42,6 +42,7 @@ dependencies:
   firebase_auth: ^6.6.1
   google_sign_in: ^7.2.0
   dio: ^5.11.0
+  animate_do:
 
 dev_dependencies:
   flutter_test:
