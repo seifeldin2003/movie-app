@@ -43,3 +43,10 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local-only poster artwork used to eyeball the UI before the API lands.
+# The directory itself is tracked so the pubspec asset entry always resolves;
+# the images are not, so no third-party artwork ends up in the repo. Cards
+# fall back to a generated tile when the files are absent.
+assets/images/sample/*
+!assets/images/sample/.gitkeep

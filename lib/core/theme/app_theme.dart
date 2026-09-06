@@ -24,6 +24,16 @@ class AppTheme {
   /// Height of a primary button and a text field. Figma 44:619 / 44:611.
   static const double controlHeight = 56;
 
+  /// Corner radius on a movie poster.
+  static const double cardRadius = 12;
+
+  /// Genre chip on Browse. Figma node 51:398.
+  static const double chipRadius = 16;
+  static const double chipHeight = 48;
+
+  /// The rating pill on a poster. Figma node 47:1537.
+  static const double badgeRadius = 10;
+
   static ThemeData get dark => ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.background,

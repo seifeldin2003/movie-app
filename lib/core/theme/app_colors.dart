@@ -25,6 +25,20 @@ class AppColors {
   /// Onboarding body copy sits at 60% white over the poster artwork.
   static const Color whiteMuted = Color(0x99FFFFFF);
 
+  /// The rating pill on a poster — [background] at 71%. Figma node 47:1537.
+  static const Color ratingBadge = Color(0xB5121312);
+
+  /// Scrim over the Home backdrop. Light at the top so the centred poster
+  /// still reads — that artwork changing is the point of the screen — then
+  /// ramping to solid so the carousel and the rows below stay legible.
+  static const List<Color> backdropScrim = [
+    Color(0x59121312),
+    Color(0xB3121312),
+    Color(0xFF121312),
+  ];
+
+  static const List<double> backdropScrimStops = [0.0, 0.6, 1.0];
+
   /// Scrim laid over the onboarding poster art so the copy stays readable.
   /// Figma node 34:66.
   static const List<Color> posterScrim = [

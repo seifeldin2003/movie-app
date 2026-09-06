@@ -27,4 +27,12 @@ class AppAssets {
 
   // Profile — Figma node 55:865
   static const String avatar = '$_images/avatar.png';
+
+  /// Script lettering drawn by the designer — no font ships with it, so these
+  /// are artwork rather than text. Figma nodes 47:1535 and 47:1533.
+  static const String availableNow = '$_images/available_now.png';
+  static const String watchNow = '$_images/watch_now.png';
+
+  /// Popcorn illustration for an empty Watch List / search. Figma 52:601.
+  static const String emptyState = '$_images/empty_state.png';
 }

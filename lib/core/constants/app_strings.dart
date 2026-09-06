@@ -79,6 +79,23 @@ class AppStrings {
   /// Shown by the tab bodies until their feature is built.
   static const String comingSoon = 'Coming soon';
 
+  // Home
+  static const String seeMore = 'See More';
+
+  // Search
+  static const String searchHint = 'Search';
+  static const String searchEmpty = 'Search for a movie to get started.';
+  static const String searchNoResults = 'No movies match that search.';
+
+  // Profile
+  static const String wishList = 'Wish List';
+  static const String history = 'History';
+  static const String watchList = 'Watch List';
+  static const String editProfile = 'Edit Profile';
+  static const String exit = 'Exit';
+  static const String watchListEmpty = 'Your watch list is empty.';
+  static const String historyEmpty = 'You have not watched anything yet.';
+
   // Auth feedback
   static String welcome(String name) => 'Welcome, $name';
 

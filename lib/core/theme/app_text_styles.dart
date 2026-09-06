@@ -74,6 +74,26 @@ class AppTextStyles {
   static TextStyle get buttonLabelDestructive =>
       TextStyle(fontSize: 20.sp, color: AppColors.white);
 
+  /// Genre chip label. Figma node 51:399.
+  static TextStyle get chipLabelSelected => TextStyle(
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w700,
+    color: AppColors.background,
+  );
+
+  static TextStyle get chipLabel => TextStyle(
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w700,
+    color: AppColors.primary,
+  );
+
+  /// The big count above "Wish List" / "History" on Profile.
+  static TextStyle get statValue => TextStyle(
+    fontSize: 28.sp,
+    fontWeight: FontWeight.w700,
+    color: AppColors.white,
+  );
+
   /// Tappable inline text, e.g. "Forget Password ?".
   static TextStyle get link => TextStyle(
     fontSize: 16.sp,
