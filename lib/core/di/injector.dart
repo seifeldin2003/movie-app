@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import '../../features/auth/data/datasources/firebase_auth_datasource.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
+import '../../features/auth/presentation/bloc/register/register_bloc.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -24,4 +25,5 @@ Future<void> setupInjector() async {
 
   // Blocs — each Sprint 1 auth task registers its own here, e.g.
   //   getIt.registerFactory(() => LoginBloc(getIt<AuthRepository>()));
+  getIt.registerFactory(() => RegisterBloc(getIt<AuthRepository>()));
 }

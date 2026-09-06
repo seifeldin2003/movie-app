@@ -24,4 +24,9 @@ class AppAssets {
   // Auth — Figma nodes 44:444, 44:670, 47:936
   static const String googleIcon = '$_icons/google.png';
   static const String forgotPasswordArt = '$_images/forgot_password.png';
+  static const String avatar1 = '$_images/avatar_1.png';
+  static const String avatar2 = '$_images/avatar_2.png';
+  static const String avatar3 = '$_images/avatar_3.png';
+  static const String enFlag = '$_images/en_flag.png';
+  static const String egFlag = '$_images/eg_flag.png';
 }

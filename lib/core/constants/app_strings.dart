@@ -26,7 +26,10 @@ class AppStrings {
   static const String confirmPassword = 'Confirm Password';
   static const String phoneNumber = 'Phone Number';
   static const String avatar = 'Avatar';
+  static const String createAccount = 'Create Account';
+  static const String alreadyHaveAccount = 'Already Have Account ? ';
   static const String haveAccountPrompt = 'Already Have Account ? Login';
+  static const String registerSuccess = 'Account created successfully!';
 
   // Forgot password
   static const String verifyEmail = 'Verify Email';

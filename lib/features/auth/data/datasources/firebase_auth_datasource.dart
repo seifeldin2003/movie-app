@@ -55,8 +55,39 @@ class FirebaseAuthDataSource {
     required String name,
     required String email,
     required String password,
-  }) {
-    throw UnimplementedError('Register task: implement createAccount');
+  }) async {
+    try {
+      final credential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final user = credential.user;
+      if (user == null) {
+        throw 'Failed to create user account.';
+      }
+      await user.updateDisplayName(name);
+      return AppUser(
+        uid: user.uid,
+        name: name,
+        email: user.email,
+        photoUrl: user.photoURL,
+        phoneNumber: user.phoneNumber,
+      );
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'weak-password':
+          throw 'The password provided is too weak.';
+        case 'email-already-in-use':
+          throw 'An account already exists for that email.';
+        case 'invalid-email':
+          throw 'The email address is not valid.';
+        default:
+          throw e.message ?? 'An unexpected error occurred during registration.';
+      }
+    } catch (e) {
+      if (e is String) rethrow;
+      throw e.toString();
+    }
   }
 
   // ---------------------------------------------------------------------

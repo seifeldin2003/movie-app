@@ -20,13 +20,23 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterSubmitted>(_onRegisterSubmitted);
   }
 
-  // ignore: unused_field — delete this comment once the handler below uses it.
   final AuthRepository _authRepository;
 
   Future<void> _onRegisterSubmitted(
     RegisterSubmitted event,
     Emitter<RegisterState> emit,
   ) async {
-    // TODO(register): implement per the steps above.
+    emit(const RegisterLoading());
+    try {
+      final user = await _authRepository.register(
+        name: event.name,
+        email: event.email,
+        password: event.password,
+        phoneNumber: event.phoneNumber,
+      );
+      emit(RegisterSuccess(user));
+    } catch (e) {
+      emit(RegisterFailure(e.toString()));
+    }
   }
 }
