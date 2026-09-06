@@ -1,21 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// TASK: Login — the dark "Login With Google" button. Figma node `44:622`.
+import '../../../../core/constants/app_assets.dart';
+import '../../../../core/constants/app_strings.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/theme/app_theme.dart';
+
+/// "Login With Google" — the same gold button as [PrimaryButton], with the
+/// Google mark beside a smaller label. Figma node 44:622.
 ///
-/// Same height and radius as [PrimaryButton] but on `AppColors.surface`, with
-/// the Google mark from `AppAssets.googleIcon` beside the label.
+/// The mark is the design's monochrome glyph, which is dark on purpose: it
+/// reads against the gold, not against the page background.
 class GoogleSignInButton extends StatelessWidget {
-  const GoogleSignInButton({
-    super.key,
-    required this.onPressed,
-    this.isLoading = false,
-  });
+  const GoogleSignInButton({super.key, required this.onPressed});
 
   final VoidCallback? onPressed;
-  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox.shrink(); // TODO(login): build the Google button
+    return SizedBox(
+      width: double.infinity,
+      height: AppTheme.controlHeight.h,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppTheme.radius.r),
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(AppAssets.googleIcon, width: 27.w, height: 27.w),
+            SizedBox(width: 12.w),
+            Text(
+              AppStrings.loginWithGoogle,
+              style: AppTextStyles.buttonLabelSmall,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

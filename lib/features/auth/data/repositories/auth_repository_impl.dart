@@ -27,7 +27,11 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<AppUser?> loginWithGoogle() => _dataSource.signInWithGoogle();
 
-  // TASK: Register
+  /// ⚠️ [phoneNumber] is collected by the form but NOT persisted yet.
+  /// Firebase Auth only stores a phone number through a verified SMS flow —
+  /// `updateDisplayName` has no equivalent for it. It needs a Firestore user
+  /// document (profile work), so the parameter is kept on the contract to
+  /// avoid a breaking change later, and deliberately ignored for now.
   @override
   Future<AppUser> register({
     required String name,
@@ -40,13 +44,14 @@ class AuthRepositoryImpl implements AuthRepository {
     password: password,
   );
 
-  // TASK: Reset Password
   @override
   Future<void> sendPasswordResetEmail({required String email}) =>
       _dataSource.sendPasswordResetEmail(email: email);
 
-  // Sprint 2
   @override
   Future<AppUser> updateProfile({String? name, String? photoUrl}) =>
       _dataSource.updateProfile(name: name, photoUrl: photoUrl);
+
+  @override
+  Future<void> deleteAccount() => _dataSource.deleteAccount();
 }

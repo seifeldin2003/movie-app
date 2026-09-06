@@ -27,8 +27,12 @@ abstract class AuthRepository {
   /// Sends the reset email. Owner: Reset Password task.
   Future<void> sendPasswordResetEmail({required String email});
 
-  /// Sprint 2 — Update Profile. Signature reserved so nobody renames it later.
+  /// Updates the signed-in user's display name and/or photo.
   Future<AppUser> updateProfile({String? name, String? photoUrl});
+
+  /// Permanently removes the account. Firebase rejects this if the session is
+  /// old, so callers must be ready for a "sign in again" message.
+  Future<void> deleteAccount();
 
   Future<void> logout();
 
