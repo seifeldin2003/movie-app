@@ -43,6 +43,8 @@ dependencies:
   google_sign_in: ^7.2.0
   dio: ^5.11.0
   animate_do:
+  cloud_firestore: ^6.9.0
+  image_picker: ^1.2.3
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +70,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/avatars/
+    - assets/images/sample/
     - assets/icons/
 
   # To add assets to your application, add an assets section, like this:

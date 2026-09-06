@@ -18,6 +18,7 @@ class AppTextField extends StatelessWidget {
     this.suffixIcon,
     this.obscureText = false,
     this.keyboardType,
+    this.onChanged,
   });
 
   final String hintText;
@@ -28,6 +29,9 @@ class AppTextField extends StatelessWidget {
   final bool obscureText;
   final TextInputType? keyboardType;
 
+  /// Fires per keystroke — used by Search to filter as the user types.
+  final ValueChanged<String>? onChanged;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -35,6 +39,7 @@ class AppTextField extends StatelessWidget {
       validator: validator,
       obscureText: obscureText,
       keyboardType: keyboardType,
+      onChanged: onChanged,
       style: AppTextStyles.bodyMedium,
       // Tapping outside dismisses the keyboard instead of trapping the user.
       onTapOutside: (_) => FocusScope.of(context).unfocus(),

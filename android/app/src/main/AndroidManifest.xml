@@ -1,4 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Firebase Auth, Firestore and the YTS API all need this. Debug builds
+         inject it automatically; RELEASE BUILDS DO NOT, so without this line
+         every network call fails silently in the release APK only. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="movie_app"
         android:name="${applicationName}"

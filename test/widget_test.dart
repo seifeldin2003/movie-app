@@ -5,6 +5,7 @@ import 'package:movie_app/core/constants/app_strings.dart';
 import 'package:movie_app/core/di/injector.dart';
 import 'package:movie_app/features/auth/domain/entities/app_user.dart';
 import 'package:movie_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:movie_app/features/home/presentation/widgets/movie_carousel.dart';
 
 import 'helpers/fake_auth_repository.dart';
 
@@ -69,7 +70,7 @@ void main() {
     await advancePastSplash(tester);
 
     // The shell, not the sign-in flow.
-    expect(find.text(AppStrings.comingSoon), findsOneWidget);
+    expect(find.byType(MovieCarousel), findsOneWidget);
     expect(find.text(AppStrings.onboardingIntroTitle), findsNothing);
   });
 
