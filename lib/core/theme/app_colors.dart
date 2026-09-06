@@ -28,6 +28,10 @@ class AppColors {
   /// The rating pill on a poster — [background] at 71%. Figma node 47:1537.
   static const Color ratingBadge = Color(0xB5121312);
 
+  /// Fill behind the chosen avatar tile — [primary] at 56%.
+  /// Figma node 55:919.
+  static const Color avatarSelected = Color(0x8FF6BD00);
+
   /// Scrim over the Home backdrop. Light at the top so the centred poster
   /// still reads — that artwork changing is the point of the screen — then
   /// ramping to solid so the carousel and the rows below stay legible.

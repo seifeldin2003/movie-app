@@ -34,6 +34,9 @@ class AppTheme {
   /// The rating pill on a poster. Figma node 47:1537.
   static const double badgeRadius = 10;
 
+  /// A tile in the Pick Avatar grid. Figma node 55:913.
+  static const double avatarTileRadius = 20;
+
   static ThemeData get dark => ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.background,

@@ -87,6 +87,25 @@ class AppStrings {
   static const String searchEmpty = 'Search for a movie to get started.';
   static const String searchNoResults = 'No movies match that search.';
 
+  // Avatar picker
+  static const String changePhoto = 'Change photo';
+  static const String chooseAvatar = 'Choose an avatar';
+  static const String chooseAvatarSubtitle = 'Pick one of our characters';
+  static const String browseImage = 'Browse an image';
+  static const String browseImageSubtitle = 'Use a photo from your gallery';
+  static const String removePhoto = 'Remove photo';
+  static const String removePhotoSubtitle = 'Go back to a character';
+  static const String photoTooLarge =
+      'That image is too large. Please pick a smaller one.';
+  static const String photoPickFailed =
+      'Could not open that image. Please try another.';
+
+  // Firestore
+  static const String firestorePermissionDenied =
+      'You do not have permission to do that.';
+  static const String firestoreNotEnabled =
+      'The database is not set up for this project yet.';
+
   // Profile
   static const String wishList = 'Wish List';
   static const String history = 'History';

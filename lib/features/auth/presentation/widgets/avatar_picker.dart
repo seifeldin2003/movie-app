@@ -8,8 +8,9 @@ import '../../../../core/theme/app_text_styles.dart';
 /// The avatar strip at the top of Register — a large centre avatar flanked by
 /// two smaller ones. Figma node 285:100.
 ///
-/// Phase 1 renders the design's static artwork. Choosing an avatar arrives
-/// with the profile work, so the widget takes no callback yet.
+/// Decorative on sign-up: the design shows the avatars but offers no way to
+/// choose one here, and picking happens on Update Profile. It draws three of
+/// the real illustrations rather than the same one three times.
 class AvatarPicker extends StatelessWidget {
   const AvatarPicker({super.key});
 
@@ -24,9 +25,18 @@ class AvatarPicker extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(AppAssets.avatar, width: _sideSize.w),
-            Image.asset(AppAssets.avatar, width: _centreSize.w),
-            Image.asset(AppAssets.avatar, width: _sideSize.w),
+            Image.asset(
+              AppAssets.avatarPath(AppAssets.avatarIds[3]),
+              width: _sideSize.w,
+            ),
+            Image.asset(
+              AppAssets.avatarPath(AppAssets.defaultAvatarId),
+              width: _centreSize.w,
+            ),
+            Image.asset(
+              AppAssets.avatarPath(AppAssets.avatarIds[6]),
+              width: _sideSize.w,
+            ),
           ],
         ),
         SizedBox(height: 8.h),

@@ -28,6 +28,32 @@ class AppAssets {
   // Profile — Figma node 55:865
   static const String avatar = '$_images/avatar.png';
 
+  /// The nine avatars from the Pick Avatar grid. Figma node 55:889.
+  ///
+  /// [avatarIds] are what gets stored against the user, so they are a stable
+  /// contract — renaming one orphans every profile already saved with it.
+  /// Resolve an id to its artwork with [avatarPath].
+  static const List<String> avatarIds = [
+    'avatar_1',
+    'avatar_2',
+    'avatar_3',
+    'avatar_4',
+    'avatar_5',
+    'avatar_6',
+    'avatar_7',
+    'avatar_8',
+    'avatar_9',
+  ];
+
+  static const String defaultAvatarId = 'avatar_1';
+
+  /// Falls back to [defaultAvatarId] for an unknown id, so a profile written
+  /// by a newer build cannot render a broken tile on an older one.
+  static String avatarPath(String? id) {
+    final safeId = avatarIds.contains(id) ? id! : defaultAvatarId;
+    return '$_images/avatars/$safeId.png';
+  }
+
   /// Script lettering drawn by the designer — no font ships with it, so these
   /// are artwork rather than text. Figma nodes 47:1535 and 47:1533.
   static const String availableNow = '$_images/available_now.png';

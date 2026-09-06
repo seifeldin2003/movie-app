@@ -10,6 +10,8 @@ import '../../../../core/widgets/movie_grid.dart';
 import '../../../auth/domain/repositories/auth_repository.dart';
 import '../../../movies/data/sample_movies.dart';
 import '../../../movies/domain/entities/movie.dart';
+import '../../domain/entities/user_profile.dart';
+import '../../domain/repositories/user_profile_repository.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_tab_bar.dart';
 
@@ -27,6 +29,30 @@ class ProfileTab extends StatefulWidget {
 
 class _ProfileTabState extends State<ProfileTab> {
   ProfileSection _section = ProfileSection.watchList;
+
+  UserProfile? _profile;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfile();
+  }
+
+  /// Fetches the avatar choice so the header matches what was picked on
+  /// Update Profile. A failure here is not worth interrupting the screen for —
+  /// the header just falls back to the default illustration.
+  Future<void> _loadProfile() async {
+    final uid = getIt<AuthRepository>().currentUser?.uid;
+    if (uid == null) return;
+
+    try {
+      final profile = await getIt<UserProfileRepository>().load(uid);
+      if (!mounted) return;
+      setState(() => _profile = profile);
+    } catch (_) {
+      // Deliberately ignored — see above.
+    }
+  }
 
   List<Movie> get _watchList => SampleMovies.featured;
 
@@ -61,12 +87,19 @@ class _ProfileTabState extends State<ProfileTab> {
             SizedBox(height: 16.h),
             ProfileHeader(
               name: user?.name ?? user?.email ?? '',
+              avatarId: _profile?.avatarId,
+              photoBase64: _profile?.photoBase64,
               wishListCount: _watchList.length,
               historyCount: _history.length,
-              onEditProfile: () => Navigator.pushNamed(
-                context,
-                AppRouteNames.updateProfile,
-              ),
+              // Re-read on the way back, so an avatar changed on the edit
+              // screen is reflected here rather than going stale.
+              onEditProfile: () async {
+                await Navigator.pushNamed(
+                  context,
+                  AppRouteNames.updateProfile,
+                );
+                await _loadProfile();
+              },
               onExit: _onExit,
             ),
             SizedBox(height: 16.h),

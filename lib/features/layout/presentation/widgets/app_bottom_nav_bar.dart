@@ -25,7 +25,7 @@ class AppBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(9.w, 0, 9.w, 9.h),
+        padding: EdgeInsets.fromLTRB(9.w, 0, 9.w, 0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16.r),
           child: BottomNavigationBar(

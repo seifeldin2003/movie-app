@@ -6,6 +6,10 @@ import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/presentation/bloc/forgot_password/forgot_password_bloc.dart';
 import '../../features/auth/presentation/bloc/login/login_bloc.dart';
 import '../../features/auth/presentation/bloc/register/register_bloc.dart';
+import '../../features/profile/data/datasources/avatar_photo_picker.dart';
+import '../../features/profile/data/datasources/firestore_user_datasource.dart';
+import '../../features/profile/data/repositories/user_profile_repository_impl.dart';
+import '../../features/profile/domain/repositories/user_profile_repository.dart';
 import '../../features/profile/presentation/bloc/update_profile/update_profile_bloc.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -20,10 +24,17 @@ Future<void> setupInjector() async {
   getIt.registerLazySingleton<FirebaseAuthDataSource>(
     () => FirebaseAuthDataSource(),
   );
+  getIt.registerLazySingleton<FirestoreUserDataSource>(
+    () => FirestoreUserDataSource(),
+  );
+  getIt.registerLazySingleton<AvatarPhotoPicker>(() => AvatarPhotoPicker());
 
   // Repositories
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(getIt<FirebaseAuthDataSource>()),
+  );
+  getIt.registerLazySingleton<UserProfileRepository>(
+    () => UserProfileRepositoryImpl(getIt<FirestoreUserDataSource>()),
   );
 
   // Blocs — a fresh instance per screen, so a reopened screen starts from
@@ -36,6 +47,10 @@ Future<void> setupInjector() async {
     () => ForgotPasswordBloc(getIt<AuthRepository>()),
   );
   getIt.registerFactory<UpdateProfileBloc>(
-    () => UpdateProfileBloc(getIt<AuthRepository>()),
+    () => UpdateProfileBloc(
+      getIt<AuthRepository>(),
+      getIt<UserProfileRepository>(),
+      getIt<AvatarPhotoPicker>(),
+    ),
   );
 }

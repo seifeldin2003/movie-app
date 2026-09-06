@@ -36,6 +36,18 @@ class CarouselBackdrop extends StatelessWidget {
         children: [
           AnimatedSwitcher(
             duration: _fade,
+            // AnimatedSwitcher's default layout puts its children in a *loose*
+            // Stack, and an Image under loose constraints sizes to its own
+            // pixel dimensions — `BoxFit.cover` only decides how the bitmap
+            // sits inside the box it is handed, it never widens that box. So
+            // artwork smaller than the backdrop floated in the middle at its
+            // natural size, and artwork larger than the screen only looked
+            // right because it overflowed and got clipped. Expanding here
+            // makes every image fill the backdrop and actually honour `cover`.
+            layoutBuilder: (currentChild, previousChildren) => Stack(
+              fit: StackFit.expand,
+              children: [...previousChildren, ?currentChild],
+            ),
             child: PosterImage(
               key: ValueKey(movie.id),
               movie: movie,
