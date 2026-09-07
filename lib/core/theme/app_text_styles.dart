@@ -74,6 +74,26 @@ class AppTextStyles {
   static TextStyle get buttonLabelDestructive =>
       TextStyle(fontSize: 20.sp, color: AppColors.white);
 
+  /// Section heading on Movie Details — "Summary", "Cast", "Genres".
+  /// Also the movie title over the hero. Figma nodes 55:107 / 53:120.
+  static TextStyle get sectionHeading => TextStyle(
+    fontSize: 24.sp,
+    fontWeight: FontWeight.w700,
+    height: 1.39,
+    color: AppColors.white,
+  );
+
+  /// Long-form copy — the summary paragraph. Figma node 55:108.
+  static TextStyle get bodyReadable =>
+      TextStyle(fontSize: 16.sp, height: 1.39, color: AppColors.white);
+
+  /// The number inside a Movie Details badge pill. Figma node 53:76.
+  static TextStyle get badgeValue => TextStyle(
+    fontSize: 24.sp,
+    fontWeight: FontWeight.w700,
+    color: AppColors.white,
+  );
+
   /// Genre chip label. Figma node 51:399.
   static TextStyle get chipLabelSelected => TextStyle(
     fontSize: 20.sp,

@@ -37,6 +37,14 @@ class AppTheme {
   /// A tile in the Pick Avatar grid. Figma node 55:913.
   static const double avatarTileRadius = 20;
 
+  /// Surface cards on Movie Details — the badge pills and cast rows.
+  /// Figma nodes 53:74 / 55:75.
+  static const double surfaceCardRadius = 16;
+
+  /// A read-only genre tag on Movie Details. Figma node 55:67 — smaller and
+  /// flatter than the tappable chip on Browse.
+  static const double tagRadius = 12;
+
   static ThemeData get dark => ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.background,

@@ -4,6 +4,8 @@ import '../../features/auth/presentation/screens/forgot_password_screen.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/layout/presentation/screens/layout_screen.dart';
+import '../../features/movie_details/presentation/screens/movie_details_screen.dart';
+import '../../features/movies/domain/entities/movie.dart';
 import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/profile/presentation/screens/update_profile_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
@@ -40,12 +42,29 @@ class AppRouter {
       case AppRouteNames.updateProfile:
         return MaterialPageRoute(builder: (_) => const UpdateProfileScreen());
 
-      default:
+      case AppRouteNames.movieDetails:
+        // The tapped movie travels as the route argument. Checking the type
+        // rather than casting means a caller that passes the wrong thing gets
+        // the unknown-route screen instead of a crash.
+        final movie = settings.arguments;
+        if (movie is! Movie) return _unknownRoute(settings);
         return MaterialPageRoute(
-          builder: (_) => Scaffold(
-            body: Center(child: Text('No route defined for ${settings.name}')),
-          ),
+          // Kept so the screen can re-push itself by name when the user taps
+          // through the Similar grid.
+          settings: settings,
+          builder: (_) => MovieDetailsScreen(movie: movie),
         );
+
+      default:
+        return _unknownRoute(settings);
     }
+  }
+
+  static Route<dynamic> _unknownRoute(RouteSettings settings) {
+    return MaterialPageRoute(
+      builder: (_) => Scaffold(
+        body: Center(child: Text('No route defined for ${settings.name}')),
+      ),
+    );
   }
 }

@@ -51,7 +51,14 @@ class CarouselBackdrop extends StatelessWidget {
             child: PosterImage(
               key: ValueKey(movie.id),
               movie: movie,
-              source: movie.backgroundUrl ?? movie.posterUrl,
+              // The POSTER, not `background_image`. The API's background is a
+              // 896x375 letterbox banner and this box is 430x645 — `cover`
+              // would blow it up about four times and show a narrow strip of
+              // the middle. The large poster is 500x750, the same 0.67 ratio
+              // as this box, so it fills it with no crop at all.
+              source: movie.largePosterUrl ?? movie.posterUrl,
+              // Pure backdrop — the card in front already names the movie.
+              showLabel: false,
             ),
           ),
           // Fades the artwork into the page background so the carousel in
