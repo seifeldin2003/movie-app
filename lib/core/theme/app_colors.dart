@@ -32,16 +32,59 @@ class AppColors {
   /// Figma node 55:919.
   static const Color avatarSelected = Color(0x8FF6BD00);
 
-  /// Scrim over the Home backdrop. Light at the top so the centred poster
-  /// still reads — that artwork changing is the point of the screen — then
-  /// ramping to solid so the carousel and the rows below stay legible.
+  // ===========================================================================
+  //  THE TWO SCRIM DIALS — tune these, hot reload, look, repeat.
+  //
+  //  Each colour is 0xAARRGGBB. Only the FIRST TWO HEX DIGITS matter here:
+  //  that is the alpha (how dark), and RRGGBB is always the page background.
+  //
+  //      0x00 =   0%  (fully transparent — artwork untouched)
+  //      0x1A =  10%       0x33 =  20%       0x4D =  30%
+  //      0x66 =  40%       0x80 =  50%       0x99 =  60%
+  //      0xB3 =  70%       0xCC =  80%       0xE6 =  90%
+  //      0xFF = 100%  (solid — artwork completely hidden)
+  //
+  //  The `Stops` list says WHERE each of those lands, top (0.0) to bottom
+  //  (1.0). Both lists must stay the same length.
+  //
+  //  Lower alpha  = more artwork.
+  //  Later stop   = the darkening starts further down.
+  // ===========================================================================
+
+  /// Behind the Home carousel.
+  ///
+  /// Transparent at the top and only 10% through the middle, so the poster
+  /// actually reads. The bottom still goes to 90%, and that is deliberate:
+  /// the "Watch Now" wordmark and the genre-row titles are white text sitting
+  /// on whatever artwork is centred, and they vanish on a bright poster
+  /// without it.
   static const List<Color> backdropScrim = [
-    Color(0x59121312),
-    Color(0xB3121312),
-    Color(0xFF121312),
+    Color(0x73121312), //   0%  top
+    Color(0x73121312), //  10%  through the middle
+    Color(0xFF121312), //  90%  bottom, where the white wordmark sits
   ];
 
-  static const List<double> backdropScrimStops = [0.0, 0.6, 1.0];
+  static const List<double> backdropScrimStops = [0.0, 0.62, 1.0];
+
+  /// Scrim over the Movie Details hero. Measured off Figma node 55:208.
+  ///
+  /// The poster is the reason anyone is on this screen, so the top of it is
+  /// left completely alone — the ramp only starts around 45% and does not go
+  /// dark until 78%, which is where the title sits.
+  ///
+  /// An earlier version opened at 25% black and hit 80% by mid-image, which
+  /// washed the artwork out badly enough to read as a blur. The design
+  /// tolerates a faint ghost of the poster's own lettering behind the title —
+  /// it is visible in the Figma frame too — and that is the right trade:
+  /// hiding the artwork to protect the title loses the more important thing.
+  static const List<Color> heroScrim = [
+    Color(0x1A121312), //   0%  top
+    Color(0x1A121312), //   8%  most of the poster, essentially untouched
+    Color(0x73121312), //  45%  starting to darken
+    Color(0xFF121312), // 100%  behind the title and year
+  ];
+
+  static const List<double> heroScrimStops = [0.0, 0.55, 0.85, 0.98];
 
   /// Scrim laid over the onboarding poster art so the copy stays readable.
   /// Figma node 34:66.

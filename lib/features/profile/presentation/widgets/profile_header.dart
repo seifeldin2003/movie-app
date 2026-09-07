@@ -48,16 +48,24 @@ class ProfileHeader extends StatelessWidget {
               ),
               SizedBox(width: 24.w),
               Expanded(
+                // Each stat takes half of what is left rather than sizing to
+                // its own text. Sized to their text they overflowed by 4px on
+                // a 430 frame — the 118 avatar plus the gap leaves just under
+                // what "Wish List" and "History" want side by side, and the
+                // count widens the moment it reaches three digits.
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _ProfileStat(
-                      value: wishListCount,
-                      label: AppStrings.wishList,
+                    Expanded(
+                      child: _ProfileStat(
+                        value: wishListCount,
+                        label: AppStrings.wishList,
+                      ),
                     ),
-                    _ProfileStat(
-                      value: historyCount,
-                      label: AppStrings.history,
+                    Expanded(
+                      child: _ProfileStat(
+                        value: historyCount,
+                        label: AppStrings.history,
+                      ),
                     ),
                   ],
                 ),
@@ -101,7 +109,14 @@ class _ProfileStat extends StatelessWidget {
       children: [
         Text('$value', style: AppTextStyles.statValue),
         SizedBox(height: 4.h),
-        Text(label, style: AppTextStyles.bodyMedium),
+        // Never wraps to a second line: that would push the avatar row taller
+        // and shift everything under it.
+        Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppTextStyles.bodyMedium,
+        ),
       ],
     );
   }

@@ -82,6 +82,19 @@ class AppStrings {
   // Home
   static const String seeMore = 'See More';
 
+  // Movie details — section headings, Figma node 52:641
+  static const String watch = 'Watch';
+  static const String screenShots = 'Screen Shots';
+  static const String similar = 'Similar';
+  static const String summary = 'Summary';
+  static const String cast = 'Cast';
+  static const String genres = 'Genres';
+
+  /// The design writes cast rows as "Name : X" / "Character : Y".
+  static String castName(String name) => 'Name : $name';
+
+  static String characterName(String character) => 'Character : $character';
+
   // Search
   static const String searchHint = 'Search';
   static const String searchEmpty = 'Search for a movie to get started.';

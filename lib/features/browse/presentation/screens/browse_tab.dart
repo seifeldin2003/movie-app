@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/bloc/request_status.dart';
+import '../../../../core/constants/app_assets.dart';
+import '../../../../core/constants/app_genres.dart';
+import '../../../../core/constants/app_strings.dart';
+import '../../../../core/di/injector.dart';
+import '../../../../core/routes/app_route_names.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/empty_view.dart';
+import '../../../../core/widgets/error_view.dart';
 import '../../../../core/widgets/genre_chip.dart';
+import '../../../../core/widgets/loading_view.dart';
 import '../../../../core/widgets/movie_grid.dart';
-import '../../../movies/data/sample_movies.dart';
 import '../../../movies/domain/entities/movie.dart';
+import '../bloc/browse/browse_bloc.dart';
+import '../bloc/browse/browse_event.dart';
+import '../bloc/browse/browse_state.dart';
 
 /// Browse tab. Figma node 50:462.
 ///
-/// A scrolling row of genre chips over the matching posters.
+/// A scrolling row of genre chips over the matching posters. Each chip is a
+/// `list_movies.json?genre=` request, so the grid shows the real catalogue for
+/// that genre rather than whatever happens to be loaded.
 ///
-/// ⚠️ Reads [SampleMovies] — swap for the Browse Bloc when the YTS layer
-/// lands. The brief has that Bloc fold every movie's genres into a Set to
-/// build this row, rather than hardcoding the list.
+/// The chip list is a fixed constant, not folded out of the loaded movies with
+/// a `Set` as the brief first suggested — see [AppGenres] for why.
 class BrowseTab extends StatefulWidget {
   const BrowseTab({super.key});
 
@@ -22,55 +35,117 @@ class BrowseTab extends StatefulWidget {
 }
 
 class _BrowseTabState extends State<BrowseTab> {
-  late String _selectedGenre = SampleMovies.genres.first;
+  /// Keeps the chip row from snapping back to the left when the grid under it
+  /// reloads.
+  final ScrollController _chipController = ScrollController();
 
-  List<Movie> get _moviesInGenre {
-    final matching = SampleMovies.all
-        .where((movie) => movie.genres.contains(_selectedGenre))
-        .toList();
+  @override
+  void dispose() {
+    _chipController.dispose();
+    super.dispose();
+  }
 
-    // The placeholder catalogue only tags a few movies, so an unmatched genre
-    // would look broken. The real catalogue makes this branch unnecessary.
-    return matching.isEmpty ? SampleMovies.all : matching;
+  void _openMovie(Movie movie) {
+    Navigator.pushNamed(
+      context,
+      AppRouteNames.movieDetails,
+      arguments: movie,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: AppTheme.chipHeight.h + 32.h,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 16.h,
-                ),
-                itemCount: SampleMovies.genres.length,
-                separatorBuilder: (_, _) => SizedBox(width: 8.w),
-                itemBuilder: (context, index) {
-                  final genre = SampleMovies.genres[index];
-                  return GenreChip(
-                    label: genre,
-                    isSelected: genre == _selectedGenre,
-                    onTap: () => setState(() => _selectedGenre = genre),
-                  );
-                },
-              ),
-            ),
-            Expanded(
-              child: MovieGrid(
-                movies: _moviesInGenre,
-                padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 100.h),
-              ),
-            ),
-          ],
+    return BlocProvider<BrowseBloc>(
+      create: (_) => getIt<BrowseBloc>()..add(const BrowseStarted()),
+      child: Scaffold(
+        body: SafeArea(
+          bottom: false,
+          child: BlocBuilder<BrowseBloc, BrowseState>(
+            builder: (context, state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: AppTheme.chipHeight.h + 32.h,
+                    child: ListView.separated(
+                      controller: _chipController,
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 16.h,
+                      ),
+                      itemCount: AppGenres.all.length,
+                      separatorBuilder: (_, _) => SizedBox(width: 8.w),
+                      itemBuilder: (context, index) {
+                        final genre = AppGenres.all[index];
+                        return GenreChip(
+                          label: genre,
+                          isSelected: genre == state.selectedGenre,
+                          onTap: () => context.read<BrowseBloc>().add(
+                            BrowseGenreSelected(genre),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: _BrowseResults(
+                      state: state,
+                      onTapMovie: _openMovie,
+                      onRetry: () => context.read<BrowseBloc>().add(
+                        BrowseGenreSelected(state.selectedGenre),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
+    );
+  }
+}
+
+class _BrowseResults extends StatelessWidget {
+  const _BrowseResults({
+    required this.state,
+    required this.onTapMovie,
+    required this.onRetry,
+  });
+
+  final BrowseState state;
+  final ValueChanged<Movie> onTapMovie;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    // Loading -> error -> empty -> data, in that order.
+    if (state.status.isLoading || state.status.isInitial) {
+      return const LoadingView();
+    }
+
+    if (state.status.isError) {
+      return ErrorView(
+        message: state.error ?? AppStrings.somethingWentWrong,
+        onRetry: onRetry,
+      );
+    }
+
+    if (state.movies.isEmpty) {
+      // Rare on the real catalogue — every genre has thousands — but a
+      // successful request that returned nothing must not look like a
+      // failure.
+      return const EmptyView(
+        message: AppStrings.searchNoResults,
+        imagePath: AppAssets.emptyState,
+      );
+    }
+
+    return MovieGrid(
+      movies: state.movies,
+      padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 100.h),
+      onTapMovie: onTapMovie,
     );
   }
 }

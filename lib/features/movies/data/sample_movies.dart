@@ -1,4 +1,6 @@
+import '../domain/entities/cast_member.dart';
 import '../domain/entities/movie.dart';
+import '../domain/entities/movie_details.dart';
 
 /// Placeholder catalogue so the Phase 2 screens can be built and reviewed
 /// before the YTS layer exists.
@@ -107,6 +109,45 @@ class SampleMovies {
   ];
 
   static List<Movie> get all => [...featured, ...more];
+
+  /// Stands in for a `movie_details` + `movie_suggestions` pair.
+  ///
+  /// The copy is invented, like the titles — the point is to exercise the
+  /// layout, not to ship anyone's synopsis. Deliberately leaves the cast
+  /// photos and screenshots empty so the widgets are built against the case
+  /// the API often returns: a record with fields missing.
+  static MovieDetails detailsFor(Movie movie) => MovieDetails(
+    movie: movie,
+    descriptionFull:
+        'A quiet story that turns loud. ${movie.title} follows a handful of '
+        'people whose paths keep crossing over one long season, until the '
+        'thing each of them was avoiding finally arrives. Shot on location '
+        'and paced to let the silences land, it is less about the ending '
+        'than about who is still standing near it.',
+    runtimeMinutes: 90 + (movie.id * 7) % 60,
+    mpaRating: movie.id.isEven ? 'PG-13' : '15',
+    cast: const [
+      CastMember(name: 'Hayley Atwell', characterName: 'Captain Carter'),
+      CastMember(name: 'Elizabeth Olsen', characterName: 'Wanda Maximoff'),
+      CastMember(name: 'Rachel McAdams', characterName: 'Dr. Christine Palmer'),
+      CastMember(name: 'Charlize Theron', characterName: 'Clea'),
+    ],
+    // Stands in for `medium_screenshot_image1..3`. Points at the same local
+    // files as the posters, so the section renders with something real rather
+    // than three empty boxes. They are git-ignored, so on another machine the
+    // strip falls back to its placeholder tile.
+    screenshots: const [
+      '$_sample/sample_1.jpg',
+      '$_sample/sample_2.jpg',
+      '$_sample/sample_3.png',
+    ],
+    // The design shows a 2x2 grid; movie_suggestions returns up to four.
+    similar: similarTo(movie),
+  );
+
+  /// Four suggestions for [movie], excluding the movie itself.
+  static List<Movie> similarTo(Movie movie) =>
+      all.where((other) => other.id != movie.id).take(4).toList();
 
   /// Genres the Browse tab shows. Phase 2 derives this from the real catalogue
   /// by folding every movie's genres into a Set, per the brief.

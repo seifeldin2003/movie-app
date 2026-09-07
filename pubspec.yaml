@@ -73,6 +73,9 @@ flutter:
     - assets/images/avatars/
     - assets/images/sample/
     - assets/icons/
+    # Captured YTS responses. The offline fallback reads these, so the app
+    # still shows a catalogue with no connection. Demo scaffolding.
+    - assets/data/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -5,9 +5,15 @@ import 'package:movie_app/core/constants/app_strings.dart';
 import 'package:movie_app/core/di/injector.dart';
 import 'package:movie_app/features/auth/domain/entities/app_user.dart';
 import 'package:movie_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:movie_app/features/browse/presentation/bloc/browse/browse_bloc.dart';
+import 'package:movie_app/features/home/presentation/bloc/home/home_bloc.dart';
 import 'package:movie_app/features/home/presentation/widgets/movie_carousel.dart';
+import 'package:movie_app/features/movies/domain/entities/movie.dart';
+import 'package:movie_app/features/movies/domain/repositories/movie_repository.dart';
+import 'package:movie_app/features/search/presentation/bloc/search/search_bloc.dart';
 
 import 'helpers/fake_auth_repository.dart';
+import 'helpers/fake_movie_repository.dart';
 
 void main() {
   // The Figma frames are 430x932; the default test window is 800 wide, which
@@ -19,10 +25,30 @@ void main() {
   }
 
   /// Splash asks the repository whether a session was restored, so DI has to
-  /// be stood up — with a fake, never the real Firebase-backed one.
-  void useAuth({AppUser? signedIn}) {
+  /// be stood up — with fakes, never the real Firebase- and network-backed
+  /// ones.
+  ///
+  /// The movie side is registered too because a restored session lands
+  /// straight on the shell, and Home resolves its Bloc from here on the first
+  /// frame. Without it the app throws before any assertion runs.
+  void useApp({AppUser? signedIn}) {
     getIt.registerLazySingleton<AuthRepository>(
       () => FakeAuthRepository(signedIn: signedIn),
+    );
+    getIt.registerLazySingleton<MovieRepository>(
+      () => FakeMovieRepository(
+        movies: const [
+          Movie(id: 1, title: 'Avengers: Infinity War', year: 2018),
+          Movie(id: 2, title: 'Black Panther', year: 2018),
+        ],
+      ),
+    );
+    getIt.registerFactory<HomeBloc>(() => HomeBloc(getIt<MovieRepository>()));
+    getIt.registerFactory<SearchBloc>(
+      () => SearchBloc(getIt<MovieRepository>()),
+    );
+    getIt.registerFactory<BrowseBloc>(
+      () => BrowseBloc(getIt<MovieRepository>()),
     );
     addTearDown(getIt.reset);
   }
@@ -41,7 +67,7 @@ void main() {
 
   testWidgets('splash shows the supervisor credit', (tester) async {
     usePhoneSurface(tester);
-    useAuth();
+    useApp();
 
     await tester.pumpWidget(const MovieApp());
 
@@ -53,7 +79,7 @@ void main() {
 
   testWidgets('a signed-out user goes to onboarding', (tester) async {
     usePhoneSurface(tester);
-    useAuth();
+    useApp();
 
     await tester.pumpWidget(const MovieApp());
     await advancePastSplash(tester);
@@ -64,7 +90,7 @@ void main() {
 
   testWidgets('a restored session skips straight to the app', (tester) async {
     usePhoneSurface(tester);
-    useAuth(signedIn: const AppUser(uid: 'abc123', name: 'Seif'));
+    useApp(signedIn: const AppUser(uid: 'abc123', name: 'Seif'));
 
     await tester.pumpWidget(const MovieApp());
     await advancePastSplash(tester);
@@ -76,7 +102,7 @@ void main() {
 
   testWidgets('onboarding pages forward to the next slide', (tester) async {
     usePhoneSurface(tester);
-    useAuth();
+    useApp();
 
     await tester.pumpWidget(const MovieApp());
     await advancePastSplash(tester);

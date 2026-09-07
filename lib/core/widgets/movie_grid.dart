@@ -15,6 +15,7 @@ class MovieGrid extends StatelessWidget {
     this.crossAxisCount = 2,
     this.onTapMovie,
     this.padding,
+    this.shrinkWrap = false,
   });
 
   final List<Movie> movies;
@@ -25,12 +26,19 @@ class MovieGrid extends StatelessWidget {
   final ValueChanged<Movie>? onTapMovie;
   final EdgeInsetsGeometry? padding;
 
+  /// Set when the grid sits inside another scroll view — as on Movie Details,
+  /// where it sizes to its content and lets the page do the scrolling. Two
+  /// nested scrollables would fight each other.
+  final bool shrinkWrap;
+
   /// Posters are 2:3, matching every card in the design.
   static const double _posterAspectRatio = 2 / 3;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      shrinkWrap: shrinkWrap,
+      physics: shrinkWrap ? const NeverScrollableScrollPhysics() : null,
       padding:
           padding ??
           EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 100.h),

@@ -51,7 +51,12 @@ class MoviePosterCard extends StatelessWidget {
 /// something — the card, the grid and the Home backdrop all go through here so
 /// the asset-vs-URL branching exists in one place.
 class PosterImage extends StatelessWidget {
-  const PosterImage({super.key, required this.movie, this.source});
+  const PosterImage({
+    super.key,
+    required this.movie,
+    this.source,
+    this.showLabel = true,
+  });
 
   final Movie movie;
 
@@ -59,10 +64,19 @@ class PosterImage extends StatelessWidget {
   /// [Movie.backgroundUrl] instead.
   final String? source;
 
+  /// Whether the fallback tile captions itself with the title and year.
+  ///
+  /// Right for a card, wrong for full-bleed artwork: the Home backdrop and the
+  /// details hero both print the title themselves, so a captioned placeholder
+  /// behind them shows it twice.
+  final bool showLabel;
+
   @override
   Widget build(BuildContext context) {
     final source = this.source ?? movie.posterUrl;
-    if (source == null || source.isEmpty) return PosterPlaceholder(movie: movie);
+    if (source == null || source.isEmpty) {
+      return PosterPlaceholder(movie: movie, showLabel: showLabel);
+    }
 
     // A bundled path rather than a URL. Only the local sample catalogue uses
     // this; once the API supplies artwork every source is an http URL and this
@@ -73,7 +87,8 @@ class PosterImage extends StatelessWidget {
         fit: BoxFit.cover,
         // The sample images are git-ignored, so a fresh clone has none of
         // them. Falling back keeps that a plain tile instead of a red error.
-        errorBuilder: (_, _, _) => PosterPlaceholder(movie: movie),
+        errorBuilder: (_, _, _) =>
+            PosterPlaceholder(movie: movie, showLabel: showLabel),
       );
     }
 
@@ -81,10 +96,11 @@ class PosterImage extends StatelessWidget {
       source,
       fit: BoxFit.cover,
       // A failed image must not leave a hole in the grid.
-      errorBuilder: (_, _, _) => PosterPlaceholder(movie: movie),
+      errorBuilder: (_, _, _) =>
+          PosterPlaceholder(movie: movie, showLabel: showLabel),
       loadingBuilder: (context, child, progress) {
         if (progress == null) return child;
-        return PosterPlaceholder(movie: movie);
+        return PosterPlaceholder(movie: movie, showLabel: showLabel);
       },
     );
   }
@@ -97,9 +113,17 @@ class PosterImage extends StatelessWidget {
 /// That matters on Home: the backdrop follows the centred card, and a colour
 /// that changed on every rebuild would make it flicker.
 class PosterPlaceholder extends StatelessWidget {
-  const PosterPlaceholder({super.key, required this.movie});
+  const PosterPlaceholder({
+    super.key,
+    required this.movie,
+    this.showLabel = true,
+  });
 
   final Movie movie;
+
+  /// See [PosterImage.showLabel] — off for full-bleed artwork, which prints
+  /// the title itself.
+  final bool showLabel;
 
   /// Spread ids around the wheel rather than along it, so neighbouring cards
   /// look clearly different instead of near-identical.
@@ -116,23 +140,25 @@ class PosterPlaceholder extends StatelessWidget {
           colors: [_tint, AppColors.surface],
         ),
       ),
-      child: Padding(
-        padding: EdgeInsets.all(12.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              movie.title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextStyles.bodyMedium,
-            ),
-            if (movie.year != null)
-              Text('${movie.year}', style: AppTextStyles.bodySmall),
-          ],
-        ),
-      ),
+      child: showLabel
+          ? Padding(
+              padding: EdgeInsets.all(12.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    movie.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.bodyMedium,
+                  ),
+                  if (movie.year != null)
+                    Text('${movie.year}', style: AppTextStyles.bodySmall),
+                ],
+              ),
+            )
+          : const SizedBox.expand(),
     );
   }
 }
