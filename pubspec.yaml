@@ -57,6 +57,19 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
 
+  # Generates every launcher-icon size for both platforms from one source
+  # image. DEPENDENCY: dev-only, so it ships in no build — but the commit that
+  # adds it still needs the DEPENDENCY: note, and teammates need
+  # `flutter pub get` before `dart run flutter_launcher_icons` will work.
+  flutter_launcher_icons: ^0.14.4
+
+  # Generates the native Android/iOS launch screens from
+  # flutter_native_splash.yaml. This is what the launch screen should be edited
+  # through — hand-editing LaunchScreen.storyboard and launch_background.xml
+  # was the earlier approach here and it is exactly what this package
+  # overwrites, so the two cannot both own those files.
+  flutter_native_splash: ^2.4.3
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -107,3 +120,23 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# App icon. Regenerate after changing the source with:
+#     dart run flutter_launcher_icons
+#
+# Same shape as the silo app's config. The adaptive foreground is a SEPARATE,
+# more generously padded file rather than the same image with an inset: Android
+# masks the foreground to whatever shape the launcher uses, and padding baked
+# into the asset is predictable where an inset percentage is one more thing to
+# get wrong.
+#
+# `remove_alpha_ios` matters — the App Store rejects icons carrying an alpha
+# channel, and these sources all have one.
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  remove_alpha_ios: true
+  background_color_ios: "#121312"
+  adaptive_icon_background: "#121312"
+  adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
