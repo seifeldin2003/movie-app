@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/bloc/request_status.dart';
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_genres.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/di/injector.dart';
@@ -138,7 +137,6 @@ class _BrowseResults extends StatelessWidget {
       // failure.
       return const EmptyView(
         message: AppStrings.searchNoResults,
-        imagePath: AppAssets.emptyState,
       );
     }
 

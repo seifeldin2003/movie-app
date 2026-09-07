@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/bloc/request_status.dart';
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/di/injector.dart';
 import '../../../../core/routes/app_route_names.dart';
@@ -170,7 +169,6 @@ class _ProfileMovies extends StatelessWidget {
         message: isWatchList
             ? AppStrings.watchListEmpty
             : AppStrings.historyEmpty,
-        imagePath: AppAssets.emptyState,
       );
     }
 

@@ -1,0 +1,1045 @@
+{
+    "alternate_locations": {
+        "servers": [
+            {
+                "server": "dn721807.ca.archive.org",
+                "dir": "/0/items/TheGeneral1926"
+            }
+        ],
+        "workable": [
+            {
+                "server": "dn721807.ca.archive.org",
+                "dir": "/0/items/TheGeneral1926"
+            }
+        ]
+    },
+    "created": 1788785926,
+    "d1": "dn600304.us.archive.org",
+    "dir": "/0/items/TheGeneral1926",
+    "files": [
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000001.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538234",
+            "size": "901",
+            "md5": "5da9bc904364315e9f0d3b6f0072799e",
+            "crc32": "537b0b0c",
+            "sha1": "ad89f64a69acaab34e780a5fc5da4bd7fe6652b5"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000054.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538246",
+            "size": "3512",
+            "md5": "654046338bdebf5d93deddea2b1e119f",
+            "crc32": "1448dc58",
+            "sha1": "44ae34df218757040cfc9b89bc50515b6a0bde25"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000114.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538260",
+            "size": "7592",
+            "md5": "e0f3d9162f3c958e0bef44852dbbf20a",
+            "crc32": "cf1ca87f",
+            "sha1": "447f00574367ad79296943abd9cef37e91bce1ed"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000174.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538274",
+            "size": "7409",
+            "md5": "9d89a26fd9c4749422c90bb10f34d94d",
+            "crc32": "ee45648d",
+            "sha1": "d2133d869ece5433ad25ab9082278ca0fd80825e"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000234.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538288",
+            "size": "4926",
+            "md5": "07a83429b884c239cb9d0ed6dcca552a",
+            "crc32": "6816dc9",
+            "sha1": "78e02bbc5513c874e19f616894a26b59c90ae412"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000294.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538303",
+            "size": "5935",
+            "md5": "7c3a7f4c5456ef46ea40d3442cc4ef24",
+            "crc32": "7cebb85f",
+            "sha1": "a4f935a9762aa193652853df27752ca57a7b1cf0"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000354.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538317",
+            "size": "6928",
+            "md5": "89b140f44532bf3c9129b10eebec57ed",
+            "crc32": "59f34a44",
+            "sha1": "31b1d9fdf05727515c25f2548118b1ad0e96c188"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000414.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538330",
+            "size": "3584",
+            "md5": "da7b5aad19b76752aea5719923ddfafb",
+            "crc32": "22d04896",
+            "sha1": "51e2c951f47aaa75f1cfaab7c1e28a518040c9a3"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000474.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538344",
+            "size": "5685",
+            "md5": "dcae7d826a5f181129c81f996cd26a01",
+            "crc32": "82b392f7",
+            "sha1": "9b8fcead22cb523c238aafddf3182a03c80055f0"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000534.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538357",
+            "size": "6201",
+            "md5": "bcfab95a954aebf494ea2c523fc1ceca",
+            "crc32": "2d2e2da8",
+            "sha1": "359cb9372f0dae65774dc6d8014eaf9987310d18"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000594.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538371",
+            "size": "6445",
+            "md5": "5efeaa7db3249647dbd60e33853f4333",
+            "crc32": "89457395",
+            "sha1": "eb8aefb35b9782095612034b596dfa324fca87d2"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000654.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538384",
+            "size": "7147",
+            "md5": "dc0fcb3b0dc76dfcc1445fef7cf33f63",
+            "crc32": "ecba95c4",
+            "sha1": "34124540d8a5a050fbed73479043bd64c8528509"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000714.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538397",
+            "size": "5070",
+            "md5": "87d2de2bff413822fd68392fb55302f2",
+            "crc32": "33ca7c10",
+            "sha1": "f12711655599170421705a11b8dee08236e4dc4a"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000774.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538410",
+            "size": "4532",
+            "md5": "39f07502d59fa7965dc83cffa68ff1d3",
+            "crc32": "8f3371a",
+            "sha1": "153a6d0dbd963e8f0a14ac770179c64aedfc5944"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000834.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538424",
+            "size": "6616",
+            "md5": "1e6373eac48eba638e6d984afac79f4c",
+            "crc32": "ab55adfd",
+            "sha1": "b6052644259f03ac43298aa7c0836f2aaef03711"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000894.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538437",
+            "size": "6135",
+            "md5": "48eb036001c79b4f9850381ee874ba9b",
+            "crc32": "749b228d",
+            "sha1": "8119a586860f839a276860ccabdd10414219774d"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_000954.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538451",
+            "size": "6044",
+            "md5": "a652fd7eb9514035b8c05d999e606823",
+            "crc32": "795e4357",
+            "sha1": "41989f7a9d1fe432bf12907ddd10910da4a058eb"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001014.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538464",
+            "size": "8298",
+            "md5": "0b9a0e6b43d30ab3a346e2be40171f9f",
+            "crc32": "1dc395ff",
+            "sha1": "cf198b6925921aadefefe57bdf598a60dcdb9a80"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001074.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538479",
+            "size": "6501",
+            "md5": "f18bf1aa1dfb67032cd215072e2b46a9",
+            "crc32": "d60cb2cd",
+            "sha1": "39b3c8f84a876d4459507ba575dd7ca5c01d7b47"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001134.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538492",
+            "size": "6486",
+            "md5": "04fe8318a0d3b73e6134333acfae8d97",
+            "crc32": "5bc8546",
+            "sha1": "1a351b78e8c44c79dcabcf77043d3c6b9b776045"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001194.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538505",
+            "size": "7235",
+            "md5": "cd89189df1f6884b307897c678a4397d",
+            "crc32": "efd384dd",
+            "sha1": "4cf6a4b646bce8686f2cf0003bbc7490d7bc9954"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001254.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538518",
+            "size": "5551",
+            "md5": "46035ee147e6f03fa918de99af3b512a",
+            "crc32": "e16e8716",
+            "sha1": "2ac3498f7e27a547d807c5bf9476056a8cc73ed8"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001314.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538532",
+            "size": "6811",
+            "md5": "3654eef5185526679eff7331c90e51f0",
+            "crc32": "981c32df",
+            "sha1": "b47c83b0363808574bcfd93fdcf5af962735d796"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001374.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538545",
+            "size": "5600",
+            "md5": "2b53257a5c4e599cbd2e435c894db28f",
+            "crc32": "caf41a50",
+            "sha1": "4f33392dcb81c44032f022e31a16038eb907bf81"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001434.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538559",
+            "size": "7671",
+            "md5": "335405f152cb7b7e7f8e7d480789ac9e",
+            "crc32": "ad866649",
+            "sha1": "05b0cdd8626edd369fb5d8918448092e2200429a"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001494.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538572",
+            "size": "7838",
+            "md5": "ea93a2d4157347b68d9d8e408d0a6e14",
+            "crc32": "73a68339",
+            "sha1": "cee50aafce1aabd79b9d009f855e64757a42e67c"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001554.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538585",
+            "size": "4814",
+            "md5": "7df19831629dd4e56b2f141e891ca8c5",
+            "crc32": "8611f41a",
+            "sha1": "0404a8767579c716f5d731ddf21e07151e99b7a2"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001614.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538598",
+            "size": "4548",
+            "md5": "f2a72b1d003944eb43b2a4027c47edff",
+            "crc32": "af348ddf",
+            "sha1": "86692981358e9a6a5666c0e95ba965b3fa90ec6b"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001674.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538611",
+            "size": "8986",
+            "md5": "4c1dc440dbc201387951b696db6a7e57",
+            "crc32": "c15a39fa",
+            "sha1": "b55e0487c6d5c15ac6bc6dda67a2bf535a6dc4a2"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001734.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538624",
+            "size": "3238",
+            "md5": "5f039d95227b762a9313618d5d0e7684",
+            "crc32": "c1912811",
+            "sha1": "3e29eb2459b7939e9eae7e3c782a8114c45f80a9"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001794.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538637",
+            "size": "5281",
+            "md5": "0703dfaf3bd2ae9d7b73bd951619ca88",
+            "crc32": "de2b098c",
+            "sha1": "05ed0b23f5f321ad0f4bbb15dcc7e8473dbefafa"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001854.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538651",
+            "size": "7070",
+            "md5": "f1b034c5ad6a1bcc72bc41b8724eb971",
+            "crc32": "93a9ef9c",
+            "sha1": "cefab263905beb5b1f0ca8d7367495ed22b97f3d"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001914.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538664",
+            "size": "5020",
+            "md5": "fb8daec4da0302fbd445464f0c9936d2",
+            "crc32": "6450df25",
+            "sha1": "10c05f95b28043e74da48687d65f317ef32d76d4"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_001974.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538677",
+            "size": "7781",
+            "md5": "007c773dde098d92a4946b7251ee0be8",
+            "crc32": "35046318",
+            "sha1": "5971cb313f708e0eaaba2ac81fbf79d57193935e"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002034.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538690",
+            "size": "5835",
+            "md5": "3bfb3910d42654b5d2e6c62fbed87933",
+            "crc32": "9b836e8e",
+            "sha1": "63456262fd95ca63a52a0419061185751a0cbdce"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002094.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538703",
+            "size": "6219",
+            "md5": "c5fae5ccff4a620739eb980896b7a816",
+            "crc32": "3926d9a4",
+            "sha1": "7c61832c103b89fee14e7eab3d5c98d2fac0b32a"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002154.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538716",
+            "size": "5601",
+            "md5": "90140e6b39103b98adfa064911feca56",
+            "crc32": "7fcadc97",
+            "sha1": "345585f600114766e25eb36c388674bff34b327e"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002214.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538731",
+            "size": "3985",
+            "md5": "298a8290671bc400f995b2044d5ea4df",
+            "crc32": "eee19724",
+            "sha1": "58e3d7ca158ce8f51133f7e488fc8d480a90214e"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002274.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538744",
+            "size": "4097",
+            "md5": "f080292d2002b5a34ad1cd4abd1aed5b",
+            "crc32": "31cb4636",
+            "sha1": "453eb4dff7eb2dfb10f9bab92107e900ddc5ea7a"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002334.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538758",
+            "size": "3791",
+            "md5": "3e1aeca315ed8be3c92e374f29ab3c88",
+            "crc32": "37a5556",
+            "sha1": "0d0bc1ea129ab50a913026f5b1ecad45cc38bac2"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002394.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538771",
+            "size": "2735",
+            "md5": "dc1ec31303be1cb82b5404ff81daab3b",
+            "crc32": "4e449e9b",
+            "sha1": "3c8155d8406022ac8e2eb8365db446aeb2eb6db8"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002454.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538785",
+            "size": "5892",
+            "md5": "81ff67dcaa85043ecf286b38720bfb31",
+            "crc32": "862e12c0",
+            "sha1": "38ca72642058f193d14da9ca63248d6dadeab498"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002514.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538799",
+            "size": "4507",
+            "md5": "63135f5a1e5799c7efe553c1159fc0c4",
+            "crc32": "1c7fb5e5",
+            "sha1": "51fe6163dcd069d657ce895c6f05c20b0a9b5f1e"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002574.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538812",
+            "size": "7822",
+            "md5": "f24b6baee1acf4b58b7cdceb64995fc1",
+            "crc32": "b754e5ee",
+            "sha1": "258facaf538320190da44a2c514543e232c7bfbb"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002634.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538826",
+            "size": "4976",
+            "md5": "1f5d8969161a5f63d08730f0ea5e125f",
+            "crc32": "765eb055",
+            "sha1": "031d7765e80a0369c75e52bdc57688e2eaefe1f5"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002694.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538840",
+            "size": "7918",
+            "md5": "110068d9398e93d790db2c80f62ac18b",
+            "crc32": "e19d3ca3",
+            "sha1": "bf1e5492a10bc08c30fef00462b74217f06606eb"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002754.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538853",
+            "size": "7351",
+            "md5": "c0acc052cadd3e523b7b3c057e7a7675",
+            "crc32": "2c825a2d",
+            "sha1": "ca80398745ccce177e0cd6fde577e798fef655a5"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002814.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538867",
+            "size": "6357",
+            "md5": "6718174362425d67e2978d05ba67d3bb",
+            "crc32": "4af64d53",
+            "sha1": "db81ee09d613af52605dfcacd39758f0a19bea08"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002874.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538880",
+            "size": "7019",
+            "md5": "f9b8bdcb877737022d6df11c99ce7120",
+            "crc32": "9d36d1da",
+            "sha1": "505b9b4df99d0fdc667f3d82bba0777680cbfb97"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002934.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538893",
+            "size": "7013",
+            "md5": "f425ae445102207e5fff598e6709c6f9",
+            "crc32": "129dc513",
+            "sha1": "e71f3ae90cf00df88ee6142ab10389090f6264b7"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_002994.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538907",
+            "size": "7247",
+            "md5": "3ce16ffa2434a141e72c4ea37113f6f8",
+            "crc32": "bbbe1c1",
+            "sha1": "799211d3dde35a22cc87862ceecf3e7421fe4277"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003054.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538920",
+            "size": "8523",
+            "md5": "960caed7c0436a1c7667350e270ba5cf",
+            "crc32": "cec8cd1f",
+            "sha1": "30d87048917a0f066d6a24a0d4f9631a1879191f"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003114.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538934",
+            "size": "7685",
+            "md5": "2c781e31ceed6eb893b3a43608f75dc7",
+            "crc32": "25b1ebf",
+            "sha1": "27a348885128fdd4c3befaf7a0f7fc84ecec7815"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003174.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538948",
+            "size": "4995",
+            "md5": "bd4de4c33275c4aab9c6679b3e0324dd",
+            "crc32": "2fcae168",
+            "sha1": "0273a8e5a0f94b23edb70e6e48e344efc3972d27"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003233.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538962",
+            "size": "7789",
+            "md5": "dc1fc812c143339034fa3964e09c0c04",
+            "crc32": "c7db33f1",
+            "sha1": "7ecf5f6be23dcbe30c1f01a5f5b13d54bc38b005"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003293.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538976",
+            "size": "8550",
+            "md5": "ab16d6781bb8393cb3abc274acbb1cbf",
+            "crc32": "4b47be05",
+            "sha1": "77c9ea55afc37b9f5c557e00a4f98d40f48e4a1a"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003353.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538989",
+            "size": "6763",
+            "md5": "a4c8d621c100e69746df7c8951d4cf2b",
+            "crc32": "998c5b52",
+            "sha1": "5ef1352d0f92e05ce7e11301ccd736d2f0c06eb6"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003413.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539002",
+            "size": "6167",
+            "md5": "aca0f000ebe8e2b20e5b22d980b7f004",
+            "crc32": "2f623803",
+            "sha1": "f255d5790630f51cdc964c5a4451819597421d14"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003473.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539016",
+            "size": "8373",
+            "md5": "c417d7a8b76a40c6c6dd65cb16c18216",
+            "crc32": "61a04672",
+            "sha1": "15aa38df9c4592841e5b74f865f400cc7c76918c"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003533.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539030",
+            "size": "8164",
+            "md5": "72a1983e4f33e64b48be56f9802440b0",
+            "crc32": "c61c311",
+            "sha1": "16b39db401718c34c21f19ec24080b63acad2d0f"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003593.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539044",
+            "size": "5358",
+            "md5": "8ec97a1aa113dc87a931a9bfe4e1e815",
+            "crc32": "f79d58bb",
+            "sha1": "135d0fd7334a55065ca475ea004acf6568be7717"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003653.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539057",
+            "size": "5394",
+            "md5": "dad64a3bd53c04ac543f428ae78e4103",
+            "crc32": "36f4b811",
+            "sha1": "e45661b540bcdd93bb7ffa6db88f6230742fc833"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003713.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539071",
+            "size": "6480",
+            "md5": "356cd1856b6e293795edba063bf72d53",
+            "crc32": "5ea32313",
+            "sha1": "a04ff7d7bf645f0bebd6f1ce3067925530a203e9"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003773.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539086",
+            "size": "6663",
+            "md5": "b05b482bffed534156a0aeda9b8be296",
+            "crc32": "c9c1035d",
+            "sha1": "1f7741847e165020526c8e159d242ae9899aff85"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003833.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539100",
+            "size": "5767",
+            "md5": "d1ea5a9309e47d73e4cb03b704dd5421",
+            "crc32": "a007d3f3",
+            "sha1": "77b60d4c9eed67897ad9d7f3529c4d20e8811fbf"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003893.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539114",
+            "size": "6185",
+            "md5": "e508a99a40a5499357a5579122cc0edb",
+            "crc32": "1449a3e4",
+            "sha1": "8dbbd6e33464551241535fab9559e8e383a97241"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_003953.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539127",
+            "size": "7857",
+            "md5": "12265deeb740c3aebef00876848c4f61",
+            "crc32": "92e23e15",
+            "sha1": "0cb1358e1f36d950e766df5e3c8b9acdb8a60b75"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_004013.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539139",
+            "size": "8766",
+            "md5": "34b7d4c092810b86072c009fc2c296f2",
+            "crc32": "8c53eb9a",
+            "sha1": "da070f63843fbf4a972442153d09389d4b88a449"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_004073.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539153",
+            "size": "7975",
+            "md5": "1cd438bb9adfc5c9a7577033a318726c",
+            "crc32": "537482aa",
+            "sha1": "49e3570b004dd1aa80d34a8c60285b1ff0e4ed7e"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_004133.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539166",
+            "size": "7951",
+            "md5": "7aa2c60361799f99d62a337ae4889258",
+            "crc32": "c77ef1b0",
+            "sha1": "d46de60c31d02178ff7cbce4d8efc2a0f57ff8b0"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_004193.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539180",
+            "size": "7801",
+            "md5": "866f075f52b03ddc1e3f7c1003127a67",
+            "crc32": "7ed4e95a",
+            "sha1": "4e72233b8863b102d70625dd775e46be0325febe"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_004253.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539194",
+            "size": "6663",
+            "md5": "8200b7cbe113393e6f2d4d23e99489aa",
+            "crc32": "8fe7bfee",
+            "sha1": "fc9edb2e4e75680a6f2c5a4578ed107a5d19621d"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_004313.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539207",
+            "size": "7560",
+            "md5": "f85a25793bdac5f543f0aede96e5eef3",
+            "crc32": "29d85959",
+            "sha1": "fe987da87905c9c40d47c4ed60d69fe6bdb19c78"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_004373.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539222",
+            "size": "7326",
+            "md5": "f491d40916dbdfc2f319ec4be0890625",
+            "crc32": "a40b9adc",
+            "sha1": "81cea0bcaea40ce793be0f46a6553d3b940410ea"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_004433.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539235",
+            "size": "8182",
+            "md5": "8bf063840c3be181906d8e051e4dea15",
+            "crc32": "d80dd87c",
+            "sha1": "6b4c7cd4ced34fba363ef574ebf76d29f4ab46cb"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_004493.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539248",
+            "size": "7751",
+            "md5": "fe8029109f75aae34c00637b1e9e8ab1",
+            "crc32": "7af2392a",
+            "sha1": "b120c5f7e50ffd213d4a79293790ba4815b43269"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_004553.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539261",
+            "size": "7379",
+            "md5": "7a44c39d5e695277f472e713ac5d9450",
+            "crc32": "5da3dc2",
+            "sha1": "9e2e26b990f5c07630f7ea715740e602b40ec7a0"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_004613.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539277",
+            "size": "8503",
+            "md5": "92903c7a11b909edc5e39dd46202169f",
+            "crc32": "51d1cca7",
+            "sha1": "747f116921ccf2bd9d211921bda287bf798bf644"
+        },
+        {
+            "name": "TheGeneral1926.thumbs/The_General_1926_720p_004673.jpg",
+            "source": "derivative",
+            "format": "Thumbnail",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306539291",
+            "size": "7535",
+            "md5": "90301518a225e0dff83ab0428c2675fe",
+            "crc32": "b469e4da",
+            "sha1": "c9363452645e4ce3c9f9b32d45165659b800b6bc"
+        },
+        {
+            "name": "TheGeneral1926_archive.torrent",
+            "source": "metadata",
+            "btih": "a20b0b0d7cf5441215e8d18421f615c49da58069",
+            "mtime": "1542758958",
+            "size": "29149",
+            "md5": "fa763ffe8b11660d309ef95d40de8f8a",
+            "crc32": "c7bdfd06",
+            "sha1": "40f3cc84d3f505635fe601dc710c510f26f6b8af",
+            "format": "Archive BitTorrent"
+        },
+        {
+            "name": "TheGeneral1926_files.xml",
+            "source": "original",
+            "format": "Metadata",
+            "md5": "2bdd0d1295ad79ca1779c357c6136cd9",
+            "summation": "md5"
+        },
+        {
+            "name": "TheGeneral1926_meta.xml",
+            "source": "original",
+            "format": "Metadata",
+            "mtime": "1542758866",
+            "size": "1280",
+            "md5": "214968b56111183a1bfb806aad99e65e",
+            "crc32": "4097f2b9",
+            "sha1": "b648ef1d6f820f0911e15f75c42f7c4a336e034e"
+        },
+        {
+            "name": "TheGeneral1926_reviews.xml",
+            "source": "original",
+            "mtime": "1480650060",
+            "size": "1734",
+            "format": "Metadata",
+            "md5": "f38974f755999878f241be725acde4b2",
+            "crc32": "e2bd93cc",
+            "sha1": "a571439ebd30d79b22794d891d4af1ee8c740e57"
+        },
+        {
+            "name": "The_General_1926_720p.gif",
+            "source": "derivative",
+            "format": "Animated GIF",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306538234",
+            "size": "469929",
+            "md5": "ca9e509c5efc0db49b2e6a399902cdb8",
+            "crc32": "77721496",
+            "sha1": "039f104e4fdff125f4e5c6951ef2797a2be5e424"
+        },
+        {
+            "name": "The_General_1926_720p.mp4",
+            "source": "original",
+            "format": "MPEG4",
+            "mtime": "1306536054",
+            "size": "1003361613",
+            "md5": "7896a58aed048f7f9d3aa28c2289f048",
+            "crc32": "d4450e30",
+            "sha1": "7db3325a5d6f0be33236b0e9f143a128a636b422",
+            "length": "4732.31",
+            "height": "720",
+            "width": "960"
+        },
+        {
+            "name": "The_General_1926_720p_512kb.mp4",
+            "source": "derivative",
+            "format": "512Kb MPEG4",
+            "original": "The_General_1926_720p.mp4",
+            "mtime": "1306543059",
+            "size": "419224226",
+            "md5": "5b0602aff2503e27521c61e43a3a671f",
+            "crc32": "a4175f55",
+            "sha1": "a23ec03db79ccd333529fa16de2d513a85b6a5c3",
+            "length": "4732.31",
+            "height": "240",
+            "width": "320"
+        },
+        {
+            "name": "__ia_thumb.jpg",
+            "source": "original",
+            "mtime": "1539123501",
+            "size": "4070",
+            "md5": "3bba8b6758a364eec74a0653a6df2c97",
+            "crc32": "49348403",
+            "sha1": "ca236f7424e0f373b93dc54dd58865ab08169e87",
+            "format": "Item Tile",
+            "rotation": "0"
+        }
+    ],
+    "files_count": 87,
+    "item_last_updated": 1689597848,
+    "item_size": 1423597862,
+    "metadata": {
+        "mediatype": "movies",
+        "collection": [
+            "silent_films",
+            "Comedy_Films",
+            "feature_films",
+            "moviesandfilms"
+        ],
+        "title": "The General 1926",
+        "description": "Johnnie loves his train (\"The General\") and Annabelle Lee. When the Civil War begins he is turned down for service because he's more valuable as an engineer. Annabelle thinks it's because he's a coward. Union spies capture The General with Annabelle on board. Johnny must rescue both his loves. There is another version on the Archive.  This one is full 720p high resolution and crystal clear!  From the folks at myretroflix.com",
+        "subject": "The General; Buster Keaton; 1926; mp4; 720p; silent",
+        "creator": "myretroflix.com",
+        "runtime": "1:18:52",
+        "sound": "sound",
+        "licenseurl": "http://creativecommons.org/publicdomain/mark/1.0/",
+        "identifier": "TheGeneral1926",
+        "uploader": "chairman@myretroflix.com",
+        "addeddate": "2011-05-27 22:58:05",
+        "publicdate": "2011-05-28 02:06:35",
+        "backup_location": "ia903700_12",
+        "ia_orig__runtime": "78 minutes 52 seconds"
+    },
+    "reviews": [
+        {
+            "reviewbody": "Hope it survives PD scrutiny.",
+            "reviewtitle": "Superb print",
+            "reviewer": "picfixer",
+            "reviewdate": "2011-05-29 21:34:49",
+            "createdate": "2011-05-29 21:34:49",
+            "stars": "5"
+        },
+        {
+            "reviewbody": "I first saw \"The General\" in a local art-film house, accompanied by a live organist. My wife gamely tagged along...and ended up leaping from her seat, yelling and cheering and laughing.\n\nMany thanks to the uploader for this one. A tremendous movie...and, at last, a print that does it justice.",
+            "reviewtitle": "THANK YOU! THANK YOU!",
+            "reviewer": "Freddie Jaye",
+            "reviewdate": "2011-05-31 05:41:26",
+            "createdate": "2011-05-31 05:41:26",
+            "stars": "5"
+        },
+        {
+            "reviewbody": "From Wikipedia Media Archive: \nhttps://en.wikipedia.org/wiki/The_General_(1926_film)\n\n\"In 1953, a new version of the film was created by Raymond Rohauer, a film distributor and collector. The movie was re-edited with an introduction and music. As of 2013 this version is under copyright, as Rohauer filed a copyright registration in 1953 and renewed the copyright in 1983.\"\n\nYou'll have to check if this is the version is copyrighted. It may be.",
+            "reviewtitle": "This version may be under copyright",
+            "reviewer": "Matrixation",
+            "reviewdate": "2016-12-02 03:40:57",
+            "createdate": "2016-12-02 03:40:57",
+            "stars": "5"
+        }
+    ],
+    "server": "dn600304.us.archive.org",
+    "simplelists": {
+        "solo_manifest": {
+            "solo_manifest_dn600304": {
+                "sys_changed_by": {
+                    "source": "task",
+                    "task_id": "5458212149"
+                },
+                "sys_last_changed": "2026-06-22 07:57:14.454463"
+            }
+        }
+    },
+    "solo": true,
+    "uniq": 576355216,
+    "workable_servers": [
+        "dn600304.us.archive.org"
+    ]
+}

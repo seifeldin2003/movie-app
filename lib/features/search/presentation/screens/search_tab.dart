@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/bloc/request_status.dart';
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/di/injector.dart';
 import '../../../../core/routes/app_route_names.dart';
@@ -129,7 +128,6 @@ class _SearchResults extends StatelessWidget {
     if (state.query.isEmpty) {
       return const EmptyView(
         message: AppStrings.searchEmpty,
-        imagePath: AppAssets.emptyState,
       );
     }
 
@@ -145,7 +143,6 @@ class _SearchResults extends StatelessWidget {
     if (state.results.isEmpty) {
       return const EmptyView(
         message: AppStrings.searchNoResults,
-        imagePath: AppAssets.emptyState,
       );
     }
 

@@ -1,0 +1,23 @@
+{
+    "created": 1787083429,
+    "d1": "ia601606.us.archive.org",
+    "d2": "ia801606.us.archive.org",
+    "dir": "/24/items/night_of_the_living_dead",
+    "is_dark": true,
+    "server": "ia801606.us.archive.org",
+    "simplelists": {
+        "flagged_as_porn": {
+            "@gerhard_van_niekerk": {
+                "sys_changed_by": {
+                    "source": "details page"
+                },
+                "sys_last_changed": "2025-02-21 02:21:37.857033"
+            }
+        }
+    },
+    "uniq": 1304877553,
+    "workable_servers": [
+        "ia801606.us.archive.org",
+        "ia601606.us.archive.org"
+    ]
+}
