@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 
 import '../network/api_client.dart';
+import '../network/network_status.dart';
 
 import '../../features/auth/data/datasources/firebase_auth_datasource.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
@@ -28,6 +29,7 @@ import '../../features/search/presentation/bloc/search/search_bloc.dart';
 import '../../features/watchlist/data/datasources/firestore_watchlist_datasource.dart';
 import '../../features/watchlist/data/repositories/watchlist_repository_impl.dart';
 import '../../features/watchlist/domain/repositories/watchlist_repository.dart';
+import '../../features/splash/presentation/bloc/splash/splash_bloc.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -39,7 +41,14 @@ final GetIt getIt = GetIt.instance;
 Future<void> setupInjector() async {
   // Network — one Dio for the whole app. Nothing above the data layer
   // imports Dio; data sources take this instead.
-  getIt.registerLazySingleton<ApiClient>(() => ApiClient());
+  //
+  // One `NetworkStatus` shared by the client that sets it and the indicator
+  // that reads it, so it has to be a singleton — a second instance would
+  // simply never change.
+  getIt.registerLazySingleton<NetworkStatus>(() => NetworkStatus());
+  getIt.registerLazySingleton<ApiClient>(
+    () => ApiClient(status: getIt<NetworkStatus>()),
+  );
 
   // Data sources
   getIt.registerLazySingleton<FirebaseAuthDataSource>(
@@ -111,12 +120,11 @@ Future<void> setupInjector() async {
     ),
   );
   getIt.registerFactory<HomeBloc>(() => HomeBloc(getIt<MovieRepository>()));
-  getIt.registerFactory<SearchBloc>(
-    () => SearchBloc(getIt<MovieRepository>()),
+  getIt.registerFactory<SplashBloc>(
+    () => SplashBloc(getIt<MovieRepository>(), getIt<AuthRepository>()),
   );
-  getIt.registerFactory<BrowseBloc>(
-    () => BrowseBloc(getIt<MovieRepository>()),
-  );
+  getIt.registerFactory<SearchBloc>(() => SearchBloc(getIt<MovieRepository>()));
+  getIt.registerFactory<BrowseBloc>(() => BrowseBloc(getIt<MovieRepository>()));
   getIt.registerFactory<ProfileBloc>(
     () => ProfileBloc(
       getIt<AuthRepository>(),

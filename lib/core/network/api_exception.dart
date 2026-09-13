@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import '../constants/app_strings.dart';
+
 /// A network failure carrying a sentence that can go straight on screen.
 ///
 /// Same split as the auth layer: the data source translates, so a Bloc never
@@ -27,13 +29,13 @@ class ApiException implements Exception {
       // Added in Dio 5.11 — decoding a large body ran past the budget.
       case DioExceptionType.transformTimeout:
         return const ApiException(
-          'The connection timed out. Check your internet and try again.',
+          AppStrings.connectionTimedOut,
           isConnectionIssue: true,
         );
       case DioExceptionType.connectionError:
       case DioExceptionType.unknown:
         return const ApiException(
-          'No internet connection.',
+          AppStrings.networkError,
           isConnectionIssue: true,
         );
       case DioExceptionType.cancel:
@@ -58,6 +60,6 @@ class ApiException implements Exception {
     if (data is Map && data['status_message'] != null) {
       return '${data['status_message']}';
     }
-    return 'Something went wrong. Please try again.';
+    return AppStrings.somethingWentWrong;
   }
 }

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/di/injector.dart';
+import '../../../../core/network/network_status.dart';
+import '../../../../core/widgets/offline_indicator.dart';
 import '../../../browse/presentation/screens/browse_tab.dart';
 import '../../../home/presentation/screens/home_tab.dart';
 import '../../../profile/presentation/screens/profile_tab.dart';
@@ -64,16 +68,34 @@ class _LayoutScreenState extends State<LayoutScreen> {
     return Scaffold(
       // The nav bar floats, so the tab content runs underneath it.
       extendBody: true,
-      body: IndexedStack(
-        index: _currentIndex,
-        children: List.generate(_tabCount, (index) {
-          if (!_visited[index]) return const SizedBox.shrink();
+      body: Stack(
+        children: [
+          IndexedStack(
+            index: _currentIndex,
+            children: List.generate(_tabCount, (index) {
+              if (!_visited[index]) return const SizedBox.shrink();
 
-          return TickerMode(
-            enabled: index == _currentIndex,
-            child: _tabAt(index),
-          );
-        }),
+              return TickerMode(
+                enabled: index == _currentIndex,
+                child: _tabAt(index),
+              );
+            }),
+          ),
+
+          // Here rather than in each tab: none of the four has an app bar to
+          // hang it on, and one shared overlay keeps the badge in the same
+          // place no matter which tab is showing.
+          Positioned(
+            top: 0,
+            right: 0,
+            child: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(top: 8.h, right: 16.w),
+                child: OfflineIndicator(status: getIt<NetworkStatus>()),
+              ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: _currentIndex,

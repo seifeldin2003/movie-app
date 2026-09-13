@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -46,7 +47,39 @@ class _MovieTrailerScreenState extends State<MovieTrailerScreen> {
   @override
   void initState() {
     super.initState();
+    _enterPlayerMode();
     _controller = _buildController();
+  }
+
+  @override
+  void dispose() {
+    _exitPlayerMode();
+    super.dispose();
+  }
+
+  /// The one screen in the app that may rotate, and the one that hides the
+  /// system bars.
+  ///
+  /// ⚠️ `immersiveSticky`, not `immersive`. Both hide the status and
+  /// navigation bars; the difference is what happens when the user swipes them
+  /// back. `immersive` gives them back permanently, which is why the usual
+  /// workaround is a repeating timer that re-hides them — `immersiveSticky`
+  /// does that itself, so there is no timer to leak.
+  void _enterPlayerMode() {
+    SystemChrome.setPreferredOrientations(const [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  }
+
+  /// ⚠️ Must mirror [_enterPlayerMode] exactly. These are process-wide
+  /// settings, not properties of this widget — leaving either one set would
+  /// leave the whole app rotating and chromeless after the user backs out.
+  void _exitPlayerMode() {
+    SystemChrome.setPreferredOrientations(const [DeviceOrientation.portraitUp]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 
   /// ⚠️ iOS defaults `allowsInlineMediaPlayback` to false, which hands video to
@@ -187,14 +220,23 @@ class _MovieTrailerScreenState extends State<MovieTrailerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Landscape is the deliberate fullscreen case: bar gone, system chrome
+    // gone, video edge to edge. Back still works without it — Android's back
+    // gesture is unaffected by immersive mode, and MaterialPageRoute keeps the
+    // iOS edge swipe whether or not there is an AppBar.
+    final isLandscape =
+        MediaQuery.orientationOf(context) == Orientation.landscape;
+
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        // The default AppBar leading gives the system back button and the iOS
-        // swipe gesture for free — no custom handling needed.
-        title: Text(widget.args.title, style: AppTextStyles.titleMedium),
-      ),
+      appBar: isLandscape
+          ? null
+          : AppBar(
+              backgroundColor: AppColors.background,
+              // The default AppBar leading gives the system back button and
+              // the iOS swipe gesture for free — no custom handling needed.
+              title: Text(widget.args.title, style: AppTextStyles.titleMedium),
+            ),
       body: _hasFailed
           ? ErrorView(message: AppStrings.trailerFailed, onRetry: _retry)
           : Stack(

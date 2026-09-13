@@ -117,6 +117,21 @@ void main() {
       expect(await repository.getSimilarMovies(10), hasLength(4));
     });
 
+    test('offline details never hand back a different film', () async {
+      // The bundled details record is one fixed movie (id 10). Answering a
+      // request for anything else with it would show that film's title,
+      // poster and cast as though it were the one the user tapped.
+      final repository = MovieRepositoryImpl(
+        _OfflineRemote(error: noInternet),
+        local,
+      );
+
+      await expectLater(
+        repository.getMovieDetails(999),
+        throwsA(isA<ApiException>()),
+      );
+    });
+
     test('a search is never answered from the bundled catalogue', () {
       // The fallback is right for Home and Browse — any catalogue beats a
       // blank screen. For a search it is actively wrong: asking for "batman"

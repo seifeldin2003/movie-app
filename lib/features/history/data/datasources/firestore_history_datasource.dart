@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../../core/constants/app_strings.dart';
 import '../../../movies/domain/entities/movie.dart';
 
 /// The only file that talks to Firestore for watch history.
@@ -36,15 +37,16 @@ class FirestoreHistoryDataSource {
   /// the window just because the app went unused for a week.
   static const Duration retention = Duration(days: 3);
 
-  DocumentReference<Map<String, dynamic>> _doc(String uid) =>
-      FirebaseFirestore.instance
-          .collection(_users)
-          .doc(uid)
-          .collection(_history)
-          .doc(_recent);
+  DocumentReference<Map<String, dynamic>> _doc(String uid) => FirebaseFirestore
+      .instance
+      .collection(_users)
+      .doc(uid)
+      .collection(_history)
+      .doc(_recent);
 
-  Stream<List<Movie>> watch(String uid) =>
-      _doc(uid).snapshots().map((snapshot) => readEntries(snapshot.data(), DateTime.now()));
+  Stream<List<Movie>> watch(String uid) => _doc(
+    uid,
+  ).snapshots().map((snapshot) => readEntries(snapshot.data(), DateTime.now()));
 
   Future<List<Movie>> load(String uid) async {
     try {
@@ -164,7 +166,7 @@ class FirestoreHistoryDataSource {
       return 'You do not have permission to do that. Please sign in again.';
     }
     if (e.code == 'unavailable') {
-      return 'No internet connection. Check your network and try again.';
+      return AppStrings.networkError;
     }
     return 'Something went wrong. Please try again.';
   }

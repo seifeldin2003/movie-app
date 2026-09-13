@@ -96,6 +96,17 @@ class MovieRepositoryImpl implements MovieRepository {
 
       final fallback = await _local.movieDetails();
       if (fallback == null) rethrow;
+
+      // ⚠️ Only if it is actually the film that was asked for.
+      //
+      // The bundled snapshot is a single fixed record, so without this check
+      // every offline tap on any movie opened that one film's title, poster,
+      // cast and summary — presented as the movie the user chose. That is the
+      // same lie the `isConnectionIssue` check above exists to prevent, and a
+      // wrong movie is worse than an honest error. The disk cache in
+      // `ApiClient` is what answers this properly for anything visited before.
+      if (fallback.id != movieId) rethrow;
+
       return fallback.toEntity();
     }
   }

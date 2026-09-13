@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'app.dart';
 import 'core/di/injector.dart';
@@ -13,6 +14,13 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await setupInjector();
+
+  // Portrait only. The layouts are scaled from a 430x932 phone design, and in
+  // landscape ScreenUtil scales width and height by very different factors —
+  // the Home carousel draws 650x314 against a 2:3 design, and text shrinks
+  // below its phone size. The trailer screen lifts this for itself and puts it
+  // back on the way out; it is the one screen that gains from rotating.
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(const MovieApp());
 }
