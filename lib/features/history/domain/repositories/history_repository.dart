@@ -1,4 +1,4 @@
-import '../../../movies/domain/entities/movie.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
 
 /// Watch history — the movies this user has opened, newest first.
 ///

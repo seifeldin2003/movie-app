@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import 'api_endpoints.dart';
-import 'api_exception.dart';
-import 'network_status.dart';
-import 'response_cache.dart';
+import './api_endpoints.dart';
+import './api_exception.dart';
+import './network_status.dart';
+import './response_cache.dart';
 
 /// The single Dio instance for the whole app.
 ///

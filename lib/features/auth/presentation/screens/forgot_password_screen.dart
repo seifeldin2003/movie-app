@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/constants/app_assets.dart';
-import '../../../../core/constants/app_strings.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/validators.dart';
-import '../../../../core/widgets/app_snack_bar.dart';
-import '../../../../core/widgets/app_text_field.dart';
-import '../../../../core/widgets/primary_button.dart';
+import 'package:movie_app/core/constants/app_assets.dart';
+import 'package:movie_app/core/constants/app_strings.dart';
+import 'package:movie_app/core/di/injector.dart';
+import 'package:movie_app/core/theme/app_colors.dart';
+import 'package:movie_app/core/utils/validators.dart';
+import 'package:movie_app/core/widgets/app_snack_bar.dart';
+import 'package:movie_app/core/widgets/app_text_field.dart';
+import 'package:movie_app/core/widgets/primary_button.dart';
 import '../bloc/forgot_password/forgot_password_bloc.dart';
 import '../bloc/forgot_password/forgot_password_event.dart';
 import '../bloc/forgot_password/forgot_password_state.dart';
@@ -67,10 +67,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               final isLoading = state is ForgotPasswordLoading;
 
               return SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 16.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                 child: Form(
                   key: _formKey,
                   child: Column(

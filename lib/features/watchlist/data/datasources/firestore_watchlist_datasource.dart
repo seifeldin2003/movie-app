@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../../../core/constants/app_strings.dart';
-import '../../../movies/domain/entities/movie.dart';
+import 'package:movie_app/core/constants/app_strings.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
 
 /// The only file that talks to Firestore for the watch list.
 ///

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_text_styles.dart';
+import 'package:movie_app/core/theme/app_text_styles.dart';
 
 /// "Screen Shots", "Similar", "Summary", "Cast", "Genres" — every section on
 /// Movie Details opens with one of these. Figma node 55:107.

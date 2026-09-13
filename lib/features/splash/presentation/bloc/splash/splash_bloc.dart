@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/network/api_endpoints.dart';
-import '../../../../auth/domain/repositories/auth_repository.dart';
-import '../../../../movies/domain/repositories/movie_repository.dart';
-import 'splash_event.dart';
-import 'splash_state.dart';
+import 'package:movie_app/core/network/api_endpoints.dart';
+import 'package:movie_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:movie_app/core/movies/domain/repositories/movie_repository.dart';
+import './splash_event.dart';
+import './splash_state.dart';
 
 /// Turns the splash screen from a fixed wait into a real one.
 ///

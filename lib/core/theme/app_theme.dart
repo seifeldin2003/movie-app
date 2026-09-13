@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
+import './app_colors.dart';
 
 /// The single source of truth for how the app looks.
 ///

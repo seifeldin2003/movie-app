@@ -6,16 +6,16 @@ import 'package:movie_app/core/di/injector.dart';
 import 'package:movie_app/core/network/network_status.dart';
 import 'package:movie_app/features/auth/domain/entities/app_user.dart';
 import 'package:movie_app/features/auth/domain/repositories/auth_repository.dart';
-import 'package:movie_app/features/browse/presentation/bloc/browse/browse_bloc.dart';
-import 'package:movie_app/features/home/presentation/bloc/home/home_bloc.dart';
-import 'package:movie_app/features/home/presentation/widgets/movie_carousel.dart';
-import 'package:movie_app/features/movies/domain/entities/movie.dart';
-import 'package:movie_app/features/movies/domain/repositories/movie_repository.dart';
-import 'package:movie_app/features/search/presentation/bloc/search/search_bloc.dart';
+import 'package:movie_app/features/layout/browse/presentation/bloc/browse/browse_bloc.dart';
+import 'package:movie_app/features/layout/home/presentation/bloc/home/home_bloc.dart';
+import 'package:movie_app/features/layout/home/presentation/widgets/movie_carousel.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
+import 'package:movie_app/core/movies/domain/repositories/movie_repository.dart';
+import 'package:movie_app/features/layout/search/presentation/bloc/search/search_bloc.dart';
 import 'package:movie_app/features/splash/presentation/bloc/splash/splash_bloc.dart';
 
-import 'helpers/fake_auth_repository.dart';
-import 'helpers/fake_movie_repository.dart';
+import './helpers/fake_auth_repository.dart';
+import './helpers/fake_movie_repository.dart';
 
 void main() {
   // The Figma frames are 430x932; the default test window is 800 wide, which

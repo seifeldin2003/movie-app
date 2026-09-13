@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/constants/app_strings.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/movie_poster_card.dart';
-import '../../../movies/domain/entities/movie.dart';
+import 'package:movie_app/core/constants/app_strings.dart';
+import 'package:movie_app/core/theme/app_colors.dart';
+import 'package:movie_app/core/theme/app_text_styles.dart';
+import 'package:movie_app/core/widgets/movie_poster_card.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
 
 /// The artwork behind the collapsing app bar on Movie Details.
 /// Figma node 55:208.
@@ -138,11 +138,7 @@ class _PlayButton extends StatelessWidget {
 
 /// A control over the artwork, darkened so it stays visible on a light poster.
 class HeroIconButton extends StatelessWidget {
-  const HeroIconButton({
-    super.key,
-    required this.icon,
-    required this.onTap,
-  });
+  const HeroIconButton({super.key, required this.icon, required this.onTap});
 
   final IconData icon;
   final VoidCallback onTap;

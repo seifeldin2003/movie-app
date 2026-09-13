@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../features/movies/domain/entities/movie.dart';
-import 'movie_poster_card.dart';
+import '../movies/domain/entities/movie.dart';
+import './movie_poster_card.dart';
 
 /// The poster grid behind Search, Browse and Profile.
 ///
@@ -39,9 +39,7 @@ class MovieGrid extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: shrinkWrap,
       physics: shrinkWrap ? const NeverScrollableScrollPhysics() : null,
-      padding:
-          padding ??
-          EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 100.h),
+      padding: padding ?? EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 100.h),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
         crossAxisSpacing: 16.w,

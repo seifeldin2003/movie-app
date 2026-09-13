@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'app_colors.dart';
+import './app_colors.dart';
 
 /// Text styles used across the app. Screens read these instead of building
 /// their own `TextStyle`, so the type scale stays consistent.
@@ -37,11 +37,8 @@ class AppTextStyles {
       TextStyle(fontSize: 20.sp, color: AppColors.white);
 
   /// Intro body copy — dimmed against the poster art. Figma node 35:70.
-  static TextStyle get bodyLargeMuted => TextStyle(
-    fontSize: 20.sp,
-    height: 32 / 20,
-    color: AppColors.whiteMuted,
-  );
+  static TextStyle get bodyLargeMuted =>
+      TextStyle(fontSize: 20.sp, height: 32 / 20, color: AppColors.whiteMuted);
 
   static TextStyle get bodyMedium =>
       TextStyle(fontSize: 16.sp, color: AppColors.white);

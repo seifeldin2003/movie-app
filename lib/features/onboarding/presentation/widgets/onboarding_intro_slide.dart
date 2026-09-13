@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/primary_button.dart';
+import 'package:movie_app/core/theme/app_text_styles.dart';
+import 'package:movie_app/core/widgets/primary_button.dart';
 import '../../domain/entities/onboarding_slide_data.dart';
-import 'poster_backdrop.dart';
+import './poster_backdrop.dart';
 
 /// The first onboarding page. Figma node 30:447.
 ///

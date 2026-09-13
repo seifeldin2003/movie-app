@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/constants/app_strings.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/primary_button.dart';
-import '../../../../core/widgets/secondary_button.dart';
+import 'package:movie_app/core/constants/app_strings.dart';
+import 'package:movie_app/core/theme/app_colors.dart';
+import 'package:movie_app/core/theme/app_text_styles.dart';
+import 'package:movie_app/core/widgets/primary_button.dart';
+import 'package:movie_app/core/widgets/secondary_button.dart';
 import '../../domain/entities/onboarding_slide_data.dart';
-import 'poster_backdrop.dart';
+import './poster_backdrop.dart';
 
 /// Onboarding pages two through six. Figma nodes 38:75, 38:172, 38:149,
 /// 38:188, 39:294 — one layout, different artwork and copy.
@@ -63,10 +63,7 @@ class OnboardingSlideView extends StatelessWidget {
                     PrimaryButton(text: slide.actionLabel, onPressed: onNext),
                     if (slide.showBack) ...[
                       SizedBox(height: 16.h),
-                      SecondaryButton(
-                        text: AppStrings.back,
-                        onPressed: onBack,
-                      ),
+                      SecondaryButton(text: AppStrings.back, onPressed: onBack),
                     ],
                   ],
                 ),

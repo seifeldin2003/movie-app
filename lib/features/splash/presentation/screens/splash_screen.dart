@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/constants/app_assets.dart';
-import '../../../../core/constants/app_strings.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../core/routes/app_route_names.dart';
-import '../../../../core/theme/app_text_styles.dart';
+import 'package:movie_app/core/constants/app_assets.dart';
+import 'package:movie_app/core/constants/app_strings.dart';
+import 'package:movie_app/core/di/injector.dart';
+import 'package:movie_app/core/routes/app_route_names.dart';
+import 'package:movie_app/core/theme/app_text_styles.dart';
 import '../bloc/splash/splash_bloc.dart';
 import '../bloc/splash/splash_event.dart';
 import '../bloc/splash/splash_state.dart';

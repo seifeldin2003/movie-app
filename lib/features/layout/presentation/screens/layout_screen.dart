@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/di/injector.dart';
-import '../../../../core/network/network_status.dart';
-import '../../../../core/widgets/offline_indicator.dart';
-import '../../../browse/presentation/screens/browse_tab.dart';
-import '../../../home/presentation/screens/home_tab.dart';
-import '../../../profile/presentation/screens/profile_tab.dart';
-import '../../../search/presentation/screens/search_tab.dart';
+import 'package:movie_app/core/bloc/request_status.dart';
+import 'package:movie_app/core/di/injector.dart';
+import 'package:movie_app/core/network/network_status.dart';
+import 'package:movie_app/core/widgets/offline_indicator.dart';
+import '../../browse/presentation/bloc/browse/browse_bloc.dart';
+import '../../browse/presentation/bloc/browse/browse_event.dart';
+import '../../browse/presentation/screens/browse_tab.dart';
+import '../../home/presentation/screens/home_tab.dart';
+import '../../profile/presentation/screens/profile_tab.dart';
+import '../../search/presentation/screens/search_tab.dart';
 import '../widgets/app_bottom_nav_bar.dart';
 
 /// Owns the bottom navigation and swaps the body between the four tabs.
@@ -33,8 +36,51 @@ class LayoutScreen extends StatefulWidget {
 
 class _LayoutScreenState extends State<LayoutScreen> {
   static const int _tabCount = 4;
+  static const int _browseIndex = 2;
 
   int _currentIndex = 0;
+
+  /// Held here, not inside [BrowseTab], so Home's "See More" can select a
+  /// genre in a tab that may already be built.
+  ///
+  /// ⚠️ This is the whole reason the Bloc moved up. `IndexedStack` keeps a
+  /// visited tab alive on purpose, so `BlocProvider.create` inside BrowseTab
+  /// runs once and never again — a genre passed down as a constructor argument
+  /// would arrive in `build` with nothing left to dispatch it.
+  ///
+  /// Created on first use rather than in `initState`, so the laziness above
+  /// survives: launching the app must not fire a Browse request nobody asked
+  /// for. Resolved here, so closed here.
+  BrowseBloc? _browseBloc;
+
+  @override
+  void dispose() {
+    _browseBloc?.close();
+    super.dispose();
+  }
+
+  /// Switches to Browse, optionally selecting [genre] first.
+  ///
+  /// Dispatches on every call rather than only when [genre] changes. The case
+  /// that needs it: pick "Horror" on Browse by hand, go back to Home, tap
+  /// "See More" on Action. Nothing about Action changed from this screen's
+  /// point of view, but Browse is showing Horror and has to be told.
+  ///
+  /// `BrowseBloc._load` already drops responses for a genre that is no longer
+  /// selected, so re-selecting mid-flight is safe.
+  void _openBrowse({String? genre}) {
+    final bloc = _browseBloc ??= getIt<BrowseBloc>();
+
+    if (genre != null) {
+      bloc.add(BrowseGenreSelected(genre));
+    } else if (bloc.state.status == RequestStatus.initial) {
+      // Opened from the nav bar with nothing loaded yet — the first load the
+      // tab used to start for itself.
+      bloc.add(const BrowseStarted());
+    }
+
+    _onTabSelected(_browseIndex);
+  }
 
   /// Which tabs have ever been opened. Home starts true because it is the
   /// landing tab.
@@ -46,17 +92,24 @@ class _LayoutScreenState extends State<LayoutScreen> {
   Widget _tabAt(int index) {
     switch (index) {
       case 0:
-        return const HomeTab();
+        return HomeTab(onSeeMore: (genre) => _openBrowse(genre: genre));
       case 1:
         return const SearchTab();
-      case 2:
-        return const BrowseTab();
+      case _browseIndex:
+        return BrowseTab(bloc: _browseBloc);
       default:
         return const ProfileTab();
     }
   }
 
   void _onTabSelected(int index) {
+    // Browse needs its Bloc resolved and started before the tab builds, so it
+    // goes the long way round. Everything else switches directly.
+    if (index == _browseIndex && _browseBloc == null) {
+      _openBrowse();
+      return;
+    }
+
     setState(() {
       _currentIndex = index;
       _visited[index] = true;

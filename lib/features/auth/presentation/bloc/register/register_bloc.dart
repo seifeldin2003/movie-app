@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/repositories/auth_repository.dart';
-import 'register_event.dart';
-import 'register_state.dart';
+import './register_event.dart';
+import './register_state.dart';
 
 /// Drives the Register screen.
 ///

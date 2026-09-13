@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../../movies/domain/entities/movie_details.dart';
+import 'package:movie_app/core/theme/app_colors.dart';
+import 'package:movie_app/core/theme/app_text_styles.dart';
+import 'package:movie_app/core/theme/app_theme.dart';
+import 'package:movie_app/core/movies/domain/entities/movie_details.dart';
 
 /// Likes, runtime and score, as three pills under the Watch button.
 /// Figma nodes 53:77 / 53:82 / 53:86.

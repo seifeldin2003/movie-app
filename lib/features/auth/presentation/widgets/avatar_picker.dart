@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/constants/app_assets.dart';
-import '../../../../core/constants/app_strings.dart';
-import '../../../../core/theme/app_text_styles.dart';
+import 'package:movie_app/core/constants/app_assets.dart';
+import 'package:movie_app/core/constants/app_strings.dart';
+import 'package:movie_app/core/theme/app_text_styles.dart';
 
 /// The avatar strip at the top of Register — a large centre avatar flanked by
 /// two smaller ones. Figma node 285:100.

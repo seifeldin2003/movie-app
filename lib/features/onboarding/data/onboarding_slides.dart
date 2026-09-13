@@ -1,5 +1,5 @@
-import '../../../core/constants/app_assets.dart';
-import '../../../core/constants/app_strings.dart';
+import 'package:movie_app/core/constants/app_assets.dart';
+import 'package:movie_app/core/constants/app_strings.dart';
 import '../domain/entities/onboarding_slide_data.dart';
 
 /// The six onboarding pages, in the order the Figma frames are laid out.

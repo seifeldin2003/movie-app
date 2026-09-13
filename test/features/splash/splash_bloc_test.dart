@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:movie_app/core/network/api_endpoints.dart';
 import 'package:movie_app/features/auth/domain/entities/app_user.dart';
-import 'package:movie_app/features/movies/domain/entities/movie.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
 import 'package:movie_app/features/splash/presentation/bloc/splash/splash_bloc.dart';
 import 'package:movie_app/features/splash/presentation/bloc/splash/splash_event.dart';
 import 'package:movie_app/features/splash/presentation/bloc/splash/splash_state.dart';

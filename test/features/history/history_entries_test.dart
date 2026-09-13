@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:movie_app/features/history/data/datasources/firestore_history_datasource.dart';
-import 'package:movie_app/features/movies/domain/entities/movie.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
 
 /// The array rules behind the single history document, driven directly.
 ///
@@ -117,10 +117,9 @@ void main() {
       expect(FirestoreHistoryDataSource.readEntries(null, now), isEmpty);
       expect(FirestoreHistoryDataSource.readEntries(const {}, now), isEmpty);
       expect(
-        FirestoreHistoryDataSource.readEntries(
-          const {'entries': 'not a list'},
-          now,
-        ),
+        FirestoreHistoryDataSource.readEntries(const {
+          'entries': 'not a list',
+        }, now),
         isEmpty,
       );
     });

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/constants/app_assets.dart';
-import '../../../../core/constants/app_strings.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../core/routes/app_route_names.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/utils/validators.dart';
-import '../../../../core/widgets/app_snack_bar.dart';
-import '../../../../core/widgets/app_text_field.dart';
-import '../../../../core/widgets/primary_button.dart';
+import 'package:movie_app/core/constants/app_assets.dart';
+import 'package:movie_app/core/constants/app_strings.dart';
+import 'package:movie_app/core/di/injector.dart';
+import 'package:movie_app/core/routes/app_route_names.dart';
+import 'package:movie_app/core/theme/app_colors.dart';
+import 'package:movie_app/core/theme/app_text_styles.dart';
+import 'package:movie_app/core/utils/validators.dart';
+import 'package:movie_app/core/widgets/app_snack_bar.dart';
+import 'package:movie_app/core/widgets/app_text_field.dart';
+import 'package:movie_app/core/widgets/primary_button.dart';
 import '../bloc/login/login_bloc.dart';
 import '../bloc/login/login_event.dart';
 import '../bloc/login/login_state.dart';
@@ -85,10 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
               final isLoading = state is LoginLoading;
 
               return SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 24.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
                 child: Form(
                   key: _formKey,
                   child: Column(

@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/bloc/request_status.dart';
-import '../../../../history/domain/repositories/history_repository.dart';
-import '../../../../movies/domain/entities/movie.dart';
-import '../../../../movies/domain/repositories/movie_repository.dart';
-import '../../../../watchlist/domain/repositories/watchlist_repository.dart';
-import 'movie_details_event.dart';
-import 'movie_details_state.dart';
+import 'package:movie_app/core/bloc/request_status.dart';
+import 'package:movie_app/features/history/domain/repositories/history_repository.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
+import 'package:movie_app/core/movies/domain/repositories/movie_repository.dart';
+import 'package:movie_app/features/watchlist/domain/repositories/watchlist_repository.dart';
+import './movie_details_event.dart';
+import './movie_details_state.dart';
 
 /// Drives the Movie Details screen.
 ///

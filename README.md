@@ -1,485 +1,431 @@
-# Movie App — Flutter Graduation Project
+<div align="center">
 
-Movie browsing app. Data from the [YTS API](https://yts.mx/api); auth, Google sign-in
-and the watchlist from Firebase.
-Design: [Figma — Movies](https://www.figma.com/design/yIeirbhqtxNGkAgThx8HnX/Movies--Copy-?node-id=29-430&m=dev)
+<img src="assets/images/logo.png" width="120" alt="Movie App logo">
 
----
+# Movie App
 
-## 1. Get running (do this first, before you touch any task)
+**Browse, search and save movies — watch them inside the app, your watch list and history follow you across devices, and the catalogue still opens with no connection.**
 
-```bash
-git clone <repo-url>
-cd movie_app
-flutter pub get
-flutter run
-```
+![Flutter](https://img.shields.io/badge/Flutter-3.44-02569B?logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-3.12-0175C2?logo=dart&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-Auth%20·%20Firestore-FFCA28?logo=firebase&logoColor=black)
+![Platforms](https://img.shields.io/badge/Android%20·%20iOS-1f1f1f)
 
-The app builds and runs today — every Sprint 1 screen is a placeholder saying
-`TODO`. Your task is to replace your own placeholder.
-
-> **Firebase is not wired yet.** The lead runs `flutterfire configure`, which
-> generates `lib/firebase_options.dart`, and then uncomments the two lines in
-> `lib/main.dart`. Until that lands the app still runs — only the auth calls
-> fail. Don't run `flutterfire configure` yourself; it would overwrite the
-> shared config.
+</div>
 
 ---
 
-## 2. The rules (these affect our grade — don't deviate)
+## Features
 
-1. **Bloc only.** `flutter_bloc`, full `Bloc` classes with Event → State. Not
-   `Cubit`, not `setState` for screen state, and **not Provider** — you'll see
-   `provider` in `pubspec.lock` because `flutter_bloc` depends on it
-   internally. That is not permission to use it.
-2. **Responsive.** `flutter_screenutil` handles sizing — every number is
-   suffixed `.w` (width), `.h` (height), `.r` (radius) or `.sp` (font). A bare
-   `16` in a widget is a bug: it will look right on your phone and wrong on
-   everyone else's. There is deliberately **no `AppDimens` file** — screenutil
-   is the responsive layer, and a second constants file for spacing just
-   duplicates it.
-3. **Zero hardcoded strings or colours.** Strings live in
-   `core/constants/app_strings.dart`, everything visual lives in
-   `core/theme/`. A literal `Color(0xFF...)` or `'Login'` inside a widget will
-   be sent back in review. Design-system values that define the *look* —
-   `radius`, `controlHeight`, `designSize` — are on `AppTheme`; per-screen
-   spacing is just `24.w` at the call site.
-4. **Dio, not `http`,** for every API call (Sprint 2).
-5. **Never push to `main`.** Ever. See §5.
-6. **Never delete a branch,** even after it's merged.
-7. **No function that returns a widget.** `Widget buildHeader()` is wrong —
-   make it a widget class in a `widgets/` folder.
-8. **One or two classes per file.**
+- **Splash that waits for something real.** It hands over once its animation has finished *and* the first catalogue request has landed, so Home opens already drawn instead of showing a spinner.
+- **Onboarding** — six pages introducing the app, shown once before sign-in.
+- **Authentication** — email and password, Google Sign-In, registration, and password reset, all through Firebase. A restored session skips straight to the app.
+- **Home** — a rating-filtered carousel of what people actually download, plus one row per genre. The backdrop tracks whichever poster is centred.
+- **Search** — searches the catalogue as you type, debounced at 400 ms so a fast typist sends one request rather than one per letter.
+- **Browse** — the full genre list as chips; each one is its own request, so the grid shows the real catalogue for that genre.
+- **Movie details** — poster, likes, runtime, rating, stills, summary, cast with character names, similar titles, and genres.
+- **Watch** — the play control on the artwork opens the movie in an in-app player. It rotates to landscape and hides the system bars so the video runs edge to edge, while the rest of the app stays portrait.
+- **Profile** — display name, phone, and an avatar that is either a photo from the gallery or one of nine bundled illustrations. Edits write straight to Firebase.
+- **Watch list** — save any movie from its details screen and find it again on your profile.
+- **History** — opening a movie records it. The last 100 are kept for three days.
+- **Works offline** — the last response the API actually returned is kept on disk and served when the network is gone, with a badge saying why.
 
----
+> **Download button.** Movie details shows a Download button that opens a quality sheet. It is **UI only** — the qualities are fixed text and choosing one downloads nothing. The sheet says "Coming soon", and it is there so the screen is complete against the design. Watching happens through the player above.
 
-## 3. Project structure
+## Screenshots
+
+### iOS
+
+<table>
+<tr>
+<td width="33%" align="center">
+<img src="readme_screenShoots/3.png" width="230" alt="Home"><br>
+<b>Home</b><br>
+Available Now carousel over a live backdrop.
+</td>
+<td width="33%" align="center">
+<img src="readme_screenShoots/4.png" width="230" alt="Browse"><br>
+<b>Browse</b><br>
+Every genre as a chip, one request each.
+</td>
+<td width="33%" align="center">
+<img src="readme_screenShoots/5.png" width="230" alt="Profile"><br>
+<b>Profile</b><br>
+Watch list and history, counted.
+</td>
+</tr>
+<tr>
+<td align="center">
+<img src="readme_screenShoots/6.png" width="230" alt="Movie details"><br>
+<b>Movie details</b><br>
+Play control, likes, runtime and rating.
+</td>
+<td align="center">
+<img src="readme_screenShoots/7.png" width="230" alt="Stills and similar titles"><br>
+<b>Stills and similar</b><br>
+Screenshots from the film, then what to watch next.
+</td>
+<td align="center">
+<img src="readme_screenShoots/8.png" width="230" alt="Summary, cast and genres"><br>
+<b>Cast and genres</b><br>
+Every actor with the character they play.
+</td>
+</tr>
+<tr>
+<td align="center">
+<img src="readme_screenShoots/10.png" width="230" alt="Movie player"><br>
+<b>Watch</b><br>
+Rotates to landscape, system bars gone.
+</td>
+<td align="center">
+<img src="readme_screenShoots/9.png" width="230" alt="Movie playing full screen"><br>
+<b>Full screen</b><br>
+Edge to edge, still inside the app.
+</td>
+<td align="center">
+</td>
+</tr>
+</table>
+
+### Android
+
+<table>
+<tr>
+<td width="33%" align="center">
+<img src="readme_screenShoots/1.png" width="230" alt="Onboarding"><br>
+<b>Onboarding</b><br>
+Six pages, shown once.
+</td>
+<td width="33%" align="center">
+<img src="readme_screenShoots/2.png" width="230" alt="Login"><br>
+<b>Login</b><br>
+Email and password, or a Google account.
+</td>
+<td width="33%" align="center">
+</td>
+</tr>
+</table>
+
+## Tech stack
+
+| Concern | Choice |
+| --- | --- |
+| Framework | Flutter 3.44 · Dart 3.12 |
+| State management | `flutter_bloc` — ten Blocs, all full Event → State. No Cubits |
+| Dependency injection | `get_it` — Blocs as factories, repositories and data sources as lazy singletons |
+| Networking | `dio` — one client, 10 s timeouts, debug-only logging |
+| Movie data | A YTS-compatible API, reached through a single base-URL constant |
+| Auth and cloud data | `firebase_auth` · `cloud_firestore` · `google_sign_in` |
+| Playback | `webview_flutter` — the provider's embed page, hosted in-app |
+| On-device cache | `path_provider` — the last real API response, written as JSON |
+| Responsive layout | `flutter_screenutil` — one 430 × 932 artboard, scaled per device |
+| Value equality | `equatable` — so Bloc states compare by value and skip identical rebuilds |
+| Splash animation | `animate_do` |
+
+## Architecture
 
 ```
 lib/
-  main.dart                      app entry — DI + (soon) Firebase init
-  app.dart                       MaterialApp + ScreenUtilInit + theme + routes
-  core/                          shared by everything — do not put feature code here
-    constants/  app_strings.dart  app_assets.dart
-    theme/      app_colors.dart  app_text_styles.dart  app_theme.dart
-                ↑ all visual values live here: palette, type scale, ThemeData,
-                  plus designSize / radius / controlHeight
-    di/         injector.dart          get_it registrations
-    routes/     app_router.dart  app_route_names.dart
-    widgets/    primary_button.dart  app_text_field.dart
-                loading_view.dart  error_view.dart  empty_view.dart
-  features/
-    <feature>/
-      data/         datasources/   talks to Firebase / the API
-                    repositories/  implements the domain contract
-      domain/       entities/      plain Dart models
-                    repositories/  abstract contract the UI codes against
-      presentation/ bloc/          <name>_bloc.dart  _event.dart  _state.dart
-                    screens/       <name>_screen.dart
-                    widgets/       pieces used only by this feature
+├── core/
+│   ├── bloc/
+│   │   └── request_status.dart
+│   ├── constants/
+│   │   ├── app_assets.dart
+│   │   ├── app_config.dart
+│   │   ├── app_genres.dart
+│   │   ├── app_strings.dart
+│   │   └── trailer_constants.dart
+│   ├── di/
+│   │   └── injector.dart
+│   ├── movies/
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   ├── movie_local_datasource.dart
+│   │   │   │   └── movie_remote_datasource.dart
+│   │   │   ├── models/
+│   │   │   │   ├── cast_member_model.dart
+│   │   │   │   ├── json_read.dart
+│   │   │   │   ├── movie_details_model.dart
+│   │   │   │   └── movie_model.dart
+│   │   │   └── repositories/
+│   │   │       └── movie_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   ├── cast_member.dart
+│   │   │   │   ├── movie.dart
+│   │   │   │   └── movie_details.dart
+│   │   │   └── repositories/
+│   │   │       └── movie_repository.dart
+│   │   └── reference/
+│   │       ├── list_movies_model.dart
+│   │       └── sample_movies.dart
+│   ├── network/
+│   │   ├── api_client.dart
+│   │   ├── api_endpoints.dart
+│   │   ├── api_exception.dart
+│   │   ├── network_status.dart
+│   │   └── response_cache.dart
+│   ├── routes/
+│   │   ├── app_route_names.dart
+│   │   └── app_router.dart
+│   ├── theme/
+│   │   ├── app_colors.dart
+│   │   ├── app_text_styles.dart
+│   │   └── app_theme.dart
+│   ├── utils/
+│   │   └── validators.dart
+│   └── widgets/
+│       ├── app_snack_bar.dart
+│       ├── app_text_field.dart
+│       ├── destructive_button.dart
+│       ├── empty_view.dart
+│       ├── error_view.dart
+│       ├── genre_chip.dart
+│       ├── loading_view.dart
+│       ├── movie_grid.dart
+│       ├── movie_poster_card.dart
+│       ├── offline_indicator.dart
+│       ├── popcorn_empty_art.dart
+│       ├── popcorn_scene_painter.dart
+│       ├── primary_button.dart
+│       ├── rating_badge.dart
+│       ├── secondary_button.dart
+│       └── user_avatar.dart
+├── features/
+│   ├── auth/
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   └── firebase_auth_datasource.dart
+│   │   │   └── repositories/
+│   │   │       └── auth_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   └── app_user.dart
+│   │   │   └── repositories/
+│   │   │       └── auth_repository.dart
+│   │   └── presentation/
+│   │       ├── bloc/
+│   │       │   ├── forgot_password/
+│   │       │   │   ├── forgot_password_bloc.dart
+│   │       │   │   ├── forgot_password_event.dart
+│   │       │   │   └── forgot_password_state.dart
+│   │       │   ├── login/
+│   │       │   │   ├── login_bloc.dart
+│   │       │   │   ├── login_event.dart
+│   │       │   │   └── login_state.dart
+│   │       │   └── register/
+│   │       │       ├── register_bloc.dart
+│   │       │       ├── register_event.dart
+│   │       │       └── register_state.dart
+│   │       ├── screens/
+│   │       │   ├── forgot_password_screen.dart
+│   │       │   ├── login_screen.dart
+│   │       │   └── register_screen.dart
+│   │       └── widgets/
+│   │           ├── avatar_picker.dart
+│   │           ├── google_sign_in_button.dart
+│   │           ├── or_divider.dart
+│   │           └── password_text_field.dart
+│   ├── history/
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   └── firestore_history_datasource.dart
+│   │   │   └── repositories/
+│   │   │       ├── firestore_history_repository.dart
+│   │   │       └── in_memory_history_repository.dart
+│   │   └── domain/
+│   │       └── repositories/
+│   │           └── history_repository.dart
+│   ├── layout/
+│   │   ├── browse/
+│   │   │   └── presentation/
+│   │   │       ├── bloc/
+│   │   │       │   └── browse/
+│   │   │       │       ├── browse_bloc.dart
+│   │   │       │       ├── browse_event.dart
+│   │   │       │       └── browse_state.dart
+│   │   │       └── screens/
+│   │   │           └── browse_tab.dart
+│   │   ├── home/
+│   │   │   ├── domain/
+│   │   │   │   └── entities/
+│   │   │   │       └── movie_section.dart
+│   │   │   └── presentation/
+│   │   │       ├── bloc/
+│   │   │       │   └── home/
+│   │   │       │       ├── home_bloc.dart
+│   │   │       │       ├── home_event.dart
+│   │   │       │       └── home_state.dart
+│   │   │       ├── screens/
+│   │   │       │   └── home_tab.dart
+│   │   │       └── widgets/
+│   │   │           ├── carousel_backdrop.dart
+│   │   │           ├── genre_section.dart
+│   │   │           └── movie_carousel.dart
+│   │   ├── presentation/
+│   │   │   ├── screens/
+│   │   │   │   └── layout_screen.dart
+│   │   │   └── widgets/
+│   │   │       └── app_bottom_nav_bar.dart
+│   │   ├── profile/
+│   │   │   ├── data/
+│   │   │   │   ├── datasources/
+│   │   │   │   │   ├── avatar_photo_picker.dart
+│   │   │   │   │   └── firestore_user_datasource.dart
+│   │   │   │   └── repositories/
+│   │   │   │       └── user_profile_repository_impl.dart
+│   │   │   ├── domain/
+│   │   │   │   ├── entities/
+│   │   │   │   │   └── user_profile.dart
+│   │   │   │   └── repositories/
+│   │   │   │       └── user_profile_repository.dart
+│   │   │   └── presentation/
+│   │   │       ├── bloc/
+│   │   │       │   ├── profile/
+│   │   │       │   │   ├── profile_bloc.dart
+│   │   │       │   │   ├── profile_event.dart
+│   │   │       │   │   └── profile_state.dart
+│   │   │       │   └── update_profile/
+│   │   │       │       ├── update_profile_bloc.dart
+│   │   │       │       ├── update_profile_event.dart
+│   │   │       │       └── update_profile_state.dart
+│   │   │       ├── screens/
+│   │   │       │   ├── profile_tab.dart
+│   │   │       │   └── update_profile_screen.dart
+│   │   │       └── widgets/
+│   │   │           ├── avatar_picker_sheet.dart
+│   │   │           ├── avatar_source_sheet.dart
+│   │   │           ├── profile_header.dart
+│   │   │           └── profile_tab_bar.dart
+│   │   └── search/
+│   │       └── presentation/
+│   │           ├── bloc/
+│   │           │   └── search/
+│   │           │       ├── search_bloc.dart
+│   │           │       ├── search_event.dart
+│   │           │       └── search_state.dart
+│   │           └── screens/
+│   │               └── search_tab.dart
+│   ├── movie_details/
+│   │   ├── presentation/
+│   │   │   ├── bloc/
+│   │   │   │   └── movie_details/
+│   │   │   │       ├── movie_details_bloc.dart
+│   │   │   │       ├── movie_details_event.dart
+│   │   │   │       └── movie_details_state.dart
+│   │   │   ├── screens/
+│   │   │   │   └── movie_details_screen.dart
+│   │   │   └── widgets/
+│   │   │       ├── cast_row.dart
+│   │   │       ├── details_hero.dart
+│   │   │       ├── download_options_sheet.dart
+│   │   │       ├── download_quality.dart
+│   │   │       ├── genre_tag.dart
+│   │   │       ├── movie_badge_row.dart
+│   │   │       ├── screenshot_strip.dart
+│   │   │       └── section_heading.dart
+│   │   └── trailer/
+│   │       ├── domain/
+│   │       │   ├── movie_trailer_args.dart
+│   │       │   └── movie_trailer_service.dart
+│   │       └── presentation/
+│   │           └── screens/
+│   │               └── movie_trailer_screen.dart
+│   ├── onboarding/
+│   │   ├── data/
+│   │   │   └── onboarding_slides.dart
+│   │   ├── domain/
+│   │   │   └── entities/
+│   │   │       └── onboarding_slide_data.dart
+│   │   └── presentation/
+│   │       ├── screens/
+│   │       │   └── onboarding_screen.dart
+│   │       └── widgets/
+│   │           ├── onboarding_intro_slide.dart
+│   │           ├── onboarding_slide_view.dart
+│   │           └── poster_backdrop.dart
+│   ├── splash/
+│   │   └── presentation/
+│   │       ├── bloc/
+│   │       │   └── splash/
+│   │       │       ├── splash_bloc.dart
+│   │       │       ├── splash_event.dart
+│   │       │       └── splash_state.dart
+│   │       └── screens/
+│   │           └── splash_screen.dart
+│   └── watchlist/
+│       ├── data/
+│       │   ├── datasources/
+│       │   │   └── firestore_watchlist_datasource.dart
+│       │   └── repositories/
+│       │       └── watchlist_repository_impl.dart
+│       └── domain/
+│           └── repositories/
+│               └── watchlist_repository.dart
+├── app.dart
+└── main.dart
 ```
 
-Rule of thumb: **if two features need it, it belongs in `core/`.** If only one
-screen needs it, it stays in that feature's `widgets/`.
-
-### Sprint 1 files, and who owns each one
-
-Everything below already exists. Files marked ✅ are done — read them, use
-them, don't rewrite them. Files marked 🔨 are placeholders waiting for their
-owner.
-
-```
-lib/
-  main.dart                                              ✅ lead
-  app.dart                                               ✅ lead
-  core/**                                                ✅ lead   (all of it)
-  features/
-    splash/presentation/screens/splash_screen.dart       🔨 Splash task
-    onboarding/presentation/
-      screens/onboarding_screen.dart                     🔨 Onboarding task
-      widgets/onboarding_slide.dart                      🔨 Onboarding task
-      widgets/onboarding_page_indicator.dart             🔨 Onboarding task
-    auth/
-      domain/entities/app_user.dart                      ✅ lead
-      domain/repositories/auth_repository.dart           ✅ lead  ⚠️ shared contract
-      data/datasources/firebase_auth_datasource.dart     🔨 shared — 3 owners
-      data/repositories/auth_repository_impl.dart        ✅ lead  ⚠️ shared
-      presentation/
-        bloc/login/*.dart                                🔨 Login task
-        bloc/register/*.dart                             🔨 Register task
-        bloc/forgot_password/*.dart                      🔨 Reset task
-        screens/login_screen.dart                        🔨 Login task
-        screens/register_screen.dart                     🔨 Register task
-        screens/forgot_password_screen.dart              🔨 Reset task
-        widgets/google_sign_in_button.dart               🔨 Login task
-```
-
-**Three files are shared** — more than one branch touches them:
-`firebase_auth_datasource.dart`, `injector.dart`, `app_router.dart`. Each has a
-comment saying so. Add only your own method / registration / `case`, leave
-everyone else's lines alone, and pull from `development` often. See §6.
-
----
-
-## 4. Sprint 1 tasks
-
-Each task is one branch, one PR. Open the file — every placeholder has the
-numbered steps for its own task in a comment at the top.
-
-### Task 1 — Splash (UI only) · branch `dev/splash-<yourname>`
-
-- [ ] Background `AppColors.background`, centred logo (Figma `29:431`)
-- [ ] Bottom gold lockup + `AppStrings.supervisedBy`
-- [ ] Export the images from Figma into `assets/images/`, register the folder in
-      `pubspec.yaml`, reference them via `AppAssets`
-- [ ] After ~3s `pushReplacementNamed` → `AppRouteNames.onboarding`
-- [ ] Cancel the timer in `dispose` (a fast back-press crashes otherwise)
-- [ ] All sizes via `.w` / `.h` / `.sp`
-
-### Task 2 — Onboarding (UI only) · branch `dev/onboarding-<yourname>`
-
-- [ ] `PageView` over the six frames (`30:447`, `38:75`, `38:149`, `38:172`,
-      `38:188`, `39:294`)
-- [ ] **One** `OnboardingSlide` widget fed by a list of data — not six
-      near-identical widgets
-- [ ] `OnboardingPageIndicator` for the dots
-- [ ] Next / Back; last page → `AppRouteNames.login` via
-      `pushReplacementNamed`
-- [ ] Dispose the `PageController`
-
-> **Splash + Onboarding work together.** They're separate folders with no
-> shared files, so build them in parallel — the only overlap is each adding one
-> `case` to `app_router.dart`. Agree between the two of you who pushes first;
-> whoever is second pulls `development` before opening their PR. If you'd
-> rather pair-program them, that's fine too — there's no logic here, so the
-> risk either way is low.
-
-### Task 3 — Login (UI + logic) · branch `dev/login-<yourname>`
-
-- [ ] `signInWithEmail` + `signInWithGoogle` in `firebase_auth_datasource.dart`
-- [ ] Translate the Firebase error code into a readable sentence **inside the
-      data source** — `user-not-found`, `wrong-password`,
-      `account-exists-with-different-credential`. The Bloc must never see a raw
-      code
-- [ ] Google cancel returns `null`, never throws — closing the picker is not an
-      error and must not show a red snackbar
-- [ ] Fill in `LoginBloc`'s two handlers, register it in `injector.dart`
-- [ ] Build the screen (Figma `44:444`) with `AppTextField` + `PrimaryButton`
-- [ ] `Form` + validators; `BlocConsumer` — listener navigates / shows errors,
-      builder feeds `isLoading` into the button
-- [ ] `pushNamedAndRemoveUntil` on success so Back can't return to login
-- [ ] Dispose both controllers
-
-### Task 4 — Register (UI + logic) · branch `dev/register-<yourname>`
-
-- [ ] `createAccount` in `firebase_auth_datasource.dart`
-- [ ] `updateProfile(displayName: name)` right after sign-up, or the name is
-      lost
-- [ ] Translate `weak-password` and `email-already-in-use`
-- [ ] Fill in `RegisterBloc`, register it in `injector.dart`
-- [ ] Build the screen (Figma `44:670`): name, email, password, confirm
-      password, phone, avatar strip
-- [ ] Confirm-password matching is a `Form` validator, **not** Bloc logic
-- [ ] Dispose every controller
-
-### Task 5 — Reset Password (UI + logic) · branch `dev/reset-password-<yourname>`
-
-- [ ] `sendPasswordResetEmail` in `firebase_auth_datasource.dart`
-- [ ] Fill in `ForgotPasswordBloc`, register it in `injector.dart`
-- [ ] Build the screen (Figma `47:936`): back arrow + title, illustration,
-      email field, "Verify Email" button
-- [ ] On success show the confirmation **before** popping — the user has to go
-      read their inbox
-- [ ] Dispose the controller
-
-### Definition of Done (all five tasks)
-
-- [ ] `flutter analyze` → **No issues found** (it is clean right now; any new
-      warning is yours)
-- [ ] `flutter test` passes
-- [ ] Screen matches its Figma node
-- [ ] Bloc covers loading / success / failure — no missing branch
-- [ ] Zero hardcoded strings, colours, dimensions
-- [ ] PR opened against `development`
-
----
-
-## 5. Git — branches, and why you must never push to `main`
-
-```
-main            ← submission-ready. NOBODY pushes here. Ever.
-  ↑ (one reviewed PR, together on a call, every Friday)
-development     ← everything integrates here
-  ↑ (your PR)
-dev/<task>-<yourname>
-```
-
-**Branch naming:** `dev/<task>-<yourname>` — e.g. `dev/login-sara`,
-`dev/splash-khaled`. One branch per task, cut fresh from `development`.
-
-```bash
-git checkout development
-git pull origin development
-git checkout -b dev/login-sara
-```
-
-When you're done:
-
-```bash
-git push -u origin dev/login-sara
-```
-
-Then open a PR into `development` and tell the lead. **The lead does the
-merging** — don't merge your own PR.
-
-**Never delete a branch,** even after it's merged. Not one. This is graded.
-
-### Commit messages
-
-`type(scope): what changed` — `feat(login): add firebase email sign-in`,
-`fix(splash): cancel timer on dispose`.
-
-**If you touch `pubspec.yaml`, say so in the commit body:**
-
-```
-feat(login): add google sign-in
-
-DEPENDENCY: added google_sign_in ^7 — run `flutter pub get` after pulling.
-Android also needs the SHA-1 in Firebase Console; talk to me before you pull.
-```
-
-Same callout for native-only changes (SHA-1, `google-services.json`,
-`Info.plist`) even with no `pubspec.yaml` diff — `flutter pub get` alone won't
-fix a missing native step, and your teammate's build will break with no clue
-why.
-
----
-
-## 6. How we avoid merge conflicts
-
-Conflicts are mostly prevented by *where* you write code, not by fixing them
-afterwards.
-
-1. **Stay in your own folder.** Almost every Sprint 1 file has exactly one
-   owner. If you find yourself editing someone else's screen, stop and ask.
-2. **Three files are shared** — `firebase_auth_datasource.dart`,
-   `injector.dart`, `app_router.dart`. Add only your own method / registration
-   / `case`. Don't reformat, reorder, or "tidy" the rest of the file: that
-   turns a clean 1-line addition into a conflict across the whole file.
-3. **Don't change `auth_repository.dart`.** Three branches implement against it
-   at once. Adding a new method is fine; editing an existing signature breaks
-   two other people. Tell the team first.
-4. **Pull `development` daily**, even mid-task:
-   ```bash
-   git checkout development && git pull origin development
-   git checkout dev/login-sara && git merge development
-   ```
-   A conflict found on day 2 is a two-minute fix. The same conflict found on
-   day 6 is an evening.
-5. **Small PRs, opened early.** One task per PR. A branch that lives a week is
-   how conflicts get big.
-6. **Don't commit generated files** — `.dart_tool/`, `build/`, `.idea/` are
-   already in `.gitignore`. Don't force-add them; they conflict constantly and
-   are pure noise.
-7. **When a conflict does happen, the whole team resolves it together on a
-   call** — nobody resolves someone else's code alone. That's a project rule,
-   not a preference.
-
----
-
-## 7. Working with AI (so five people's code reads as one codebase)
-
-We all use AI assistants. Without a shared brief, five sessions invent five
-architectures. Paste this when you start your task:
-
-> I'm building the `<task name>` task in this Flutter movie app. Read
-> `README.md` first — especially the rules and the project structure. Follow
-> the existing patterns exactly: `flutter_bloc` with full Bloc classes
-> (Event → State), `get_it` for DI, `flutter_screenutil` for every size, and
-> **no hardcoded strings, colours or dimensions** — they go in
-> `core/constants/` and `core/theme/`. Reuse `PrimaryButton`, `AppTextField`,
-> `LoadingView`, `ErrorView` from `core/widgets/` instead of writing new ones.
-> Never write a function that returns a widget — make it a widget class. Match
-> the Figma node in the file's header comment. Only touch the files that belong
-> to my task. Stop when the screen is done so I can review it.
-
-The lead is preparing a fuller AI rules doc; it gets linked here once it
-exists.
-
----
-
-## 8. Sprint 2 preview (don't start these yet)
-
-Home, Movie Details, Search, Browse, Profile, Update Profile — plus the YTS
-API layer through Dio, the Firestore watchlist, and local watch history.
-`dio` is already in `pubspec.yaml` so we don't have to churn dependencies
-mid-sprint.
-
----
-
-## 9. How to develop with this pattern
-
-The architecture is **feature-first + Bloc + repository**. Four layers, and
-data only ever flows in one direction:
-
-```
-   Screen (widgets)              knows: Bloc, core/widgets
-      │  adds an Event                  never: Firebase, Dio, http
-      ▼
-   Bloc                          knows: the abstract repository
-      │  emits a State                  never: Flutter widgets, Firebase
-      ▼
-   Repository (abstract)         the contract — pure Dart, no packages
-      │
-      ▼
-   RepositoryImpl → DataSource   knows: Firebase / Dio / SharedPreferences
-                                       the only layer allowed to
-```
-
-**The test:** open any file in `presentation/` and search for `firebase` or
-`dio`. If you find one, the layering is broken. The screen asks the Bloc; the
-Bloc asks the contract; only `data/` knows what's behind it.
-
-**Why bother, on a 3-week student project?** Because five people work in
-parallel. Once `AuthRepository` is agreed, the person building the Login
-*screen* and the person building the Firebase *call* can work at the same time
-without waiting for each other — they meet at the contract. It's also why your
-Bloc is testable without a network.
-
-### Adding a feature, step by step
-
-Say you're adding "Search" in Sprint 2:
-
-1. **Entity first** — `features/search/domain/entities/`. Plain Dart, no
-   packages. What does a search result *look* like?
-2. **Contract** — `domain/repositories/search_repository.dart`, an `abstract
-   class` with the methods the UI needs. Nothing about Dio here.
-3. **Implementation** — `data/datasources/` does the actual HTTP call,
-   `data/repositories/` implements the contract using it. Errors get
-   translated into readable sentences *here*, so no layer above ever sees a
-   status code.
-4. **Bloc** — `presentation/bloc/search/` with the three files:
-   `_event.dart` (what the user did), `_state.dart` (what the screen shows),
-   `_bloc.dart` (maps one to the other). Cover **loading, success, failure and
-   empty** — "no results" is not an error and must look different.
-5. **Register** in `core/di/injector.dart`: repository as
-   `registerLazySingleton`, Bloc as `registerFactory`.
-6. **Screen** — `presentation/screens/`, wrapped in a `BlocProvider`, built
-   with `BlocBuilder` / `BlocConsumer`. Reuse `core/widgets/`.
-7. **Route** — add one `case` to `app_router.dart`.
-
-### Rules that keep it readable
-
-- **Never write a function that returns a widget.** `Widget _buildCard()` is
-  wrong — make it a class in `widgets/`. Flutter can't skip rebuilding a
-  method, so this is a performance rule as much as a style one.
-- **One or two classes per file.** A third means a new file.
-- **A widget takes data and callbacks — never a Bloc or a repository.** That's
-  what makes it reusable and previewable.
-- **`context.read<T>()` inside callbacks, `context.watch<T>()` / `BlocBuilder`
-  to rebuild.** Using `watch` in an `onPressed` is a common cause of "why does
-  this rebuild forever".
-- **Dispose every controller** you create (`TextEditingController`,
-  `PageController`, `AnimationController`).
-- **Comments explain _why_, not _what_.** Delete any comment that restates the
-  code.
-
----
-
-## 10. Tooling — running this whole project on free plans
-
-You do not need to pay for anything. Roughly 20 minutes of setup.
-
-### 10.1 Figma — free Professional via the Education plan
-
-The design file needs **Dev Mode** to read real colours, spacing and fonts out
-of Figma instead of eyeballing a screenshot. Dev Mode is a paid feature — but
-Figma's Education plan gives verified students the full Professional feature
-set for free, valid ~2 years for higher education.
-
-1. Go to Figma's education page and apply with your student proof (university
-   email, enrollment letter, or student ID).
-2. Once verified, **you must upgrade a team to Education** — verification alone
-   does nothing. Open your team → Upgrade → pick the free Education plan. This
-   is the step people miss when they say "I'm verified but Dev Mode is still
-   locked".
-3. Make sure your seat in that team is **Dev or Full**, not View. Seat type is
-   what gates MCP access (a View seat gets ~6 calls a *month*).
-
-### 10.2 Connect Figma to your editor via MCP
-
-MCP (Model Context Protocol) lets the AI read the actual Figma file — exact
-hex values, spacing, node structure — rather than guessing from an image. This
-is how the theme in this repo was built.
-
-**Remote server (recommended, works anywhere):**
-
-```
-https://mcp.figma.com/mcp
-```
-
-**Local server (Figma desktop app, reads your current selection):**
-Figma desktop → menu → Preferences → **Enable Dev Mode MCP Server**. It serves
-on `127.0.0.1:3845`.
-
-Rate limits on a Dev/Full seat are roughly **200 calls/day, 10–15/minute** —
-generous, but not unlimited, which is why §10.4 matters.
-
-### 10.3 Google Antigravity — free AI coding
-
-Antigravity is Google's agentic IDE (a VS Code fork). The Individual plan is
-**$0** and includes frontier models with weekly quotas — enough for a student
-project if you don't waste calls.
-
-Add the Figma MCP server one of two ways:
-
-- **MCP Store** — open the agent side panel → dropdown at the top → *MCP
-  Servers* → browse and install; or
-- **Raw config** — same menu → *Manage MCP Servers* → *View raw config*, which
-  opens `~/.gemini/config/mcp_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "figma": {
-      "serverUrl": "https://mcp.figma.com/mcp"
-    }
-  }
-}
-```
-
-Restart the editor, then confirm the Figma tools show up in the agent panel
-before you start a task.
-
-> Free-tier quotas and prices for these tools change often — check the current
-> terms rather than trusting this file. Keep secrets out of `mcp_config.json`:
-> reference them as `${VAR_NAME}` environment variables.
-
-### 10.4 Making free-tier tokens last
-
-Free quotas run out mid-task if you're careless. What actually helps:
-
-1. **Don't paste whole files.** Give the path and the function name; the agent
-   can open what it needs.
-2. **Ask for a small Figma node, not a whole screen.** Pull the button
-   (`44:619`), not the entire Login frame — one frame can cost several calls
-   and flood the context with data you won't use.
-3. **Never re-fetch the same node twice.** If a colour is already in
-   `AppColors`, use it. The palette is done — nobody needs to hit Figma again
-   for `#F6BD00`.
-4. **One task per conversation.** Start a fresh chat for a new task instead of
-   dragging a long history along; every message re-sends everything above it,
-   so a long thread gets expensive fast.
-5. **Read the file header first.** Every placeholder here already lists its
-   steps and Figma node — that's context you get for free, without spending a
-   call to rediscover it.
-6. **Prefer `flutter analyze` over asking the AI to find your bug.** It's
-   instant, free, and usually right.
-7. **Use the cheaper/faster model for boilerplate** and save the strong one
-   for the parts you're genuinely stuck on.
-
-**Sources:** [Figma pricing FAQ](https://www.figma.com/pricing-faq/) ·
-[Figma MCP guide](https://help.figma.com/hc/en-us/articles/32132100833559-Guide-to-the-Figma-MCP-server) ·
-[MCP rate limits & access](https://developers.figma.com/docs/figma-mcp-server/rate-limits-access/) ·
-[Antigravity MCP docs](https://antigravity.google/docs/ide/mcp/) ·
-[Antigravity plans](https://antigravity.google/blog/changes-to-antigravity-plans)
+- **Feature-first, with a layered inside.** Each feature owns `data/`, `domain/` and `presentation/` where it needs them. Dependencies point inward: a Bloc talks to a repository interface, never to Firestore or Dio.
+- **The catalogue lives in `core/`, not in a feature.** `Movie` is used by seven features and `MovieRepository` by five, so distributing it would mean maintaining several copies of the same model. Keeping it in `core/` also means the shared poster widgets depend on `core`, rather than `core` reaching into a feature.
+- **Repositories own the fallback, Blocs never see it.** A Bloc asks for movies and gets movies. Whether they came from memory, from disk, from the bundled snapshot, or not at all is decided below it.
+- **No literals in widgets.** Every string, colour, dimension and asset path comes from `core/constants/` or `core/theme/`.
+- **Errors arrive as sentences.** Data sources translate Firebase codes and Dio failures into text that can go straight on screen, so no Bloc ever handles an error code.
+
+Offline behaviour is four layers, most specific first: an in-process memory cache, then the last real response on disk, then a bundled snapshot of three captured responses, and only then an error. A connection failure falls back; a 404 does not — showing yesterday's catalogue because the server said "not found" would be a lie.
+
+## Packages
+
+| Package | Purpose |
+| --- | --- |
+| `flutter_bloc` | State management — one Bloc per screen, Event in, State out |
+| `equatable` | Value equality for states and events |
+| `get_it` | Service locator wiring Blocs to repositories |
+| `dio` | HTTP client for the movie API |
+| `firebase_core` | Firebase initialisation |
+| `firebase_auth` | Email/password auth, registration, password reset, session restore |
+| `google_sign_in` | Google account sign-in, exchanged for a Firebase credential |
+| `cloud_firestore` | Profile document, watch list and history |
+| `webview_flutter` | Hosts the player's embed page in the app |
+| `webview_flutter_android`, `webview_flutter_wkwebview` | Platform implementations, imported directly to enable inline media playback |
+| `path_provider` | Locates the directory the response cache writes to |
+| `image_picker` | Picking a profile photo from the gallery |
+| `flutter_screenutil` | Scales the 430 × 932 design to the device |
+| `animate_do` | Splash animation |
+| `flutter_launcher_icons`, `flutter_native_splash` | Generate launcher icons and native splash screens |
+
+## Firebase
+
+Three services, and no others — there is no Storage, Messaging, Analytics or Crashlytics in this project.
+
+- **Authentication** — email and password, registration with a display name, password reset, and Google Sign-In. The session is restored from disk on a cold start, so a signed-in user goes straight to the app.
+- **Firestore — profile.** One document per user holding the display name, phone number and avatar.
+- **Firestore — watch list and history.** The watch list is a subcollection keyed by movie id. History is a single capped document holding the last 100 entries, pruned on write and filtered to three days on read, so it cannot grow without bound.
+
+**Profile photos are stored as base64 inside the user's Firestore document, not in Cloud Storage.** Uploads are downscaled to 300 px at 70% quality and capped at 700 KiB. Cloud Storage would have required the paid Blaze plan, which this project does not use.
+
+## Try it
+
+The app ships as an installable Android build — no toolchain, no Firebase project, nothing to configure.
+
+**[⬇️ Download the APK](ADD_YOUR_GOOGLE_DRIVE_LINK_HERE)**
+
+Android only. You will need to allow installation from unknown sources, since it is not distributed through Play.
+
+> iOS cannot be installed this way — Apple requires builds to be signed for each device or distributed through TestFlight. The iOS screenshots above are from the app running on an iPhone simulator.
+
+## Project status
+
+Built as a Flutter graduation project. It talks to a live movie API, stores profiles, watch lists and history in Firebase, and covers its own behaviour with **143 tests across 21 files** — Blocs tested without a widget tree, screens tested against fake repositories rather than a network, and every async screen covered in its loading, error and empty states rather than only its success state.
+
+Configuration is kept out of the repository: Firebase credentials, the Google OAuth client id and the playback provider are all git-ignored, with `.example` templates in their place.
+
+## Future improvements
+
+Ideas, not existing functionality:
+
+- A real download layer behind the Download button.
+- Pagination on Browse and Search — both currently load one page of twenty.
+- Tablet and landscape layouts for the rest of the app; only the player rotates today.
+- Arabic localisation and right-to-left support.
+- Unit tests for the four Blocs that only have widget coverage today.

@@ -12,12 +12,12 @@ import 'package:movie_app/features/movie_details/presentation/bloc/movie_details
 import 'package:movie_app/features/movie_details/presentation/screens/movie_details_screen.dart';
 import 'package:movie_app/features/movie_details/presentation/widgets/cast_row.dart';
 import 'package:movie_app/features/movie_details/presentation/widgets/genre_tag.dart';
-import 'package:movie_app/features/movies/domain/entities/cast_member.dart';
-import 'package:movie_app/features/movies/domain/entities/movie.dart';
-import 'package:movie_app/features/trailer/domain/movie_trailer_args.dart';
-import 'package:movie_app/features/movies/domain/entities/movie_details.dart';
+import 'package:movie_app/core/movies/domain/entities/cast_member.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
+import 'package:movie_app/features/movie_details/trailer/domain/movie_trailer_args.dart';
+import 'package:movie_app/core/movies/domain/entities/movie_details.dart';
 import 'package:movie_app/features/history/domain/repositories/history_repository.dart';
-import 'package:movie_app/features/movies/domain/repositories/movie_repository.dart';
+import 'package:movie_app/core/movies/domain/repositories/movie_repository.dart';
 import 'package:movie_app/features/watchlist/domain/repositories/watchlist_repository.dart';
 
 import '../../helpers/fake_history_repository.dart';
@@ -214,20 +214,21 @@ void main() {
       expect(find.byIcon(Icons.shield_outlined), findsNothing);
     });
 
-    testWidgets('a record with no likes drops that badge rather than showing 0', (
-      tester,
-    ) async {
-      await pumpDetails(
-        tester,
-        subject: movie,
-        repository: FakeMovieRepository(
-          details: const MovieDetails(movie: movie, runtimeMinutes: 118),
-        ),
-      );
+    testWidgets(
+      'a record with no likes drops that badge rather than showing 0',
+      (tester) async {
+        await pumpDetails(
+          tester,
+          subject: movie,
+          repository: FakeMovieRepository(
+            details: const MovieDetails(movie: movie, runtimeMinutes: 118),
+          ),
+        );
 
-      expect(find.byIcon(Icons.favorite), findsNothing);
-      expect(find.byIcon(Icons.access_time), findsOneWidget);
-    });
+        expect(find.byIcon(Icons.favorite), findsNothing);
+        expect(find.byIcon(Icons.access_time), findsOneWidget);
+      },
+    );
 
     testWidgets('shows Screen Shots as the first section', (tester) async {
       // Regression guard: an earlier version hid this section whenever a
