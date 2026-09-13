@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../features/movies/domain/entities/movie.dart';
+import '../movies/domain/entities/movie.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../theme/app_theme.dart';
-import 'rating_badge.dart';
+import './rating_badge.dart';
 
 /// A movie poster with its score pill — the tile Home, Search, Browse and
 /// Profile all reuse. Figma node 47:1543.

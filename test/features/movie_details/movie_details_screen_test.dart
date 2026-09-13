@@ -12,11 +12,12 @@ import 'package:movie_app/features/movie_details/presentation/bloc/movie_details
 import 'package:movie_app/features/movie_details/presentation/screens/movie_details_screen.dart';
 import 'package:movie_app/features/movie_details/presentation/widgets/cast_row.dart';
 import 'package:movie_app/features/movie_details/presentation/widgets/genre_tag.dart';
-import 'package:movie_app/features/movies/domain/entities/cast_member.dart';
-import 'package:movie_app/features/movies/domain/entities/movie.dart';
-import 'package:movie_app/features/movies/domain/entities/movie_details.dart';
+import 'package:movie_app/core/movies/domain/entities/cast_member.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
+import 'package:movie_app/features/movie_details/trailer/domain/movie_trailer_args.dart';
+import 'package:movie_app/core/movies/domain/entities/movie_details.dart';
 import 'package:movie_app/features/history/domain/repositories/history_repository.dart';
-import 'package:movie_app/features/movies/domain/repositories/movie_repository.dart';
+import 'package:movie_app/core/movies/domain/repositories/movie_repository.dart';
 import 'package:movie_app/features/watchlist/domain/repositories/watchlist_repository.dart';
 
 import '../../helpers/fake_history_repository.dart';
@@ -87,6 +88,7 @@ void main() {
         getIt<HistoryRepository>(),
       ),
     );
+
     addTearDown(getIt.reset);
   }
 
@@ -96,6 +98,7 @@ void main() {
     required FakeMovieRepository repository,
     FakeWatchlistRepository? watchlist,
     FakeHistoryRepository? history,
+    RouteFactory? onGenerateRoute,
   }) async {
     tester.view.physicalSize = const Size(430, 932) * 3;
     tester.view.devicePixelRatio = 3;
@@ -108,7 +111,7 @@ void main() {
         designSize: AppTheme.designSize,
         child: MaterialApp(
           theme: AppTheme.dark,
-          onGenerateRoute: AppRouter.onGenerateRoute,
+          onGenerateRoute: onGenerateRoute ?? AppRouter.onGenerateRoute,
           home: MovieDetailsScreen(movie: subject),
         ),
       ),
@@ -139,7 +142,7 @@ void main() {
   }
 
   group('MovieDetailsScreen', () {
-    testWidgets('opens on the title, year and Watch button', (tester) async {
+    testWidgets('opens on the title, year and Download button', (tester) async {
       await pumpDetails(
         tester,
         subject: movie,
@@ -153,7 +156,7 @@ void main() {
       expect(find.text(movie.title), findsNWidgets(2));
       expect(find.text('2019'), findsOneWidget);
       // The hero is sized so this is reachable without scrolling.
-      expect(find.text(AppStrings.watch), findsOneWidget);
+      expect(find.text(AppStrings.download), findsOneWidget);
     });
 
     testWidgets('asks the repository for the movie that was tapped', (
@@ -184,7 +187,7 @@ void main() {
       expect(find.byType(LoadingView), findsWidgets);
       expect(find.text(movie.title), findsNWidgets(2));
       // Nothing below the fold has been built yet.
-      expect(find.text(AppStrings.watch), findsNothing);
+      expect(find.text(AppStrings.download), findsNothing);
 
       // Let the delayed call land so the timer does not outlive the test.
       await tester.pump(const Duration(milliseconds: 300));
@@ -211,20 +214,21 @@ void main() {
       expect(find.byIcon(Icons.shield_outlined), findsNothing);
     });
 
-    testWidgets('a record with no likes drops that badge rather than showing 0', (
-      tester,
-    ) async {
-      await pumpDetails(
-        tester,
-        subject: movie,
-        repository: FakeMovieRepository(
-          details: const MovieDetails(movie: movie, runtimeMinutes: 118),
-        ),
-      );
+    testWidgets(
+      'a record with no likes drops that badge rather than showing 0',
+      (tester) async {
+        await pumpDetails(
+          tester,
+          subject: movie,
+          repository: FakeMovieRepository(
+            details: const MovieDetails(movie: movie, runtimeMinutes: 118),
+          ),
+        );
 
-      expect(find.byIcon(Icons.favorite), findsNothing);
-      expect(find.byIcon(Icons.access_time), findsOneWidget);
-    });
+        expect(find.byIcon(Icons.favorite), findsNothing);
+        expect(find.byIcon(Icons.access_time), findsOneWidget);
+      },
+    );
 
     testWidgets('shows Screen Shots as the first section', (tester) async {
       // Regression guard: an earlier version hid this section whenever a
@@ -369,7 +373,7 @@ void main() {
         history: history,
       );
 
-      expect(find.text(AppStrings.watch), findsOneWidget);
+      expect(find.text(AppStrings.download), findsOneWidget);
       expect(find.byType(ErrorView), findsNothing);
       // And it stays quiet about it: recording a view is not something the
       // user asked for, so a snack bar over a movie that loaded fine is noise.
@@ -377,8 +381,8 @@ void main() {
     });
 
     testWidgets('opening a movie records it in history', (tester) async {
-      // Opening the screen is what counts as watching — the Watch button does
-      // not play anything yet.
+      // Opening the screen is what counts as watching — opening a trailer is
+      // not the same act as watching the film.
       final history = FakeHistoryRepository();
       await pumpDetails(
         tester,
@@ -388,6 +392,105 @@ void main() {
       );
 
       expect(history.viewed.map((m) => m.id), [movie.id]);
+    });
+
+    testWidgets('the play control opens the trailer for this movie', (
+      tester,
+    ) async {
+      // The trailer route is intercepted rather than followed: the real screen
+      // builds a WebView, which is a platform view and cannot be created in a
+      // widget test. What matters here is that the screen asks for the right
+      // route with the right arguments.
+      RouteSettings? pushed;
+
+      await pumpDetails(
+        tester,
+        subject: movie,
+        repository: FakeMovieRepository(details: loaded),
+        onGenerateRoute: (settings) {
+          if (settings.name == AppRouteNames.movieTrailer) {
+            pushed = settings;
+            return MaterialPageRoute<void>(
+              builder: (_) => const SizedBox.shrink(),
+            );
+          }
+          return AppRouter.onGenerateRoute(settings);
+        },
+      );
+
+      await tester.tap(find.byIcon(Icons.play_arrow_rounded));
+      await tester.pump();
+      await tester.pump();
+
+      expect(pushed, isNotNull);
+      final args = pushed!.arguments;
+      expect(args, isA<MovieTrailerArgs>());
+      // Carried from the record under test, never a fixed id.
+      expect((args as MovieTrailerArgs).imdbId, movie.imdbCode);
+      expect(args.imdbId, 'tt0000001');
+      expect(args.title, movie.title);
+    });
+
+    testWidgets('the play control works before the details call lands', (
+      tester,
+    ) async {
+      // The reason the id comes from `imdb_code` rather than `yt_trailer_code`:
+      // the list payload already carries it, so the one control the screen
+      // exists for is live immediately. Here the details call fails outright
+      // and the button still opens the right trailer.
+      RouteSettings? pushed;
+
+      await pumpDetails(
+        tester,
+        subject: movie,
+        repository: FakeMovieRepository(detailsError: 'offline'),
+        onGenerateRoute: (settings) {
+          if (settings.name == AppRouteNames.movieTrailer) {
+            pushed = settings;
+            return MaterialPageRoute<void>(
+              builder: (_) => const SizedBox.shrink(),
+            );
+          }
+          return AppRouter.onGenerateRoute(settings);
+        },
+      );
+
+      await tester.tap(find.byIcon(Icons.play_arrow_rounded));
+      await tester.pump();
+      await tester.pump();
+
+      expect(pushed, isNotNull);
+      expect((pushed!.arguments as MovieTrailerArgs).imdbId, movie.imdbCode);
+    });
+
+    testWidgets('a movie with no trailer says so instead of opening one', (
+      tester,
+    ) async {
+      // `bare` has no imdbCode — the common case on YTS, where the field comes
+      // back empty as often as it is missing.
+      RouteSettings? pushed;
+
+      await pumpDetails(
+        tester,
+        subject: bare.movie,
+        repository: FakeMovieRepository(details: bare),
+        onGenerateRoute: (settings) {
+          if (settings.name == AppRouteNames.movieTrailer) {
+            pushed = settings;
+            return MaterialPageRoute<void>(
+              builder: (_) => const SizedBox.shrink(),
+            );
+          }
+          return AppRouter.onGenerateRoute(settings);
+        },
+      );
+
+      await tester.tap(find.byIcon(Icons.play_arrow_rounded));
+      await tester.pump();
+
+      expect(find.text(AppStrings.trailerUnavailable), findsOneWidget);
+      // And it did not open an empty player to say it there.
+      expect(pushed, isNull);
     });
 
     testWidgets('the back control survives scrolling', (tester) async {
@@ -437,7 +540,7 @@ void main() {
       );
 
       expect(find.byType(ErrorView), findsNothing);
-      expect(find.text(AppStrings.watch), findsOneWidget);
+      expect(find.text(AppStrings.download), findsOneWidget);
       expect(find.text(AppStrings.similar), findsNothing);
     });
 
@@ -457,6 +560,19 @@ void main() {
   });
 
   group('AppRouter', () {
+    test('movieTrailer without proper args falls back, not crashes', () {
+      // A bare String would satisfy a loose check and then blow up in the
+      // screen; the route takes a typed argument so the guard means something.
+      final route = AppRouter.onGenerateRoute(
+        const RouteSettings(
+          name: AppRouteNames.movieTrailer,
+          arguments: 'Y41fFj-P4jI',
+        ),
+      );
+
+      expect(route, isA<MaterialPageRoute<dynamic>>());
+    });
+
     test('movieDetails without a Movie argument falls back, not crashes', () {
       // A caller passing the wrong type should land on the unknown-route
       // screen rather than throwing on a cast.

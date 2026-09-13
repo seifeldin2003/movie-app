@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/widgets/movie_poster_card.dart';
-import '../../../movies/domain/entities/movie.dart';
+import 'package:movie_app/core/constants/app_strings.dart';
+import 'package:movie_app/core/theme/app_colors.dart';
+import 'package:movie_app/core/theme/app_text_styles.dart';
+import 'package:movie_app/core/widgets/movie_poster_card.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
 
 /// The artwork behind the collapsing app bar on Movie Details.
 /// Figma node 55:208.
@@ -104,24 +105,30 @@ class _PlayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 64.w,
-        height: 64.w,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: AppColors.ratingBadge,
-          shape: BoxShape.circle,
-          border: Border.all(color: AppColors.white, width: 2.w),
-        ),
-        child: Padding(
-          // The glyph is optically left-heavy; nudging it right centres it.
-          padding: EdgeInsets.only(left: 3.w),
-          child: Icon(
-            Icons.play_arrow_rounded,
-            color: AppColors.white,
-            size: 34.sp,
+    return Semantics(
+      // A bare GestureDetector around an icon announces nothing, so the one
+      // control the screen exists for was invisible to a screen reader.
+      button: true,
+      label: AppStrings.watchTrailer,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: 64.w,
+          height: 64.w,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: AppColors.ratingBadge,
+            shape: BoxShape.circle,
+            border: Border.all(color: AppColors.white, width: 2.w),
+          ),
+          child: Padding(
+            // The glyph is optically left-heavy; nudging it right centres it.
+            padding: EdgeInsets.only(left: 3.w),
+            child: Icon(
+              Icons.play_arrow_rounded,
+              color: AppColors.white,
+              size: 34.sp,
+            ),
           ),
         ),
       ),
@@ -131,11 +138,7 @@ class _PlayButton extends StatelessWidget {
 
 /// A control over the artwork, darkened so it stays visible on a light poster.
 class HeroIconButton extends StatelessWidget {
-  const HeroIconButton({
-    super.key,
-    required this.icon,
-    required this.onTap,
-  });
+  const HeroIconButton({super.key, required this.icon, required this.onTap});
 
   final IconData icon;
   final VoidCallback onTap;

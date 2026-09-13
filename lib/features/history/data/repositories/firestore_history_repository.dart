@@ -1,5 +1,5 @@
-import '../../../auth/domain/repositories/auth_repository.dart';
-import '../../../movies/domain/entities/movie.dart';
+import 'package:movie_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
 import '../../domain/repositories/history_repository.dart';
 import '../datasources/firestore_history_datasource.dart';
 

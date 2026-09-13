@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../../../movies/domain/entities/movie.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
 import '../../domain/repositories/history_repository.dart';
 
 /// History for the current session only.

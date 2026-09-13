@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/repositories/auth_repository.dart';
-import 'forgot_password_event.dart';
-import 'forgot_password_state.dart';
+import './forgot_password_event.dart';
+import './forgot_password_state.dart';
 
 /// Drives the Forgot Password screen.
 ///

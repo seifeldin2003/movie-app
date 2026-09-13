@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/routes/app_route_names.dart';
+import 'package:movie_app/core/routes/app_route_names.dart';
 import '../../data/onboarding_slides.dart';
 import '../widgets/onboarding_intro_slide.dart';
 import '../widgets/onboarding_slide_view.dart';

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:movie_app/features/movies/domain/entities/movie.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
 import 'package:movie_app/features/watchlist/domain/repositories/watchlist_repository.dart';
 
 /// An in-memory watch list, so nothing touches Firestore.

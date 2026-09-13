@@ -1,4 +1,4 @@
-import '../../../movies/domain/entities/movie.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
 
 /// The saved-movies contract.
 ///

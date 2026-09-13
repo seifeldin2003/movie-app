@@ -141,6 +141,12 @@ class AppStrings {
       'Email sign-in is not enabled for this project.';
   static const String networkError =
       'No internet connection. Check your network and try again.';
+  static const String connectionTimedOut =
+      'The connection timed out. Check your internet and try again.';
+
+  /// Shown beside the offline icon, and read by screen readers — the icon is
+  /// the whole message otherwise.
+  static const String offline = 'No internet connection';
   static const String wrongEmailOrPassword =
       'Incorrect email or password. Please try again.';
   static const String accountDisabled = 'This account has been disabled.';
@@ -162,6 +168,18 @@ class AppStrings {
       'This permanently removes your account and cannot be undone.';
   static const String cancel = 'Cancel';
   static const String delete = 'Delete';
+
+  // Downloads — presentation only, no download layer behind them yet.
+  static const String download = 'Download';
+  static const String downloadOptions = 'Choose a quality';
+  static const String downloadComingSoon = 'Coming soon';
+
+  // Trailer
+  static const String watchTrailer = 'Watch Trailer';
+  static const String trailerUnavailable =
+      'Trailer unavailable for this movie.';
+  static const String trailerFailed =
+      'The trailer could not be loaded. Check your connection and try again.';
 
   // Validation + generic errors
   static const String fieldRequired = 'This field is required';

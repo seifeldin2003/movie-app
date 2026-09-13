@@ -1,33 +1,35 @@
 import 'package:get_it/get_it.dart';
 
 import '../network/api_client.dart';
+import '../network/network_status.dart';
 
-import '../../features/auth/data/datasources/firebase_auth_datasource.dart';
-import '../../features/auth/data/repositories/auth_repository_impl.dart';
-import '../../features/auth/domain/repositories/auth_repository.dart';
-import '../../features/auth/presentation/bloc/forgot_password/forgot_password_bloc.dart';
-import '../../features/auth/presentation/bloc/login/login_bloc.dart';
-import '../../features/auth/presentation/bloc/register/register_bloc.dart';
-import '../../features/profile/data/datasources/avatar_photo_picker.dart';
-import '../../features/profile/data/datasources/firestore_user_datasource.dart';
-import '../../features/profile/data/repositories/user_profile_repository_impl.dart';
-import '../../features/profile/domain/repositories/user_profile_repository.dart';
-import '../../features/browse/presentation/bloc/browse/browse_bloc.dart';
-import '../../features/history/data/datasources/firestore_history_datasource.dart';
-import '../../features/history/data/repositories/firestore_history_repository.dart';
-import '../../features/history/domain/repositories/history_repository.dart';
-import '../../features/home/presentation/bloc/home/home_bloc.dart';
-import '../../features/movie_details/presentation/bloc/movie_details/movie_details_bloc.dart';
-import '../../features/movies/data/datasources/movie_local_datasource.dart';
-import '../../features/movies/data/datasources/movie_remote_datasource.dart';
-import '../../features/movies/data/repositories/movie_repository_impl.dart';
-import '../../features/movies/domain/repositories/movie_repository.dart';
-import '../../features/profile/presentation/bloc/profile/profile_bloc.dart';
-import '../../features/profile/presentation/bloc/update_profile/update_profile_bloc.dart';
-import '../../features/search/presentation/bloc/search/search_bloc.dart';
-import '../../features/watchlist/data/datasources/firestore_watchlist_datasource.dart';
-import '../../features/watchlist/data/repositories/watchlist_repository_impl.dart';
-import '../../features/watchlist/domain/repositories/watchlist_repository.dart';
+import 'package:movie_app/features/auth/data/datasources/firebase_auth_datasource.dart';
+import 'package:movie_app/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:movie_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:movie_app/features/auth/presentation/bloc/forgot_password/forgot_password_bloc.dart';
+import 'package:movie_app/features/auth/presentation/bloc/login/login_bloc.dart';
+import 'package:movie_app/features/auth/presentation/bloc/register/register_bloc.dart';
+import 'package:movie_app/features/layout/profile/data/datasources/avatar_photo_picker.dart';
+import 'package:movie_app/features/layout/profile/data/datasources/firestore_user_datasource.dart';
+import 'package:movie_app/features/layout/profile/data/repositories/user_profile_repository_impl.dart';
+import 'package:movie_app/features/layout/profile/domain/repositories/user_profile_repository.dart';
+import 'package:movie_app/features/layout/browse/presentation/bloc/browse/browse_bloc.dart';
+import 'package:movie_app/features/history/data/datasources/firestore_history_datasource.dart';
+import 'package:movie_app/features/history/data/repositories/firestore_history_repository.dart';
+import 'package:movie_app/features/history/domain/repositories/history_repository.dart';
+import 'package:movie_app/features/layout/home/presentation/bloc/home/home_bloc.dart';
+import 'package:movie_app/features/movie_details/presentation/bloc/movie_details/movie_details_bloc.dart';
+import '../movies/data/datasources/movie_local_datasource.dart';
+import '../movies/data/datasources/movie_remote_datasource.dart';
+import '../movies/data/repositories/movie_repository_impl.dart';
+import '../movies/domain/repositories/movie_repository.dart';
+import 'package:movie_app/features/layout/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:movie_app/features/layout/profile/presentation/bloc/update_profile/update_profile_bloc.dart';
+import 'package:movie_app/features/layout/search/presentation/bloc/search/search_bloc.dart';
+import 'package:movie_app/features/watchlist/data/datasources/firestore_watchlist_datasource.dart';
+import 'package:movie_app/features/watchlist/data/repositories/watchlist_repository_impl.dart';
+import 'package:movie_app/features/watchlist/domain/repositories/watchlist_repository.dart';
+import 'package:movie_app/features/splash/presentation/bloc/splash/splash_bloc.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -39,7 +41,14 @@ final GetIt getIt = GetIt.instance;
 Future<void> setupInjector() async {
   // Network — one Dio for the whole app. Nothing above the data layer
   // imports Dio; data sources take this instead.
-  getIt.registerLazySingleton<ApiClient>(() => ApiClient());
+  //
+  // One `NetworkStatus` shared by the client that sets it and the indicator
+  // that reads it, so it has to be a singleton — a second instance would
+  // simply never change.
+  getIt.registerLazySingleton<NetworkStatus>(() => NetworkStatus());
+  getIt.registerLazySingleton<ApiClient>(
+    () => ApiClient(status: getIt<NetworkStatus>()),
+  );
 
   // Data sources
   getIt.registerLazySingleton<FirebaseAuthDataSource>(
@@ -111,12 +120,11 @@ Future<void> setupInjector() async {
     ),
   );
   getIt.registerFactory<HomeBloc>(() => HomeBloc(getIt<MovieRepository>()));
-  getIt.registerFactory<SearchBloc>(
-    () => SearchBloc(getIt<MovieRepository>()),
+  getIt.registerFactory<SplashBloc>(
+    () => SplashBloc(getIt<MovieRepository>(), getIt<AuthRepository>()),
   );
-  getIt.registerFactory<BrowseBloc>(
-    () => BrowseBloc(getIt<MovieRepository>()),
-  );
+  getIt.registerFactory<SearchBloc>(() => SearchBloc(getIt<MovieRepository>()));
+  getIt.registerFactory<BrowseBloc>(() => BrowseBloc(getIt<MovieRepository>()));
   getIt.registerFactory<ProfileBloc>(
     () => ProfileBloc(
       getIt<AuthRepository>(),

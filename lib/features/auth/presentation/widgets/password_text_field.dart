@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/widgets/app_text_field.dart';
+import 'package:movie_app/core/theme/app_colors.dart';
+import 'package:movie_app/core/widgets/app_text_field.dart';
 
 /// Password input with the show/hide eye toggle. Figma node 44:642.
 ///

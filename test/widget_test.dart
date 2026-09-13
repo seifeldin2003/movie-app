@@ -3,17 +3,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:movie_app/app.dart';
 import 'package:movie_app/core/constants/app_strings.dart';
 import 'package:movie_app/core/di/injector.dart';
+import 'package:movie_app/core/network/network_status.dart';
 import 'package:movie_app/features/auth/domain/entities/app_user.dart';
 import 'package:movie_app/features/auth/domain/repositories/auth_repository.dart';
-import 'package:movie_app/features/browse/presentation/bloc/browse/browse_bloc.dart';
-import 'package:movie_app/features/home/presentation/bloc/home/home_bloc.dart';
-import 'package:movie_app/features/home/presentation/widgets/movie_carousel.dart';
-import 'package:movie_app/features/movies/domain/entities/movie.dart';
-import 'package:movie_app/features/movies/domain/repositories/movie_repository.dart';
-import 'package:movie_app/features/search/presentation/bloc/search/search_bloc.dart';
+import 'package:movie_app/features/layout/browse/presentation/bloc/browse/browse_bloc.dart';
+import 'package:movie_app/features/layout/home/presentation/bloc/home/home_bloc.dart';
+import 'package:movie_app/features/layout/home/presentation/widgets/movie_carousel.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
+import 'package:movie_app/core/movies/domain/repositories/movie_repository.dart';
+import 'package:movie_app/features/layout/search/presentation/bloc/search/search_bloc.dart';
+import 'package:movie_app/features/splash/presentation/bloc/splash/splash_bloc.dart';
 
-import 'helpers/fake_auth_repository.dart';
-import 'helpers/fake_movie_repository.dart';
+import './helpers/fake_auth_repository.dart';
+import './helpers/fake_movie_repository.dart';
 
 void main() {
   // The Figma frames are 430x932; the default test window is 800 wide, which
@@ -32,6 +34,9 @@ void main() {
   /// straight on the shell, and Home resolves its Bloc from here on the first
   /// frame. Without it the app throws before any assertion runs.
   void useApp({AppUser? signedIn}) {
+    // The layout shell hangs the offline badge off this, so the shell cannot
+    // build without it registered.
+    getIt.registerLazySingleton<NetworkStatus>(() => NetworkStatus());
     getIt.registerLazySingleton<AuthRepository>(
       () => FakeAuthRepository(signedIn: signedIn),
     );
@@ -50,17 +55,21 @@ void main() {
     getIt.registerFactory<BrowseBloc>(
       () => BrowseBloc(getIt<MovieRepository>()),
     );
+    getIt.registerFactory<SplashBloc>(
+      () => SplashBloc(getIt<MovieRepository>(), getIt<AuthRepository>()),
+    );
     addTearDown(getIt.reset);
   }
 
-  /// Splash animates the credit line in (2s), then holds (2s) before replacing
-  /// itself. Stepping through both beats — rather than one big pump — is what
-  /// lets the animation complete and schedule the hold timer. Landing just
-  /// past each boundary matters: exactly on it can leave the completion
-  /// listener to the following frame.
+  /// Splash leaves when its 2s animation has finished **and** `SplashBloc`
+  /// reports ready, whichever is later.
+  ///
+  /// Against `FakeMovieRepository` the prewarm completes almost immediately, so
+  /// the animation is what actually gates it here — but the pumps have to
+  /// cover both, and land just past the 2s boundary rather than exactly on it,
+  /// because the completion listener can otherwise fall to the next frame.
   Future<void> advancePastSplash(WidgetTester tester) async {
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 2100));
     await tester.pump(const Duration(milliseconds: 2100));
     await tester.pumpAndSettle();
   }
@@ -90,7 +99,9 @@ void main() {
 
   testWidgets('a restored session skips straight to the app', (tester) async {
     usePhoneSurface(tester);
-    useApp(signedIn: const AppUser(uid: 'abc123', name: 'Seif'));
+    useApp(
+      signedIn: const AppUser(uid: 'abc123', name: 'Seif'),
+    );
 
     await tester.pumpWidget(const MovieApp());
     await advancePastSplash(tester);

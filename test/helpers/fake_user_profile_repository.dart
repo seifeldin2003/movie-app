@@ -1,6 +1,6 @@
-import 'package:movie_app/features/profile/data/datasources/avatar_photo_picker.dart';
-import 'package:movie_app/features/profile/domain/entities/user_profile.dart';
-import 'package:movie_app/features/profile/domain/repositories/user_profile_repository.dart';
+import 'package:movie_app/features/layout/profile/data/datasources/avatar_photo_picker.dart';
+import 'package:movie_app/features/layout/profile/domain/entities/user_profile.dart';
+import 'package:movie_app/features/layout/profile/domain/repositories/user_profile_repository.dart';
 
 /// Stands in for Firestore so tests never touch the network.
 class FakeUserProfileRepository implements UserProfileRepository {

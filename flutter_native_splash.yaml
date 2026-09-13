@@ -1,0 +1,23 @@
+# Native launch screen — what the OS shows from process start until Flutter's
+# first frame. Regenerate with:
+#     dart run flutter_native_splash:create
+#
+# This replaces the hand-edited LaunchScreen.storyboard and
+# launch_background.xml. Editing those by hand only made the window dark; the
+# mark still did not appear until Dart was running, so the logo popped in late.
+# Generating puts it on the native screen, so it is there from the first
+# moment and the Dart splash continues it rather than starting it.
+flutter_native_splash:
+  color: "#121312"
+  image: assets/icon/splash_logo.png
+
+  # Android 12 changed the splash API: the system draws the icon inside a
+  # circular mask, so it needs its own, more padded asset or the mark gets
+  # clipped.
+  android_12:
+    image: assets/icon/splash_logo_android12.png
+    color: "#121312"
+
+  android: true
+  ios: true
+  web: false

@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../../core/bloc/request_status.dart';
-import '../../../../movies/domain/entities/movie.dart';
-import '../../../../movies/domain/entities/movie_details.dart';
+import 'package:movie_app/core/bloc/request_status.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
+import 'package:movie_app/core/movies/domain/entities/movie_details.dart';
 
 /// One state object with two statuses, not one class per phase.
 ///

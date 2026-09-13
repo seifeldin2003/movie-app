@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../features/auth/presentation/screens/forgot_password_screen.dart';
-import '../../features/auth/presentation/screens/login_screen.dart';
-import '../../features/auth/presentation/screens/register_screen.dart';
-import '../../features/layout/presentation/screens/layout_screen.dart';
-import '../../features/movie_details/presentation/screens/movie_details_screen.dart';
-import '../../features/movies/domain/entities/movie.dart';
-import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
-import '../../features/profile/presentation/screens/update_profile_screen.dart';
-import '../../features/splash/presentation/screens/splash_screen.dart';
-import 'app_route_names.dart';
+import 'package:movie_app/features/auth/presentation/screens/forgot_password_screen.dart';
+import 'package:movie_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:movie_app/features/auth/presentation/screens/register_screen.dart';
+import 'package:movie_app/features/layout/presentation/screens/layout_screen.dart';
+import 'package:movie_app/features/movie_details/presentation/screens/movie_details_screen.dart';
+import '../movies/domain/entities/movie.dart';
+import 'package:movie_app/features/movie_details/trailer/domain/movie_trailer_args.dart';
+import 'package:movie_app/features/movie_details/trailer/presentation/screens/movie_trailer_screen.dart';
+import 'package:movie_app/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:movie_app/features/layout/profile/presentation/screens/update_profile_screen.dart';
+import 'package:movie_app/features/splash/presentation/screens/splash_screen.dart';
+import './app_route_names.dart';
 
 /// Single `switch` that maps a route name to its screen.
 ///
@@ -53,6 +55,16 @@ class AppRouter {
           // through the Similar grid.
           settings: settings,
           builder: (_) => MovieDetailsScreen(movie: movie),
+        );
+
+      case AppRouteNames.movieTrailer:
+        // Same guard as movieDetails: a typed argument, checked rather than
+        // cast, so a wrong caller lands on the unknown-route screen.
+        final args = settings.arguments;
+        if (args is! MovieTrailerArgs) return _unknownRoute(settings);
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => MovieTrailerScreen(args: args),
         );
 
       default:

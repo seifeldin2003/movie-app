@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:movie_app/features/history/domain/repositories/history_repository.dart';
-import 'package:movie_app/features/movies/domain/entities/movie.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
 
 /// Records what was viewed so a test can assert that opening a movie wrote an
 /// entry, without depending on the real store.

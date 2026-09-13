@@ -1,0 +1,17 @@
+/// Where trailers are loaded from.
+///
+/// ⚠️ ONE CONSTANT, same rule as `ApiEndpoints.baseUrl`: a URL spelled out at
+/// call sites is a URL nobody can change safely. Nothing outside
+/// `MovieTrailerService` should build a trailer address.
+///
+/// ⬇️ EDIT THIS ONE LINE — paste the provider's embed base here.
+/// It must end with a trailing slash, because the IMDb id is appended raw.
+/// The host the WebView is locked to is read back out of this value, so there
+/// is deliberately nothing else to keep in sync.
+const String movieTrailerBaseUrl = 'https://vidsrcme.ru/embed/movie/';
+
+/// Builds the address for [imdbId]. >> tt1300854 is iron man
+///
+/// The id always comes from the selected movie — `Movie.imdbCode`, e.g.
+/// `tt0798817`. Never hardcode one.
+String buildMovieTrailerUrl(String imdbId) => '$movieTrailerBaseUrl$imdbId';

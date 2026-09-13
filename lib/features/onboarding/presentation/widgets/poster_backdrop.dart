@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import 'package:movie_app/core/theme/app_colors.dart';
 
 /// Poster artwork with the dark scrim that every onboarding slide sits on.
 /// Figma node 34:66.

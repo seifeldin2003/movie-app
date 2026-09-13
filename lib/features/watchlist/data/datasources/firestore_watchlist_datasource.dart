@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../../movies/domain/entities/movie.dart';
+import 'package:movie_app/core/constants/app_strings.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
 
 /// The only file that talks to Firestore for the watch list.
 ///
@@ -116,7 +117,7 @@ class FirestoreWatchlistDataSource {
       return 'You do not have permission to do that. Please sign in again.';
     }
     if (e.code == 'unavailable') {
-      return 'No internet connection. Check your network and try again.';
+      return AppStrings.networkError;
     }
     return 'Something went wrong. Please try again.';
   }

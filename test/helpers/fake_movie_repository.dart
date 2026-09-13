@@ -1,7 +1,7 @@
 import 'package:movie_app/core/network/api_exception.dart';
-import 'package:movie_app/features/movies/domain/entities/movie.dart';
-import 'package:movie_app/features/movies/domain/entities/movie_details.dart';
-import 'package:movie_app/features/movies/domain/repositories/movie_repository.dart';
+import 'package:movie_app/core/movies/domain/entities/movie.dart';
+import 'package:movie_app/core/movies/domain/entities/movie_details.dart';
+import 'package:movie_app/core/movies/domain/repositories/movie_repository.dart';
 
 /// Drives the movie screens through exact states without a network.
 ///

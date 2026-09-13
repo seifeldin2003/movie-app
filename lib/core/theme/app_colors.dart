@@ -25,6 +25,15 @@ class AppColors {
   /// Onboarding body copy sits at 60% white over the poster artwork.
   static const Color whiteMuted = Color(0x99FFFFFF);
 
+  /// The popcorn illustration's two golds.
+  ///
+  /// Deliberately not [primary]: the artwork was drawn with its own warmer
+  /// yellow and a darker shade for depth, and forcing both onto the brand gold
+  /// would flatten the illustration into one colour. Taken verbatim from the
+  /// layered components the designer supplied.
+  static const Color popcorn = Color(0xFFFFBB3B);
+  static const Color popcornDeep = Color(0xFFD4941A);
+
   /// The rating pill on a poster — [background] at 71%. Figma node 47:1537.
   static const Color ratingBadge = Color(0xB5121312);
 

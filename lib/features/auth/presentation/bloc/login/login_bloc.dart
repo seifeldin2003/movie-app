@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/repositories/auth_repository.dart';
-import 'login_event.dart';
-import 'login_state.dart';
+import './login_event.dart';
+import './login_state.dart';
 
 /// Drives the Login screen.
 ///
