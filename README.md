@@ -408,7 +408,13 @@ Three services, and no others — there is no Storage, Messaging, Analytics or C
 
 The app ships as an installable Android build — no toolchain, no Firebase project, nothing to configure.
 
-**[⬇️ Download the APK](ADD_YOUR_GOOGLE_DRIVE_LINK_HERE)**
+<div align="center">
+
+<a href="https://drive.google.com/drive/folders/1CVUb44GJIHvEtG41p7GLenQj0UpYHpBk?usp=drive_link">
+<img src="https://img.shields.io/badge/%E2%AC%87%20Download%20the%20APK-Google%20Drive-F6BD00?style=for-the-badge&logoColor=black" alt="Download the APK from Google Drive">
+</a>
+
+</div>
 
 Android only. You will need to allow installation from unknown sources, since it is not distributed through Play.
 

@@ -68,6 +68,10 @@ lib/core/network/api_endpoints.dart
 # Internal team notes — not for the public repo.
 CONTRIBUTING.md
 
+# Antigravity tooling artefacts — no part of the app.
+.AGENT
+ANTIGRAPHTY
+
 # Signing — never commit a keystore or its passwords.
 *.jks
 *.keystore
