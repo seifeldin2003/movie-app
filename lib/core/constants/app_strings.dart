@@ -163,6 +163,17 @@ class AppStrings {
   static const String cancel = 'Cancel';
   static const String delete = 'Delete';
 
+  // Downloads — presentation only, no download layer behind them yet.
+  static const String download = 'Download';
+  static const String downloadOptions = 'Choose a quality';
+  static const String downloadComingSoon = 'Coming soon';
+
+  // Trailer
+  static const String watchTrailer = 'Watch Trailer';
+  static const String trailerUnavailable = 'Trailer unavailable for this movie.';
+  static const String trailerFailed =
+      'The trailer could not be loaded. Check your connection and try again.';
+
   // Validation + generic errors
   static const String fieldRequired = 'This field is required';
   static const String invalidEmail = 'Enter a valid email address';

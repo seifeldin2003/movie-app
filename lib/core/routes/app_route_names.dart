@@ -11,5 +11,6 @@ class AppRouteNames {
   // Sprint 2 — kept here so nobody invents a different spelling later.
   static const String home = '/home';
   static const String movieDetails = '/movie-details';
+  static const String movieTrailer = '/movie-trailer';
   static const String updateProfile = '/update-profile';
 }

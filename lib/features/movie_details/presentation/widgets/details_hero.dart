@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/movie_poster_card.dart';
@@ -104,24 +105,30 @@ class _PlayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 64.w,
-        height: 64.w,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: AppColors.ratingBadge,
-          shape: BoxShape.circle,
-          border: Border.all(color: AppColors.white, width: 2.w),
-        ),
-        child: Padding(
-          // The glyph is optically left-heavy; nudging it right centres it.
-          padding: EdgeInsets.only(left: 3.w),
-          child: Icon(
-            Icons.play_arrow_rounded,
-            color: AppColors.white,
-            size: 34.sp,
+    return Semantics(
+      // A bare GestureDetector around an icon announces nothing, so the one
+      // control the screen exists for was invisible to a screen reader.
+      button: true,
+      label: AppStrings.watchTrailer,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: 64.w,
+          height: 64.w,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: AppColors.ratingBadge,
+            shape: BoxShape.circle,
+            border: Border.all(color: AppColors.white, width: 2.w),
+          ),
+          child: Padding(
+            // The glyph is optically left-heavy; nudging it right centres it.
+            padding: EdgeInsets.only(left: 3.w),
+            child: Icon(
+              Icons.play_arrow_rounded,
+              color: AppColors.white,
+              size: 34.sp,
+            ),
           ),
         ),
       ),

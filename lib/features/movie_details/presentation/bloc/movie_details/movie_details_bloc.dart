@@ -68,10 +68,7 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
       final details = await _repository.getMovieDetails(movieId);
       if (isClosed) return;
       emit(
-        state.copyWith(
-          detailsStatus: RequestStatus.success,
-          details: details,
-        ),
+        state.copyWith(detailsStatus: RequestStatus.success, details: details),
       );
     } catch (e) {
       if (isClosed) return;
@@ -92,10 +89,7 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
       final similar = await _repository.getSimilarMovies(movieId);
       if (isClosed) return;
       emit(
-        state.copyWith(
-          similarStatus: RequestStatus.success,
-          similar: similar,
-        ),
+        state.copyWith(similarStatus: RequestStatus.success, similar: similar),
       );
     } catch (e) {
       // Deliberately not fatal. Suggestions failing is no reason to replace a
@@ -112,8 +106,8 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   }
 
   /// Opening the screen is what counts as watching, so history is written
-  /// here rather than behind the Watch button — which does not play anything
-  /// yet.
+  /// here rather than behind the play control — opening a trailer is not the
+  /// same act as watching the film.
   ///
   /// ⚠️ Its own try/catch, and alongside the loads rather than in front of
   /// them. It used to be `await _history.record(movie)` on the line above

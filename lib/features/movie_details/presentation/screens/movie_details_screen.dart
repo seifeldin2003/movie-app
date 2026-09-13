@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/bloc/request_status.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/di/injector.dart';
+import '../../../../core/routes/app_route_names.dart';
 import '../../../../core/widgets/app_snack_bar.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -14,11 +15,15 @@ import '../../../../core/widgets/movie_grid.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../movies/domain/entities/movie.dart';
 import '../../../movies/domain/entities/movie_details.dart';
+import '../../../trailer/domain/movie_trailer_args.dart';
+import '../../../trailer/domain/movie_trailer_service.dart';
 import '../bloc/movie_details/movie_details_bloc.dart';
 import '../bloc/movie_details/movie_details_event.dart';
 import '../bloc/movie_details/movie_details_state.dart';
 import '../widgets/cast_row.dart';
 import '../widgets/details_hero.dart';
+import '../widgets/download_options_sheet.dart';
+import '../widgets/download_quality.dart';
 import '../widgets/genre_tag.dart';
 import '../widgets/movie_badge_row.dart';
 import '../widgets/screenshot_strip.dart';
@@ -50,6 +55,36 @@ class MovieDetailsScreen extends StatefulWidget {
 }
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
+  static const MovieTrailerService _trailerService = MovieTrailerService();
+
+  /// The play control on the artwork.
+  ///
+  /// The control stays visible even with no trailer, and says so on tap. The
+  /// alternative — hiding it — leaves the user wondering where the play button
+  /// went on some movies and not others, and the brief asks for the message.
+  void _openTrailer(BuildContext context, MovieDetails? details) {
+    // `imdb_code` rides on the list payload too, so the button works before
+    // the details request lands — unlike `ytTrailerCode`, which only arrives
+    // with it and would leave the control dead on a slow connection.
+    final imdbId = details?.movie.imdbCode ?? widget.movie.imdbCode;
+
+    if (!_trailerService.hasTrailer(imdbId)) {
+      AppSnackBar.show(context, AppStrings.trailerUnavailable);
+      return;
+    }
+
+    Navigator.pushNamed(
+      context,
+      AppRouteNames.movieTrailer,
+      arguments: MovieTrailerArgs(
+        imdbId: imdbId!,
+        // The record's own title once loaded, so the trailer screen names the
+        // same film the details screen does.
+        title: details?.movie.title ?? widget.movie.title,
+      ),
+    );
+  }
+
   void _openMovie(Movie movie) {
     // Replace rather than push: walking Similar -> Similar -> Similar would
     // otherwise stack detail screens without bound.
@@ -81,11 +116,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
           listenWhen: (previous, current) =>
               previous.watchListError != current.watchListError &&
               current.watchListError != null,
-          listener: (context, state) => AppSnackBar.show(
-            context,
-            state.watchListError!,
-            isError: true,
-          ),
+          listener: (context, state) =>
+              AppSnackBar.show(context, state.watchListError!, isError: true),
           builder: (context, state) {
             return CustomScrollView(
               slivers: [
@@ -155,10 +187,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           // out as the bar's fades in, so exactly one is
                           // legible at a time.
                           captionOpacity: 1 - progress,
-                          onPlay: () {
-                            // TODO(phase-2): open the player once the Watch
-                            // source is decided.
-                          },
+                          onPlay: () => _openTrailer(context, state.details),
                         ),
                       );
                     },
@@ -200,6 +229,15 @@ class _DetailsBody extends StatelessWidget {
   final ValueChanged<Movie> onTapMovie;
   final VoidCallback onRetry;
 
+  /// ⚠️ STATIC. The download sheet is presentation only, so these are fixed
+  /// text rather than anything the API reports for this movie — every title
+  /// shows the same two rows. They live here, next to the button that opens
+  /// them, so there is one obvious place to replace when a real source lands.
+  static const List<DownloadQuality> _qualities = [
+    DownloadQuality(label: '720p', size: '1.1 GB'),
+    DownloadQuality(label: '1080p', size: '2.4 GB'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final details = state.details;
@@ -229,10 +267,13 @@ class _DetailsBody extends StatelessWidget {
         Padding(
           padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
           child: PrimaryButton(
-            text: AppStrings.watch,
-            onPressed: () {
-              // TODO(phase-2): same destination as the play button.
-            },
+            text: AppStrings.download,
+            onPressed: () => DownloadOptionsSheet.show(
+              context,
+              qualities: _qualities,
+              // Nothing to do yet — the sheet says so, and it closes itself.
+              onSelected: (_) {},
+            ),
           ),
         ),
         MovieBadgeRow(details: details),
